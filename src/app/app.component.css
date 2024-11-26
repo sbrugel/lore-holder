@@ -1,0 +1,8 @@
+.logo-url {
+    color: inherit; /* keeps the color consistent with surrounding text */
+    text-decoration: none; /* remove underline */
+}
+
+.logo-url:visited {
+    color: inherit;
+}

@@ -1,4 +1,9 @@
-<mat-toolbar color="primary">
-  <mat-icon>book</mat-icon>
-  <span>Lore Builder</span>
-</mat-toolbar>
+<main>
+  <mat-toolbar>
+    <mat-icon><a class="logo-url" [routerLink]="['/']">book</a></mat-icon>
+    <span>Lore Builder</span>
+  </mat-toolbar>
+  <section class="content">
+    <router-outlet></router-outlet>
+  </section>
+</main>

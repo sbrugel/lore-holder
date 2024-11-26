@@ -1,0 +1,20 @@
+/* You can add global styles to this file, and also import other style files */
+@use 'sass:map';
+@use './_theme-colors.scss' as my-theme;
+@use '@angular/material' as mat;
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+// Customize the entire app. Change :root to your selector if you want to scope the styles.
+:root {
+    @include mat.toolbar-overrides((
+        container-background-color: map.get(my-theme.$primary-palette, 60),// Use shade 20
+        container-text-color: map.get(my-theme.$primary-palette, 100), // Use white (shade 100) for text
+    ));
+
+    @include mat.button-overrides((
+        filled-container-color: map.get(my-theme.$primary-palette, 30),// Use shade 20
+        filled-label-text-color: map.get(my-theme.$primary-palette, 100), // Use white (shade 100) for text
+    ));
+}

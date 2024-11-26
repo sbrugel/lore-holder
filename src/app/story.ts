@@ -23,11 +23,6 @@ export interface Story {
     characterIds: number[];
 
     /**
-     * IDs of the text/image modules in this story, in order
-     */
-    moduleIds: number[];
-
-    /**
      * The ID of the previous story in the sequence
      */
     previousId: Story | null;
