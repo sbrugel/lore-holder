@@ -8,6 +8,11 @@ export interface StoryModule {
     id: number;
 
     /**
+     * ID of the story this module belongs to
+     */
+    storyId: number;
+
+    /**
      * Type of the module
      */
     type: 'text' | 'image';

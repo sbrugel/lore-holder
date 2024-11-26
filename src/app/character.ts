@@ -53,17 +53,7 @@ export interface Character {
     colors: string[];
 
     /**
-     * IDs of character links (relations to others within the world)
-     */
-    characterLinkIds: number[];
-
-    /**
      * IDs of other images of the character, to be displayed in a carousel format
      */
     galleryLinks: string[];
-
-    /**
-     * IDs of any user made custom details for the character
-     */
-    customDetailIds: number[];
 }

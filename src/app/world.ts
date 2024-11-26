@@ -1,7 +1,3 @@
-import { Character } from "./character";
-import { Story } from "./story";
-import { Theme } from "./theme";
-
 /**
  * Interface for a world which contains characters and stories
  */
@@ -27,9 +23,9 @@ export interface World {
     imageUrl: string | null;
 
     /**
-     * The ID for the theme properties of the world, including color etc.
+     * The hex code for primary color code to use
      */
-    theme: number;
+    color: string;
 
     /**
      * The user ID of the world creator/owner

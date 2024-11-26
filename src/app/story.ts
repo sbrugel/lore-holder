@@ -20,20 +20,20 @@ export interface Story {
     /**
      * IDs of characters in the story. Effectively a tag system
      */
-    characterIDs: number[];
+    characterIds: number[];
 
     /**
      * IDs of the text/image modules in this story, in order
      */
-    moduleIDs: number[];
+    moduleIds: number[];
 
     /**
      * The ID of the previous story in the sequence
      */
-    previousID: Story | null;
+    previousId: Story | null;
 
     /**
      * The ID of the next story in the sequence
      */
-    nextID: Story | null;
+    nextId: Story | null;
 }

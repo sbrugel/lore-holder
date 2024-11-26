@@ -8,6 +8,11 @@ export interface CustomDetail {
     id: number;
 
     /**
+     * The character ID this detail is associated with
+     */
+    characterId: number;
+
+    /**
      * The type of detail
      */
     inputType: 'short' | 'long' | 'list';
