@@ -1,0 +1,13 @@
+<h1>My Worlds</h1>
+<section>
+    <form>
+        <mat-form-field class="example-full-width">
+            <mat-label>Filter worlds</mat-label>
+            <input matInput placeholder="Start typing..." #filter>
+        </mat-form-field>
+        <button mat-flat-button class="primary" type="button" (click)="filterResults(filter.value)">Search</button>
+    </form>
+</section>
+<section class="results">
+    <app-world-card *ngFor="let world of filteredWorldList" [world]="world"></app-world-card>
+</section>
