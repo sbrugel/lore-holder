@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
 import { WorldService } from './world.service';
 
 describe('WorldService', () => {

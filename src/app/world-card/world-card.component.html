@@ -2,7 +2,7 @@
     <mat-card-header>
         <mat-card-title>{{ world.name }}</mat-card-title>
     </mat-card-header>
-    <img mat-card-image [src]="world.imageUrl ?? 'https://pikmin.wiki.gallery/images/f/f9/Pikmin_4_Purple_Bud.png'" alt="Photo of a Shiba Inu">
+    <img mat-card-image [src]="world.imageUrl ?? 'https://pikmin.wiki.gallery/images/f/f9/Pikmin_4_Purple_Bud.png'" (click)="showFullImage()">
     <mat-card-content>
         {{ world.description }}
     </mat-card-content>
