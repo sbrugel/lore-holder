@@ -17,7 +17,8 @@ export class CharacterService {
       pronouns: 'he/they',
       about: 'Lagoon is a silly dragon who loves to play and have fun. He is a bit of a troublemaker, but he has a good heart.',
       colors: ['#ff0000', '#00ff00', '#0000ff'],
-      galleryLinks: []
+      galleryLinks: [],
+      detailIds: [1, 2]
     },
     {
       id: 2,
@@ -30,7 +31,8 @@ export class CharacterService {
       pronouns: 'she/her',
       about: 'Erin is a serious dragon who is always focused on her work. She is very responsible and always gets the job done.',
       colors: ['#ff0000', '#00ff00', '#0000ff'],
-      galleryLinks: []
+      galleryLinks: [],
+      detailIds: [3]
     },
     {
       id: 3,
@@ -43,7 +45,8 @@ export class CharacterService {
       pronouns: 'she/her',
       about: 'Alana is a chef slug who loves to cook delicious food. She is very creative and always comes up with new recipes.',
       colors: ['#ff0000', '#00ff00', '#0000ff'],
-      galleryLinks: []
+      galleryLinks: [],
+      detailIds: []
     },
   ]
 

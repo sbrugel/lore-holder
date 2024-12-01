@@ -3,10 +3,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog, MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { World } from '../_interfaces/world';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-world-card',
-  imports: [MatButtonModule, MatCardModule, MatDialogModule],
+  imports: [MatButtonModule, MatCardModule, MatDialogModule, RouterModule],
   templateUrl: './world-card.component.html',
   styleUrl: './world-card.component.css'
 })

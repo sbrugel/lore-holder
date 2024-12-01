@@ -8,11 +8,6 @@ export interface StoryModule {
     id: number;
 
     /**
-     * ID of the story this module belongs to
-     */
-    storyId: number;
-
-    /**
      * Type of the module
      */
     type: 'text' | 'image';
@@ -29,7 +24,7 @@ export interface StoryModule {
      * 
      * Not applicable to images
      */
-    appearance: string | null;
+    appearance: 'bold' | 'italic' | 'underlined' | 'normal';
 
     /**
      * If text, the color of the text

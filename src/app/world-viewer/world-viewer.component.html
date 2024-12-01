@@ -1,0 +1,13 @@
+<div *ngIf="world; else worldNotFound">
+    <img [src]="world.imageUrl" alt="World image">
+    <h1>{{ world.name }}</h1>
+    <div class="buttoms-row">
+        <a mat-button [routerLink]="['/worlds']">BACK</a>
+        <button mat-button>EDIT</button>
+        <button mat-button>DELETE</button>
+    </div>
+</div>
+
+<ng-template #worldNotFound>
+    <p>World not found :(</p>
+</ng-template>

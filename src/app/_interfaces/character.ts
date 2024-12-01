@@ -18,7 +18,7 @@ export interface Character {
     imageUrl: string | null;
 
     /**
-     * A brief description of the character
+     * A brief description of the character (max 500 characters)
      */
     description: string | null;
 
@@ -56,4 +56,9 @@ export interface Character {
      * IDs of other images of the character, to be displayed in a carousel format
      */
     galleryLinks: string[];
+
+    /**
+     * IDs of custom character details associated
+     */
+    detailIds: number[];
 }

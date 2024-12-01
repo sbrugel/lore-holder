@@ -13,12 +13,12 @@ export interface CharacterLink {
     toId: number;
 
     /**
-     * Title of the association, i.e. "friend" or "nemesis"
-     */
-    association: string;
-
-    /**
      * More details on the association
      */
     details: string | null;
+
+    /**
+     * The type of relationship
+     */
+    relationType: 'friend' | 'enemy' | 'family' | 'lover' | 'other';
 }

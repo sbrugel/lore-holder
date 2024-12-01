@@ -13,9 +13,14 @@ export interface World {
     name: string;
 
     /**
-     * The world description
+     * The world description (500 character max, displayed in world card)
      */
     description: string | null;
+
+    /**
+     * The world detailed description (no character limit, displayed in world details)
+     */
+    detailedDescription: string | null;
 
     /**
      * The world image URL
@@ -28,14 +33,14 @@ export interface World {
     color: string;
 
     /**
-     * The user ID of the world creator/owner
-     */
-    ownerId: number;
-
-    /**
      * The world's character ids
      */
     characterIds: number[];
+
+    /**
+     * The world's place ids
+     */
+    placeIds: number[];
 
     /**
      * The world's story ids

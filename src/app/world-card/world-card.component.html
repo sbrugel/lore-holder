@@ -7,7 +7,7 @@
         {{ world.description }}
     </mat-card-content>
     <mat-card-actions>
-        <button mat-button>VIEW</button>
+        <a mat-button [routerLink]="['/world', world.id]">VIEW</a>
         <button mat-button>DELETE</button>
     </mat-card-actions>
 </mat-card>

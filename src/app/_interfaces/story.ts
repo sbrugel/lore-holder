@@ -8,11 +8,6 @@ export interface Story {
     id: number;
 
     /**
-     * ID of the world this story belongs to
-     */
-    worldId: number;
-
-    /**
      * Title of the story
      */
     title: string;
@@ -23,12 +18,17 @@ export interface Story {
     characterIds: number[];
 
     /**
+     * IDs of modules in the story
+     */
+    moduleIds: number[];
+
+    /**
      * The ID of the previous story in the sequence
      */
-    previousId: Story | null;
+    previousId: number | null;
 
     /**
      * The ID of the next story in the sequence
      */
-    nextId: Story | null;
+    nextId: number | null;
 }
