@@ -38,7 +38,7 @@ export class StoryService {
    *
    * @returns All stories in the storyList
    */
-  getStories(): Story[] {
+  getAllStories(): Story[] {
     return this.storyList;
   }
 
@@ -47,7 +47,7 @@ export class StoryService {
    * @param id ID of the story to get
    * @returns The story with the given ID
    */
-  getStory(id: number): Story | undefined {
+  getStoryById(id: number): Story | undefined {
     return this.storyList.find(story => story.id === id);
   }
 }
