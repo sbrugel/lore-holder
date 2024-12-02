@@ -21,7 +21,7 @@
         <mat-tab-group>
             <mat-tab label="Characters" >
                 <div *ngIf="characters.length > 0; else noChars">
-                    <div *ngFor = "let character of characters">
+                    <div *ngFor = "let character of characters" [routerLink]="['/character', character.id]">
                         <mat-card class="pointer-elem">
                             <mat-card-header>
                                 <div mat-card-avatar [ngStyle]="{ 

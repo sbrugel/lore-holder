@@ -3,6 +3,11 @@
  */
 export interface CharacterLink {
     /**
+     * The ID of the link
+     */
+    id: number;
+
+    /**
      * Character ID link start
      */
     fromId: number;

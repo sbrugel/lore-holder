@@ -11,6 +11,7 @@ export class CustomDetailService {
       inputType: 'short',
       name: 'Favorite Color',
       contents: 'Red',
+      listContents: null,
       expansionPanel: false
     },
     {
@@ -18,13 +19,15 @@ export class CustomDetailService {
       inputType: 'long',
       name: 'About Me',
       contents: 'I am a silly dragon who loves to play and have fun. I am a bit of a troublemaker, but I have a good heart.',
+      listContents: null,
       expansionPanel: true
     },
     {
         id: 3,
         inputType: 'list',
         name: 'Deets',
-        contents: ['bleh', 'blah', 'bloo'],
+        contents: null,
+        listContents: ['bleh', 'blah', 'bloo'],
         expansionPanel: false
     }
   ]

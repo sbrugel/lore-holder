@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { LandingComponent } from './landing/landing.component';
 import { WorldListComponent } from './world-list/world-list.component';
 import { WorldViewerComponent } from './world-viewer/world-viewer.component';
+import { CharacterViewerComponent } from './character-viewer/character-viewer.component';
 
 export const routes: Routes = [
     {
@@ -18,5 +19,10 @@ export const routes: Routes = [
         path: 'world/:id',
         component: WorldViewerComponent,
         title: 'World viewer',
+    },
+    {
+        path: 'character/:id',
+        component: CharacterViewerComponent,
+        title: 'Character viewer',
     }
 ];

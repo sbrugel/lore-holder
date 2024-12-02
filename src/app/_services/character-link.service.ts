@@ -7,12 +7,14 @@ import { CharacterLink } from '../_interfaces/character-link';
 export class CharacterLinkService {
   characterLinkList: CharacterLink[] = [
     {
+      id: 1,
       fromId: 1,
       toId: 3,
       details: 'They met at the tavern and have been friends ever since.',
       relationType: 'friend'
     },
     {
+      id: 2,
       fromId: 3,
       toId: 1,
       details: 'They do not get along and have been enemies for years.',
@@ -32,10 +34,10 @@ export class CharacterLinkService {
 
   /**
    * 
-   * @param characterId The ID of the character to get links for
-   * @returns All character links for the given character (from or to)
+   * @param characterId The ID of the link
+   * @returns The character link with the given ID or undefined if not found
    */
-  getCharacterLinksContaining(characterId: number): CharacterLink[] {
-    return this.characterLinkList.filter(x => x.fromId === characterId || x.toId === characterId);
+  getCharacterLinkById(id: number): CharacterLink | undefined {
+    return this.characterLinkList.find(characterLink => characterLink.id === id);
   }
 }

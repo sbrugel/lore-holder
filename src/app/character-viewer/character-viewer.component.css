@@ -1,0 +1,14 @@
+img {
+    width: 300px;
+    border-radius: 50%;
+}
+
+.color-bar {
+    display: flex;
+    width: 300px; /* Fixed length */
+    height: 30px; /* Adjust height as needed */
+}
+
+.segment {
+    flex: 1; /* Distribute width evenly */
+}

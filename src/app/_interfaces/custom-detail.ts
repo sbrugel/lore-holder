@@ -18,11 +18,14 @@ export interface CustomDetail {
     name: string;
 
     /**
-     * Contents of the detail
-     * 
-     * Use array for the list type, otherwise string
+     * The content of the detail, if short or long type
      */
-    contents: string | string[];
+    contents: string | null;
+
+    /**
+     * If it is a list type, this will be the list of contents
+     */
+    listContents: string[] | null;
 
     /**
      * If it is a collapsable detail (if true, will be hidden by default)

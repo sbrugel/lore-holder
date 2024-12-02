@@ -1,0 +1,49 @@
+<div *ngIf="character; else noChar">
+    <img [src]="character.imageUrl" />
+    <h1>{{ character.name }}</h1>
+    <h3><em>{{ subtitleText.join(' • ') }}</em></h3>
+    <p>{{ character.description }}</p>
+
+    <div class="color-bar">
+        <div *ngFor="let color of character.colors" class="segment"  [style.backgroundColor]="color"></div>
+    </div>
+
+    <div class="buttoms-row">
+        <button mat-button>BACK</button>
+        <button mat-button>EDIT</button>
+        <button mat-button>DELETE</button>
+    </div>
+
+    <mat-card class="about-card" appearance="outlined">
+        <mat-card-header>
+            <mat-card-title>About {{ character.name }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p>{{ character.about }}</p>
+        </mat-card-content>
+    </mat-card>
+
+    <div *ngFor="let detail of details">
+        <mat-card class="about-card" appearance="outlined">
+            <mat-card-header>
+                <mat-card-title>{{ detail.name }}</mat-card-title>
+            </mat-card-header>
+            <div *ngIf="detail.inputType === 'list'; else para">
+                <mat-card-content>
+                    <ul>
+                        <li *ngFor="let item of detail.listContents">{{ item }}</li>
+                    </ul>
+                </mat-card-content>
+            </div>
+            <ng-template #para>
+                <mat-card-content>
+                    <p>{{ detail.contents }}</p>
+                </mat-card-content>
+            </ng-template>
+        </mat-card>
+    </div>
+    
+</div>
+<ng-template #noChar>
+    <p>No character found with this ID</p>
+</ng-template>
