@@ -3,7 +3,3 @@ img {
     aspect-ratio: 16 / 2;
     object-fit: cover;
 }
-
-.pointer-elem {
-    cursor: pointer;
-}

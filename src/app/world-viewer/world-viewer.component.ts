@@ -14,10 +14,11 @@ import { StoryService } from '../_services/story.service';
 import { Story } from '../_interfaces/story';
 import { MatListModule } from '@angular/material/list';
 import { MatChipsModule } from '@angular/material/chips';
+import { CharacterCardComponent } from "../character-card/character-card.component";
 
 @Component({
   selector: 'app-world-viewer',
-  imports: [CommonModule, MatButtonModule, MatCardModule, MatChipsModule, MatListModule, MatTabsModule, RouterModule],
+  imports: [CommonModule, MatButtonModule, MatCardModule, MatChipsModule, MatListModule, MatTabsModule, RouterModule, CharacterCardComponent],
 templateUrl: './world-viewer.component.html',
   styleUrl: './world-viewer.component.css'
 })

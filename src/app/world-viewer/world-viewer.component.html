@@ -21,22 +21,7 @@
         <mat-tab-group>
             <mat-tab label="Characters" >
                 <div *ngIf="characters.length > 0; else noChars">
-                    <div *ngFor = "let character of characters" [routerLink]="['/character', character.id]">
-                        <mat-card class="pointer-elem">
-                            <mat-card-header>
-                                <div mat-card-avatar [ngStyle]="{ 
-                                    'background-image': 'url(' + character.imageUrl + ')', 
-                                    'background-size': 'cover' 
-                                  }" >
-                                </div>
-                                <mat-card-title>{{ character.name }}</mat-card-title>
-                                <mat-card-subtitle>{{ character.race }} | <em>{{ character.pronouns }}</em></mat-card-subtitle>
-                            </mat-card-header>
-                            <mat-card-content>
-                                <p>{{ character.description }}</p>
-                            </mat-card-content>
-                        </mat-card>
-                    </div>
+                    <app-character-card *ngFor="let character of characters" [character]="character"></app-character-card>
                 </div>
                 <ng-template #noChars>
                     <p>No characters yet!</p>
@@ -44,7 +29,7 @@
             </mat-tab>
             <mat-tab label="Places">
                 <div *ngIf="places.length > 0; else noPlaces">
-                    <div *ngFor = "let place of places">
+                    <div *ngFor = "let place of places" [routerLink]="['/place', place.id]">
                         <mat-card class="pointer-elem">
                             <mat-card-header>
                                 <mat-card-title>{{ place.name }}</mat-card-title>

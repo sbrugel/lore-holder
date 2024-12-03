@@ -3,6 +3,7 @@ import { LandingComponent } from './landing/landing.component';
 import { WorldListComponent } from './world-list/world-list.component';
 import { WorldViewerComponent } from './world-viewer/world-viewer.component';
 import { CharacterViewerComponent } from './character-viewer/character-viewer.component';
+import { PlaceViewerComponent } from './place-viewer/place-viewer.component';
 
 export const routes: Routes = [
     {
@@ -24,5 +25,10 @@ export const routes: Routes = [
         path: 'character/:id',
         component: CharacterViewerComponent,
         title: 'Character viewer',
-    }
+    },
+    {
+        path: 'place/:id',
+        component: PlaceViewerComponent,
+        title: 'Place viewer',
+    },
 ];

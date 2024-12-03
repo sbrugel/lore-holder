@@ -1,0 +1,16 @@
+<div [routerLink]="['/character', character.id]">
+    <mat-card class="pointer-elem">
+        <mat-card-header>
+            <div mat-card-avatar [ngStyle]="{ 
+                'background-image': 'url(' + character.imageUrl + ')', 
+                'background-size': 'cover' 
+              }" >
+            </div>
+            <mat-card-title>{{ character.name }}</mat-card-title>
+            <mat-card-subtitle>{{ character.race }} | <em>{{ character.pronouns }}</em></mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <p>{{ character.description }}</p>
+        </mat-card-content>
+    </mat-card>
+</div>
