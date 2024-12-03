@@ -4,6 +4,7 @@ import { WorldListComponent } from './world-list/world-list.component';
 import { WorldViewerComponent } from './world-viewer/world-viewer.component';
 import { CharacterViewerComponent } from './character-viewer/character-viewer.component';
 import { PlaceViewerComponent } from './place-viewer/place-viewer.component';
+import { StoryViewerComponent } from './story-viewer/story-viewer.component';
 
 export const routes: Routes = [
     {
@@ -30,5 +31,10 @@ export const routes: Routes = [
         path: 'place/:id',
         component: PlaceViewerComponent,
         title: 'Place viewer',
+    },
+    {
+        path: 'story/:id',
+        component: StoryViewerComponent,
+        title: 'Story viewer',
     },
 ];

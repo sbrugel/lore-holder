@@ -52,7 +52,7 @@
                         </div>
                     </mat-chip-listbox>
                     <mat-list role="list" class="mat-mdc-chip-set-stacked">
-                        <mat-list-item *ngFor="let story of stories" role="listitem">
+                        <mat-list-item *ngFor="let story of stories" role="listitem" [routerLink]="['/story', story.id]">
                             <h3 mat-line class="pointer-elem">{{ story.title }}</h3>
                         </mat-list-item>
                     </mat-list>

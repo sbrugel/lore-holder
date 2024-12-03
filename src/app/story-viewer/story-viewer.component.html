@@ -1,0 +1,26 @@
+<div *ngIf="story; else noStory">
+    <h1>{{ story.title }}</h1>
+
+    <div class="buttoms-row">
+        <button mat-button>BACK</button>
+        <button mat-button>EDIT</button>
+        <button mat-button>DELETE</button>
+    </div>
+
+    <!-- 
+    TODO 
+    - add tags [X]
+    - add in modules (both text and image)
+    - show prev and next stories if applicable (use cards)
+    -->
+
+    <mat-chip-set multiple>
+        <div *ngFor="let character of characters">
+            <mat-chip>{{ character.name }}</mat-chip>
+        </div>
+    </mat-chip-set>
+    
+</div>
+<ng-template #noStory>
+    <p>No story found with this ID</p>
+</ng-template>

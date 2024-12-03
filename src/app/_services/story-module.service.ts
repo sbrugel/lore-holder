@@ -56,7 +56,7 @@ export class StoryModuleService {
    *
    * @returns All story modules in the storyModulesList
    */
-  getStoryModules(): StoryModule[] {
+  getAllStoryModules(): StoryModule[] {
     return this.storyModulesList;
   }
 
@@ -65,7 +65,7 @@ export class StoryModuleService {
    * @param id ID of the story module to get
    * @returns The story module with the given ID
    */
-  getStoryModule(id: number): StoryModule | undefined {
+  getStoryModuleById(id: number): StoryModule | undefined {
     return this.storyModulesList.find(module => module.id === id);
   }
 }
