@@ -10,7 +10,7 @@
     <!-- 
     TODO 
     - add tags [X]
-    - add in modules (both text and image)
+    - add in modules (both text and image) [X]
     - show prev and next stories if applicable (use cards)
     -->
 
@@ -19,6 +19,47 @@
             <mat-chip>{{ character.name }}</mat-chip>
         </div>
     </mat-chip-set>
+
+    <div *ngIf="storyModules.length > 0; else noModules">
+        <div *ngFor="let module of storyModules">
+            <div *ngIf="module.type === 'text'">
+                <p>{{ module.content }}</p>
+            </div>
+            <div *ngIf="module.type === 'image'">
+                <img [src]="module.content" alt="Image">
+            </div>
+        </div>
+    </div>
+    <ng-template #noModules>
+        <p>No modules found for this story! Why not add some?</p>
+    </ng-template>
+
+    <div class="buttoms-row">
+        <div *ngIf="this.previousStory">
+            <div [routerLink]="['/story', previousStory.id]">
+                <mat-card class="pointer-elem">
+                    <mat-card-header>
+                        <mat-card-title>Previous</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <p>{{ previousStory.title }}</p>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+        <div *ngIf="this.nextStory">
+            <div [routerLink]="['/story', nextStory.id]">
+                <mat-card class="pointer-elem">
+                    <mat-card-header>
+                        <mat-card-title>Next</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <p>{{ nextStory.title }}</p>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+    </div>
     
 </div>
 <ng-template #noStory>

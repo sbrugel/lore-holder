@@ -20,7 +20,7 @@ export class StoryService {
       characterIds: [1, 3],
       moduleIds: [3],
       previousId: 1,
-      nextId: null
+      nextId: 3
     },
     {
       id: 3,
