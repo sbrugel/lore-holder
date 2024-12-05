@@ -42,7 +42,20 @@
             </ng-template>
         </mat-card>
     </div>
-    
+
+    <h1>Character Links</h1>
+    <div *ngIf="this.characterLinks.length > 0; else noLinks">
+        <div *ngFor="let link of this.characterLinks">
+            <app-character-card 
+                [character]="this.characterService.getCharacterById(link.toId)!" 
+                [cardSubtext]="link.relationType.toUpperCase() + ' - ' + link.details">
+            </app-character-card>
+        </div>
+    </div>
+    <ng-template #noLinks>
+        <p>No links yet!</p>
+    </ng-template>
+        
 </div>
 <ng-template #noChar>
     <p>No character found with this ID</p>

@@ -12,4 +12,5 @@ import { RouterLink } from '@angular/router';
 })
 export class CharacterCardComponent {
   @Input() character!: Character;
+  @Input() cardSubtext!: string;
 }
