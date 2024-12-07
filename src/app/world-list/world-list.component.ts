@@ -29,8 +29,18 @@ export class WorldListComponent {
     console.log(text);
   }
 
-  constructor() {
-    this.worldList = this.worldService.getAllWorlds();
-    this.filteredWorldList = this.worldList;
+  // constructor() {
+  //   this.worldList = this.worldService.getAllWorlds();
+  //   this.filteredWorldList = this.worldList;
+  // }
+
+  constructor() { }
+
+  ngOnInit() {
+    // subscribe to getAllWorlds observable
+    this.worldService.getAllWorlds().subscribe((worlds: World[]) => {
+      this.worldList = worlds;
+      this.filteredWorldList = this.worldList;
+    });
   }
 }

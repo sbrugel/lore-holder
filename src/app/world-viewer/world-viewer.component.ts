@@ -18,7 +18,16 @@ import { CharacterCardComponent } from "../character-card/character-card.compone
 
 @Component({
   selector: 'app-world-viewer',
-  imports: [CommonModule, MatButtonModule, MatCardModule, MatChipsModule, MatListModule, MatTabsModule, RouterModule, CharacterCardComponent],
+  imports: [
+    CommonModule, 
+    MatButtonModule, 
+    MatCardModule, 
+    MatChipsModule, 
+    MatListModule, 
+    MatTabsModule, 
+    RouterModule, 
+    CharacterCardComponent
+  ],
 templateUrl: './world-viewer.component.html',
   styleUrl: './world-viewer.component.css'
 })
@@ -38,7 +47,7 @@ export class WorldViewerComponent {
   stories: Story[] = [];
 
   constructor() {
-    this.world = this.worldService.getWorldById(parseInt(this.route.snapshot.params['id'], 10));
+    // this.world = this.worldService.getWorldById(parseInt(this.route.snapshot.params['id'], 10));
     if (this.world) {
       this.characters = this.characterService.getAllCharacters();
       // filter characters by if their ID is in world's characterIds
