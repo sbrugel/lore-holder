@@ -32,21 +32,37 @@ export class CharacterViewerComponent {
   subtitleText: string[] = [];
 
   ngOnInit() {
-    this.route.paramMap.subscribe((params) => {
-      this.character = this.characterService.getCharacterById(parseInt(this.route.snapshot.params['id'], 10));
+    // this.route.paramMap.subscribe((params) => {
+    //   this.character = this.characterService.getCharacterById(parseInt(this.route.snapshot.params['id'], 10));
+    //   this.subtitleText = [];
+
+    //   if (this.character) {
+    //     if (this.character.race) this.subtitleText.push(this.character.race);
+
+    //     if (this.character.age) this.subtitleText.push(this.character.age.toString());
+
+    //     if (this.character.pronouns) this.subtitleText.push(this.character.pronouns.toString());
+
+    //     this.details = this.detailsService.getAllCustomDetails().filter((detail) => this.character!.detailIds.includes(detail.id));
+
+    //     this.characterLinks = this.characterLinkService.getCharacterLinks().filter((link) => link.fromId === this.character!.id);
+    //   }
+    // });
+    this.characterService.getCharacterById(this.route.snapshot.params['id']).subscribe((character: Character) => {
+      this.character = character;
       this.subtitleText = [];
-
       if (this.character) {
-        if (this.character.race) this.subtitleText.push(this.character.race);
+            if (this.character.race) this.subtitleText.push(this.character.race);
 
-        if (this.character.age) this.subtitleText.push(this.character.age.toString());
+            if (this.character.age) this.subtitleText.push(this.character.age.toString());
 
-        if (this.character.pronouns) this.subtitleText.push(this.character.pronouns.toString());
+            if (this.character.pronouns) this.subtitleText.push(this.character.pronouns.toString());
 
-        this.details = this.detailsService.getAllCustomDetails().filter((detail) => this.character!.detailIds.includes(detail.id));
+            // TODO: convert below to use firebase when the time comes
+            // this.details = this.detailsService.getAllCustomDetails().filter((detail) => this.character!.detailIds.includes(detail.id));
 
-        this.characterLinks = this.characterLinkService.getCharacterLinks().filter((link) => link.fromId === this.character!.id);
-      }
+            // this.characterLinks = this.characterLinkService.getCharacterLinks().filter((link) => link.fromId === this.character!.id);
+        }
     });
   }
 }

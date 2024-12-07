@@ -5,7 +5,7 @@ export interface Character {
     /**
      * The ID of this character object
      */
-    id: number;
+    id: string;
 
     /**
      * Character name
@@ -60,5 +60,5 @@ export interface Character {
     /**
      * IDs of custom character details associated
      */
-    detailIds: number[];
+    detailIds: string[];
 }

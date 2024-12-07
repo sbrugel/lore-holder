@@ -1,62 +1,61 @@
 import { Injectable } from '@angular/core';
 import { Character } from '../_interfaces/character';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CharacterService {
-  characterList: Character[] = [
-    {
-      id: 1,
-      name: 'Lagoon',
-      imageUrl: 'https://i.imgur.com/HS7zBTi.png',
-      description: 'A silly dragon :D',
-      age: 22,
-      gender: 'Male',
-      race: 'Dragon',
-      pronouns: 'he/they',
-      about: 'Lagoon is a silly dragon who loves to play and have fun. He is a bit of a troublemaker, but he has a good heart.',
-      colors: ['#ff0000', '#00ff00', '#0000ff'],
-      galleryLinks: [],
-      detailIds: [1, 2]
-    },
-    {
-      id: 2,
-      name: 'Erin',
-      imageUrl: 'https://i.imgur.com/su0cVnH.png',
-      description: 'A serious dragon :D',
-      age: 25,
-      gender: 'Female',
-      race: 'Dragon',
-      pronouns: 'she/her',
-      about: 'Erin is a serious dragon who is always focused on her work. She is very responsible and always gets the job done.',
-      colors: ['#ff0000', '#00ff00', '#0000ff'],
-      galleryLinks: [],
-      detailIds: [3]
-    },
-    {
-      id: 3,
-      name: 'Alana',
-      imageUrl: 'https://i.imgur.com/541PtAY.png',
-      description: 'A chef slug :D',
-      age: 45,
-      gender: 'Female',
-      race: 'Slug',
-      pronouns: 'she/her',
-      about: 'Alana is a chef slug who loves to cook delicious food. She is very creative and always comes up with new recipes.',
-      colors: ['#ff0000', '#00ff00', '#0000ff'],
-      galleryLinks: [],
-      detailIds: []
-    },
-  ]
+  private collectionName = 'characters'; // collection name in Firebase
 
-  constructor() { }
+  constructor(private firestore: AngularFirestore) {}
 
-  getAllCharacters(): Character[] {
-    return this.characterList;
+  getAllCharacters(): Observable<Character[]> {
+    //return this.characterList;
+    return this.firestore.collection(this.collectionName).valueChanges({ idField: 'id' }).pipe(
+      map((data: any[]) => {
+        return data.map((data: any) => {
+          const character: Character = {
+            id: data.id,
+            name: data.name,
+            imageUrl: data.imageUrl,
+            description: data.description,
+            age: data.age,
+            gender: data.gender,
+            race: data.race,
+            pronouns: data.pronouns,
+            about: data.about,
+            colors: data.colors,
+            galleryLinks: data.galleryLinks,
+            detailIds: data.detailIds,
+          };
+          return character;
+        });
+      })
+    );
   }
 
-  getCharacterById(id: number): Character | undefined {
-    return this.characterList.find(character => character.id === id);
+  getCharacterById(id: string): Observable<Character> {
+    return this.firestore.collection(this.collectionName).doc(id).valueChanges().pipe(
+      map((data: any) => {
+        // Transform the data into a World object with the correct type
+        const character: Character = {
+          id: data.id,
+          name: data.name,
+          imageUrl: data.imageUrl,
+          description: data.description,
+          age: data.age,
+          gender: data.gender,
+          race: data.race,
+          pronouns: data.pronouns,
+          about: data.about,
+          colors: data.colors,
+          galleryLinks: data.galleryLinks,
+          detailIds: data.detailIds,
+        };
+        return character;
+      })
+    );
   }
 }

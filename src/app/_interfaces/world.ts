@@ -35,15 +35,15 @@ export interface World {
     /**
      * The world's character ids
      */
-    characterIds: number[];
+    characterIds: string[];
 
     /**
      * The world's place ids
      */
-    placeIds: number[];
+    placeIds: string[];
 
     /**
      * The world's story ids
      */
-    storyIds: number[];
+    storyIds: string[];
 }

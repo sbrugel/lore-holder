@@ -38,7 +38,8 @@ export class StoryViewerComponent {
 
       if (this.story) {
         this.storyModules = this.storyModuleService.getAllStoryModules().filter((storyModule) => this.story!.moduleIds.includes(storyModule.id));
-        this.characters = this.characterService.getAllCharacters().filter((character) => this.story!.characterIds.includes(character.id));
+        // TODO firebase integration
+        // this.characters = this.characterService.getAllCharacters().filter((character) => this.story!.characterIds.includes(character.id));
 
         if (this.story.previousId) {
           this.previousStory = this.storyService.getStoryById(this.story.previousId);

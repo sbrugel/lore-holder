@@ -27,8 +27,9 @@ export class PlaceViewerComponent {
   constructor() {
     this.place = this.placeService.getPlaceById(parseInt(this.route.snapshot.params['id'], 10));
 
-    if (this.place) {
-      this.characters = this.characterService.getAllCharacters().filter((character) => this.place!.characterIds.includes(character.id));
-    }
+    // TODO firebase integration
+    // if (this.place) {
+    //   this.characters = this.characterService.getAllCharacters().filter((character) => this.place!.characterIds.includes(character.id));
+    // }
   }
 }
