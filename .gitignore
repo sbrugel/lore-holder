@@ -40,3 +40,6 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# (added by me) firebase config... for now. may change later still learning lol
+firebase-config.ts
