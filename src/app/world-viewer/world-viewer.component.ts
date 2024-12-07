@@ -47,8 +47,6 @@ export class WorldViewerComponent {
   stories: Story[] = [];
 
   ngOnInit() {
-    // this.world = this.worldService.getWorldById(this.route.snapshot.params['id']);
-    
     this.worldService.getWorldById(this.route.snapshot.params['id']).subscribe((world: World) => {
       this.world = world;
       // TODO: convert below to use firebase when the time comes

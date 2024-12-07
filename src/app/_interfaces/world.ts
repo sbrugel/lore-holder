@@ -5,7 +5,7 @@ export interface World {
     /**
      * The world ID
      */
-    id: number;
+    id: string;
 
     /**
      * The world name
