@@ -44,14 +44,14 @@
     </div>
 
     <h1>Character Links</h1>
-    <!-- <div *ngIf="this.characterLinks.length > 0; else noLinks">
+    <div *ngIf="this.characterLinks.length > 0; else noLinks">
         <div *ngFor="let link of this.characterLinks">
-            <app-character-card 
-                [character]="this.characterService.getCharacterById(link.toId)!" 
+            <app-character-link-card 
+                [characterInput]="this.characterService.getCharacterById(link.toId)!" 
                 [cardSubtext]="link.relationType.toUpperCase() + ' - ' + link.details">
-            </app-character-card>
+            </app-character-link-card>
         </div>
-    </div> -->
+    </div>
     <ng-template #noLinks>
         <p>No links yet!</p>
     </ng-template>

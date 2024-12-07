@@ -63,8 +63,6 @@ export class WorldViewerComponent {
 
     this.characterService.getAllCharacters().subscribe((characters: Character[]) => {
       this.characters = characters.filter((character) => this.world!.characterIds.includes(character.id));
-      console.log(this.characters);
-      console.log(this.world?.characterIds)
     });
   }
 }

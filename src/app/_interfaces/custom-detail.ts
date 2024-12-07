@@ -5,7 +5,7 @@ export interface CustomDetail {
     /**
      * The ID of this detail object
      */
-    id: number;
+    id: string;
 
     /**
      * The type of detail

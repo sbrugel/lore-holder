@@ -10,10 +10,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { CharacterLinkService } from './../_services/character-link.service';
 import { CharacterLink } from '../_interfaces/character-link';
 import { CharacterCardComponent } from '../character-card/character-card.component';
+import { CharacterLinkCardComponent } from "../character-link-card/character-link-card.component";
 
 @Component({
   selector: 'app-character-viewer',
-  imports: [CommonModule, MatButtonModule, MatCardModule, RouterModule, CharacterCardComponent],
+  imports: [CommonModule, MatButtonModule, MatCardModule, RouterModule, CharacterCardComponent, CharacterLinkCardComponent],
   templateUrl: './character-viewer.component.html',
   styleUrl: './character-viewer.component.css'
 })
@@ -31,38 +32,32 @@ export class CharacterViewerComponent {
 
   subtitleText: string[] = [];
 
+  handleRender(character: Character) {
+    this.character = character;
+    this.subtitleText = [];
+    if (this.character) {
+      if (this.character.race) this.subtitleText.push(this.character.race);
+
+      if (this.character.age) this.subtitleText.push(this.character.age.toString());
+
+      if (this.character.pronouns) this.subtitleText.push(this.character.pronouns.toString());
+
+      this.detailsService.getAllCustomDetails().subscribe((details: CustomDetail[]) => {
+        this.details = details.filter((detail) => this.character!.detailIds.includes(detail.id));
+      });
+
+      this.characterLinkService.getCharacterLinks().subscribe((links: CharacterLink[]) => {
+        this.characterLinks = links.filter((link) => link.fromId === this.character!.id);
+        console.log(this.characterLinks);
+      });
+    }
+  }
+
   ngOnInit() {
-    // this.route.paramMap.subscribe((params) => {
-    //   this.character = this.characterService.getCharacterById(parseInt(this.route.snapshot.params['id'], 10));
-    //   this.subtitleText = [];
-
-    //   if (this.character) {
-    //     if (this.character.race) this.subtitleText.push(this.character.race);
-
-    //     if (this.character.age) this.subtitleText.push(this.character.age.toString());
-
-    //     if (this.character.pronouns) this.subtitleText.push(this.character.pronouns.toString());
-
-    //     this.details = this.detailsService.getAllCustomDetails().filter((detail) => this.character!.detailIds.includes(detail.id));
-
-    //     this.characterLinks = this.characterLinkService.getCharacterLinks().filter((link) => link.fromId === this.character!.id);
-    //   }
-    // });
-    this.characterService.getCharacterById(this.route.snapshot.params['id']).subscribe((character: Character) => {
-      this.character = character;
-      this.subtitleText = [];
-      if (this.character) {
-            if (this.character.race) this.subtitleText.push(this.character.race);
-
-            if (this.character.age) this.subtitleText.push(this.character.age.toString());
-
-            if (this.character.pronouns) this.subtitleText.push(this.character.pronouns.toString());
-
-            // TODO: convert below to use firebase when the time comes
-            // this.details = this.detailsService.getAllCustomDetails().filter((detail) => this.character!.detailIds.includes(detail.id));
-
-            // this.characterLinks = this.characterLinkService.getCharacterLinks().filter((link) => link.fromId === this.character!.id);
-        }
+    this.route.params.subscribe((params) => {
+      this.characterService.getCharacterById(params['id']).subscribe((character) => {
+        this.handleRender(character);
+      });
     });
   }
 }

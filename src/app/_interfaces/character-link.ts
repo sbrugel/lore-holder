@@ -5,17 +5,17 @@ export interface CharacterLink {
     /**
      * The ID of the link
      */
-    id: number;
+    id: string;
 
     /**
      * Character ID link start
      */
-    fromId: number;
+    fromId: string;
 
     /**
      * Character ID link to
      */
-    toId: number;
+    toId: string;
 
     /**
      * More details on the association

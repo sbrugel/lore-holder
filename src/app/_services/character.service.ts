@@ -12,7 +12,6 @@ export class CharacterService {
   constructor(private firestore: AngularFirestore) {}
 
   getAllCharacters(): Observable<Character[]> {
-    //return this.characterList;
     return this.firestore.collection(this.collectionName).valueChanges({ idField: 'id' }).pipe(
       map((data: any[]) => {
         return data.map((data: any) => {
@@ -39,7 +38,6 @@ export class CharacterService {
   getCharacterById(id: string): Observable<Character> {
     return this.firestore.collection(this.collectionName).doc(id).valueChanges().pipe(
       map((data: any) => {
-        // Transform the data into a World object with the correct type
         const character: Character = {
           id: data.id,
           name: data.name,

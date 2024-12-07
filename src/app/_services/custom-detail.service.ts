@@ -1,45 +1,36 @@
 import { Injectable } from '@angular/core';
 import { CustomDetail } from '../_interfaces/custom-detail';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CustomDetailService {
-  customDetailList: CustomDetail[] = [
-    {
-      id: 1,
-      inputType: 'short',
-      name: 'Favorite Color',
-      contents: 'Red',
-      listContents: null,
-      expansionPanel: false
-    },
-    {
-      id: 2,
-      inputType: 'long',
-      name: 'About Me',
-      contents: 'I am a silly dragon who loves to play and have fun. I am a bit of a troublemaker, but I have a good heart.',
-      listContents: null,
-      expansionPanel: true
-    },
-    {
-        id: 3,
-        inputType: 'list',
-        name: 'Deets',
-        contents: null,
-        listContents: ['bleh', 'blah', 'bloo'],
-        expansionPanel: false
-    }
-  ]
+  private collectionName = 'customDetails'; // collection name in Firebase
 
-  constructor() { }
+  constructor(private firestore: AngularFirestore) {}
 
   /**
    * 
    * @returns All custom details
    */
-  getAllCustomDetails(): CustomDetail[] {
-    return this.customDetailList;
+  getAllCustomDetails(): Observable<CustomDetail[]> {
+    return this.firestore.collection(this.collectionName).valueChanges({ idField: 'id' }).pipe(
+      map((data: any[]) => {
+        return data.map((data: any) => {
+          const customDetail: CustomDetail = {
+            id: data.id,
+            inputType: data.inputType,
+            name: data.name,
+            contents: data.contents,
+            listContents: data.listContents,
+            expansionPanel: data.expansionPanel,
+          };
+          return customDetail;
+        });
+      })
+    );
   }
 
   /**
@@ -47,7 +38,19 @@ export class CustomDetailService {
    * @param id The ID of the custom detail to get
    * @returns The custom detail with the given ID, or undefined if not found
    */
-  getCustomDetailById(id: number): CustomDetail | undefined {
-    return this.customDetailList.find(customDetail => customDetail.id === id);
+  getCustomDetailById(id: string): Observable<CustomDetail> {
+    return this.firestore.collection(this.collectionName).doc(id).valueChanges().pipe(
+      map((data: any) => {
+        const customDetail: CustomDetail = {
+          id: data.id,
+          inputType: data.inputType,
+          name: data.name,
+          contents: data.contents,
+          listContents: data.listContents,
+          expansionPanel: data.expansionPanel,
+        };
+        return customDetail;
+      })
+    );
   }
 }

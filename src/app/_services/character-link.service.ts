@@ -1,35 +1,35 @@
 import { Injectable } from '@angular/core';
 import { CharacterLink } from '../_interfaces/character-link';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CharacterLinkService {
-  characterLinkList: CharacterLink[] = [
-    {
-      id: 1,
-      fromId: 1,
-      toId: 3,
-      details: 'They met at the tavern and have been friends ever since.',
-      relationType: 'friend'
-    },
-    {
-      id: 2,
-      fromId: 3,
-      toId: 1,
-      details: 'They do not get along and have been enemies for years.',
-      relationType: 'enemy'
-    },
-  ]
+  private collectionName = 'characterLinks'; // collection name in Firebase
 
-  constructor() { }
+  constructor(private firestore: AngularFirestore) {}
 
   /**
    * 
    * @returns All character links
    */
-  getCharacterLinks(): CharacterLink[] {
-    return this.characterLinkList;
+  getCharacterLinks(): Observable<CharacterLink[]> {
+    return this.firestore.collection(this.collectionName).valueChanges({ idField: 'id' }).pipe(
+      map((data: any[]) => {
+        return data.map((data: any) => {
+          const characterLink: CharacterLink = {
+            id: data.id,
+            fromId: data.fromId,
+            toId: data.toId,
+            details: data.details,
+            relationType: data.relationType
+          };
+          return characterLink;
+        });
+      })
+    );
   }
 
   /**
@@ -37,7 +37,18 @@ export class CharacterLinkService {
    * @param characterId The ID of the link
    * @returns The character link with the given ID or undefined if not found
    */
-  getCharacterLinkById(id: number): CharacterLink | undefined {
-    return this.characterLinkList.find(characterLink => characterLink.id === id);
+  getCharacterLinkById(id: string): Observable<CharacterLink> {
+    return this.firestore.collection(this.collectionName).doc(id).valueChanges().pipe(
+      map((data: any) => {
+        const characterLink: CharacterLink = {
+          id: data.id,
+          fromId: data.fromId,
+          toId: data.toId,
+          details: data.details,
+          relationType: data.relationType
+        };
+        return characterLink;
+      })
+    );
   }
 }
