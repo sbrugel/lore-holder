@@ -25,15 +25,6 @@ export class WorldListComponent {
 
   worldService: WorldService = inject(WorldService);
 
-  filterResults(text: string) {
-    console.log(text);
-  }
-
-  // constructor() {
-  //   this.worldList = this.worldService.getAllWorlds();
-  //   this.filteredWorldList = this.worldList;
-  // }
-
   constructor() { }
 
   ngOnInit() {
@@ -41,6 +32,12 @@ export class WorldListComponent {
     this.worldService.getAllWorlds().subscribe((worlds: World[]) => {
       this.worldList = worlds;
       this.filteredWorldList = this.worldList;
+    });
+  }
+
+  filterResults(text: string) {
+    this.filteredWorldList = this.worldList.filter((world: World) => {
+      return world.name.toLowerCase().includes(text.toLowerCase());
     });
   }
 }

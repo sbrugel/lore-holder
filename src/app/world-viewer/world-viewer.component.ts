@@ -46,20 +46,25 @@ export class WorldViewerComponent {
   storyService: StoryService = inject(StoryService);
   stories: Story[] = [];
 
-  constructor() {
-    // this.world = this.worldService.getWorldById(parseInt(this.route.snapshot.params['id'], 10));
-    if (this.world) {
-      this.characters = this.characterService.getAllCharacters();
-      // filter characters by if their ID is in world's characterIds
-      this.characters = this.characters.filter((character) => this.world!.characterIds.includes(character.id));
+  ngOnInit() {
+    // this.world = this.worldService.getWorldById(this.route.snapshot.params['id']);
+    
+    this.worldService.getWorldById(this.route.snapshot.params['id']).subscribe((world: World) => {
+      this.world = world;
+      // TODO: convert below to use firebase when the time comes
+      // if (this.world) {
+      //   this.characters = this.characterService.getAllCharacters();
+      //   // filter characters by if their ID is in world's characterIds
+      //   this.characters = this.characters.filter((character) => this.world!.characterIds.includes(character.id));
 
-      this.places = this.placeService.getAllPlaces();
-      // filter places by if their ID is in world's placeIds
-      this.places = this.places.filter((place) => this.world!.placeIds.includes(place.id));
+      //   this.places = this.placeService.getAllPlaces();
+      //   // filter places by if their ID is in world's placeIds
+      //   this.places = this.places.filter((place) => this.world!.placeIds.includes(place.id));
 
-      this.stories = this.storyService.getAllStories();
-      // filter stories by if their ID is in world's storyIds
-      this.stories = this.stories.filter((story) => this.world!.storyIds.includes(story.id));
-    }
+      //   this.stories = this.storyService.getAllStories();
+      //   // filter stories by if their ID is in world's storyIds
+      //   this.stories = this.stories.filter((story) => this.world!.storyIds.includes(story.id));
+      // }
+    });
   }
 }
