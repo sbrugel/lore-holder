@@ -9,6 +9,11 @@
         <button mat-flat-button class="primary" type="button" (click)="filterResults(filter.value)">Search</button>
     </form>
 </section>
-<section class="results">
-    <app-world-card *ngFor="let world of filteredWorldList" [world]="world"></app-world-card>
-</section>
+<div *ngIf="worldList.length > 0; else noWorlds">
+    <section class="results">
+        <app-world-card *ngFor="let world of filteredWorldList" [world]="world"></app-world-card>
+    </section>
+</div>
+<ng-template #noWorlds>
+    <p>No worlds found!</p>
+</ng-template>
