@@ -1,34 +1,45 @@
 import { Injectable } from '@angular/core';
 import { Place } from '../_interfaces/place';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlaceService {
-  placesList: Place[] = [
-    {
-      id: 1,
-      name: 'Wilmington',
-      description: 'A city in Delaware',
-      population: 72000,
-      characterIds: [1]
-    },
-    {
-      id: 2,
-      name: 'New York City',
-      description: 'A city in New York',
-      population: 8400000,
-      characterIds: [1, 3]
-    }
-  ]
+  private collectionName = 'places'; // collection name in Firebase
 
-  constructor() { }
+  constructor(private firestore: AngularFirestore) {}
 
-  getAllPlaces(): Place[] {
-    return this.placesList;
+  getAllPlaces(): Observable<Place[]> {
+    return this.firestore.collection(this.collectionName).valueChanges({ idField: 'id' }).pipe(
+      map((data: any[]) => {
+        return data.map((data: any) => {
+          const place: Place = {
+            id: data.id,
+            name: data.name,
+            description: data.description,
+            population: data.population,
+            characterIds: data.characterIds
+          };
+          return place;
+        });
+      })
+    );
   }
 
-  getPlaceById(id: number): Place | undefined {
-    return this.placesList.find(place => place.id === id);
+  getPlaceById(id: string): Observable<Place> {
+    return this.firestore.collection(this.collectionName).doc(id).valueChanges().pipe(
+      map((data: any) => {
+        const place: Place = {
+          id: data.id,
+          name: data.name,
+          description: data.description,
+          population: data.population,
+          characterIds: data.characterIds
+        };
+        return place;
+      })
+    );
   }
 }

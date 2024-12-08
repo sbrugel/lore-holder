@@ -5,7 +5,7 @@ export interface Story {
     /**
      * Story ID
      */
-    id: number;
+    id: string;
 
     /**
      * Title of the story
@@ -15,20 +15,20 @@ export interface Story {
     /**
      * IDs of characters in the story. Effectively a tag system
      */
-    characterIds: number[];
+    characterIds: string[];
 
     /**
      * IDs of modules in the story
      */
-    moduleIds: number[];
+    moduleIds: string[];
 
     /**
      * The ID of the previous story in the sequence
      */
-    previousId: number | null;
+    previousId: string | null;
 
     /**
      * The ID of the next story in the sequence
      */
-    nextId: number | null;
+    nextId: string | null;
 }

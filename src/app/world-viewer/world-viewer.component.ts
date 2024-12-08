@@ -49,20 +49,18 @@ export class WorldViewerComponent {
   ngOnInit() {
     this.worldService.getWorldById(this.route.snapshot.params['id']).subscribe((world: World) => {
       this.world = world;
-      // TODO: convert below to use firebase when the time comes
-      // if (this.world) {
-      //   this.places = this.placeService.getAllPlaces();
-      //   // filter places by if their ID is in world's placeIds
-      //   this.places = this.places.filter((place) => this.world!.placeIds.includes(place.id));
-
-      //   this.stories = this.storyService.getAllStories();
-      //   // filter stories by if their ID is in world's storyIds
-      //   this.stories = this.stories.filter((story) => this.world!.storyIds.includes(story.id));
-      // }
     });
 
     this.characterService.getAllCharacters().subscribe((characters: Character[]) => {
       this.characters = characters.filter((character) => this.world!.characterIds.includes(character.id));
+    });
+
+    this.placeService.getAllPlaces().subscribe((places: Place[]) => {
+      this.places = places.filter((place) => this.world!.placeIds.includes(place.id));
+    });
+
+    this.storyService.getAllStories().subscribe((stories: Story[]) => {
+      this.stories = stories.filter((story) => this.world!.storyIds.includes(story.id));
     });
   }
 }

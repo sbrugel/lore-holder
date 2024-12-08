@@ -1,63 +1,35 @@
 import { Injectable } from '@angular/core';
 import { StoryModule } from '../_interfaces/story-module';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StoryModuleService {
-  storyModulesList: StoryModule[] = [
-    {
-      id: 1,
-      type: 'text',
-      content: 'This is the first module of the first story',
-      appearance: 'normal',
-      color: '#000000'
-    },
-    {
-      id: 2,
-      type: 'image',
-      content: 'https://i.imgur.com/x32syYD.jpeg',
-      appearance: 'normal',
-      color: '#000000'
-    },
-    {
-      id: 3,
-      type: 'text',
-      content: 'Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      appearance: 'bold',
-      color: '#ff0000'
-    },
-    {
-      id: 4,
-      type: 'text',
-      content: 'Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      appearance: 'italic',
-      color: '#00ff00'
-    },
-    {
-      id: 5,
-      type: 'text',
-      content: 'Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      appearance: 'underlined',
-      color: '#f0000f'
-    },
-    {
-      id: 6,
-      type: 'image',
-      content: 'https://i.imgur.com/cT2n0HB.jpeg',
-      appearance: 'normal',
-      color: '#000000'
-    }
-  ]
+  private collectionName = 'storyModules'; // collection name in Firebase
 
-  constructor() { }
+  constructor(private firestore: AngularFirestore) {}
 
   /**
    *
    * @returns All story modules in the storyModulesList
    */
-  getAllStoryModules(): StoryModule[] {
-    return this.storyModulesList;
+  getAllStoryModules(): Observable<StoryModule[]> {
+    return this.firestore.collection(this.collectionName).valueChanges({ idField: 'id' }).pipe(
+      map((data: any[]) => {
+        return data.map((data: any) => {
+          const storyModule: StoryModule = {
+            id: data.id,
+            type: data.type,
+            content: data.content,
+            appearance: data.appearance,
+            color: data.color
+          };
+          return storyModule;
+        });
+      })
+    );
   }
 
   /**
@@ -65,7 +37,18 @@ export class StoryModuleService {
    * @param id ID of the story module to get
    * @returns The story module with the given ID
    */
-  getStoryModuleById(id: number): StoryModule | undefined {
-    return this.storyModulesList.find(module => module.id === id);
+  getStoryModuleById(id: string): Observable<StoryModule> {
+    return this.firestore.collection(this.collectionName).doc(id).valueChanges().pipe(
+      map((data: any) => {
+        const storyModule: StoryModule = {
+          id: data.id,
+          type: data.type,
+          content: data.content,
+          appearance: data.appearance,
+          color: data.color
+        };
+        return storyModule;
+      })
+    );
   }
 }

@@ -5,7 +5,7 @@ export interface Place {
     /**
      * The place ID
      */
-    id: number;
+    id: string;
 
     /**
      * The place name
@@ -25,5 +25,5 @@ export interface Place {
     /**
      * The character IDs of characters that are from this place
      */
-    characterIds: number[];
+    characterIds: string[];
 }

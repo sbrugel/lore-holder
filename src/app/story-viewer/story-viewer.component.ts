@@ -32,23 +32,31 @@ export class StoryViewerComponent {
   characters: Character[] = [];
 
   ngOnInit() {
-    // listen to route parameter changes
-    this.route.paramMap.subscribe((params) => {
-      this.story = this.storyService.getStoryById(parseInt(this.route.snapshot.params['id'], 10));
+    this.route.params.subscribe((params) => {
+      this.storyService.getStoryById(params['id']).subscribe((story) => {
+        this.story = story;
+        if (this.story) {
+          this.storyModuleService.getAllStoryModules().subscribe((storyModules) => {
+            this.storyModules = storyModules.filter((storyModule) => this.story!.moduleIds.includes(storyModule.id));
+          });
 
-      if (this.story) {
-        this.storyModules = this.storyModuleService.getAllStoryModules().filter((storyModule) => this.story!.moduleIds.includes(storyModule.id));
-        // TODO firebase integration
-        // this.characters = this.characterService.getAllCharacters().filter((character) => this.story!.characterIds.includes(character.id));
+          this.characterService.getAllCharacters().subscribe((characters) => {
+            this.characters = characters.filter((character) => this.story!.characterIds.includes(character.id));
+          });
 
-        if (this.story.previousId) {
-          this.previousStory = this.storyService.getStoryById(this.story.previousId);
+          if (this.story.previousId) {
+            this.storyService.getStoryById(this.story.previousId).subscribe((previousStory) => {
+              this.previousStory = previousStory;
+            });
+          }
+
+          if (this.story.nextId) {
+            this.storyService.getStoryById(this.story.nextId).subscribe((nextStory) => {
+              this.nextStory = nextStory;
+            });
+          }
         }
-
-        if (this.story.nextId) {
-          this.nextStory = this.storyService.getStoryById(this.story.nextId);
-        }
-      }
+      });
     });
   }
 }

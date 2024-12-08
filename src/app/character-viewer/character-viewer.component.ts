@@ -14,7 +14,7 @@ import { CharacterLinkCardComponent } from "../character-link-card/character-lin
 
 @Component({
   selector: 'app-character-viewer',
-  imports: [CommonModule, MatButtonModule, MatCardModule, RouterModule, CharacterCardComponent, CharacterLinkCardComponent],
+  imports: [CommonModule, MatButtonModule, MatCardModule, RouterModule, CharacterLinkCardComponent],
   templateUrl: './character-viewer.component.html',
   styleUrl: './character-viewer.component.css'
 })

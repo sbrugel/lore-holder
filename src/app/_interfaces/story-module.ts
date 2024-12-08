@@ -5,7 +5,7 @@ export interface StoryModule {
     /**
      * ID of the module
      */
-    id: number;
+    id: string;
 
     /**
      * Type of the module

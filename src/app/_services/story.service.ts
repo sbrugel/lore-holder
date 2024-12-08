@@ -1,45 +1,36 @@
 import { Injectable } from '@angular/core';
 import { Story } from '../_interfaces/story';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StoryService {
-  storyList: Story[] = [
-    {
-      id: 1,
-      title: 'Chapter 1',
-      characterIds: [3],
-      moduleIds: [1, 2],
-      previousId: null,
-      nextId: 2
-    },
-    {
-      id: 2,
-      title: 'Chapter 2',
-      characterIds: [1, 3],
-      moduleIds: [3],
-      previousId: 1,
-      nextId: 3
-    },
-    {
-      id: 3,
-      title: 'Chapter 3',
-      characterIds: [2],
-      moduleIds: [4, 5, 6],
-      previousId: null,
-      nextId: null
-    }
-  ]
+  private collectionName = 'stories'; // collection name in Firebase
 
-  constructor() { }
+  constructor(private firestore: AngularFirestore) {}
 
   /**
    *
    * @returns All stories in the storyList
    */
-  getAllStories(): Story[] {
-    return this.storyList;
+  getAllStories(): Observable<Story[]> {
+    return this.firestore.collection(this.collectionName).valueChanges({ idField: 'id' }).pipe(
+      map((data: any[]) => {
+        return data.map((data: any) => {
+          const story: Story = {
+            id: data.id,
+            title: data.title,
+            characterIds: data.characterIds,
+            moduleIds: data.moduleIds,
+            previousId: data.previousId,
+            nextId: data.nextId
+          };
+          return story;
+        });
+      })
+    );
   }
 
   /**
@@ -47,7 +38,19 @@ export class StoryService {
    * @param id ID of the story to get
    * @returns The story with the given ID
    */
-  getStoryById(id: number): Story | undefined {
-    return this.storyList.find(story => story.id === id);
+  getStoryById(id: string): Observable<Story> {
+    return this.firestore.collection(this.collectionName).doc(id).valueChanges().pipe(
+      map((data: any) => {
+        const story: Story = {
+          id: data.id,
+          title: data.title,
+          characterIds: data.characterIds,
+          moduleIds: data.moduleIds,
+          previousId: data.previousId,
+          nextId: data.nextId
+        };
+        return story;
+      })
+    );
   }
 }

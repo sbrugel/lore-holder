@@ -24,12 +24,18 @@ export class PlaceViewerComponent {
   characterService: CharacterService = inject(CharacterService);
   characters: Character[] = [];
 
-  constructor() {
-    this.place = this.placeService.getPlaceById(parseInt(this.route.snapshot.params['id'], 10));
+  constructor() {}
 
-    // TODO firebase integration
-    // if (this.place) {
-    //   this.characters = this.characterService.getAllCharacters().filter((character) => this.place!.characterIds.includes(character.id));
-    // }
+  ngOnInit() {
+    this.route.params.subscribe((params) => {
+      this.placeService.getPlaceById(params['id']).subscribe((place) => {
+        this.place = place;
+        if (this.place) {
+          this.characterService.getAllCharacters().subscribe((characters: Character[]) => {
+            this.characters = characters.filter((character) => this.place!.characterIds.includes(character.id));
+          });
+        }
+      });
+    });
   }
 }
