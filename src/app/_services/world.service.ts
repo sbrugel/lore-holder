@@ -60,4 +60,16 @@ export class WorldService {
       })
     );
   }
+
+  /**
+   *
+   * @param newWorld The world to create in Firestore
+   */
+  createNewWorld(newWorld: World) {
+    const newDoc = this.firestore.collection(this.collectionName).add(newWorld);
+
+    newDoc.then((docRef) => {
+      docRef.update({ id: docRef.id });
+    })
+  }
 }
