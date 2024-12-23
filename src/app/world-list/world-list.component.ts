@@ -104,7 +104,7 @@ export class WorldListComponent {
 }
 
 @Component({
-  selector: 'new-world-dialog',
+  selector: 'world-editor-dialog',
   imports: [
     CommonModule,
     MatButtonModule,
@@ -113,8 +113,8 @@ export class WorldListComponent {
     FormsModule,
     MatFormFieldModule,
   ],
-  templateUrl: './new-world-dialog.html',
-  styleUrls: ['./new-world-dialog.css']
+  templateUrl: './world-editor-dialog.html',
+  styleUrls: ['./world-editor-dialog.css']
 })
 export class NewWorldDialog {
   readonly dialogRef = inject(MatDialogRef<NewWorldDialog>);

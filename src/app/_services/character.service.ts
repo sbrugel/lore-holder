@@ -56,4 +56,32 @@ export class CharacterService {
       })
     );
   }
+
+  /**
+   * 
+   * @param newCharacter The new character to add to the collection
+   */
+  createNewCharacter(newCharacter: Character) {
+    const newDoc = this.firestore.collection(this.collectionName).add(newCharacter);
+
+    newDoc.then((docRef) => {
+      docRef.update({ id: docRef.id });
+    });
+  }
+
+  /**
+   * 
+   * @param updatedCharacter The updated character to save to Firestore
+   */
+  updateCharacter(updatedCharacter: Character) {
+    this.firestore.collection(this.collectionName).doc(updatedCharacter.id).update(updatedCharacter);
+  }
+
+  /**
+   * 
+   * @param characterId The id of the character to delete
+   */
+  deleteCharacter(characterId: string) {
+    this.firestore.collection(this.collectionName).doc(characterId).delete();
+  }
 }
