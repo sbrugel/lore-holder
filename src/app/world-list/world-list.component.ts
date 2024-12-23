@@ -2,7 +2,7 @@ import { Component, inject, model, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormField, MatInputModule } from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { WorldService } from '../_services/world.service';
 import { World } from '../_interfaces/world';
 import { WorldCardComponent } from '../world-card/world-card.component';
@@ -48,10 +48,19 @@ export class WorldListComponent {
     });
   }
 
-  createNewWorld() {
+  /**
+   * Function passed into world-card component to open edit dialog
+   * @param world 
+   * @returns 
+   */
+  triggerWorldDialog(world?: World) {
+    return () => this.openWorldDialog(world);
+  }
+
+  openWorldDialog(world?: World) {
     const dialogRef = this.dialog.open(NewWorldDialog, {
       width: '70%',
-      data: {
+      data: world ? {...world} : {
         name: this.newWorldName(),
         description: this.newWorldDescription(),
         detailedDescription: this.newWorldDetailedDescription(),
@@ -63,17 +72,26 @@ export class WorldListComponent {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         const newWorld: World = {
-          id: '', // id will be set by Firestore
+          id: world?.id || '', // if new, will create new one. Or keep if editing
           name: result.worldName(),
           description: result.worldDescription(),
           detailedDescription: result.worldDetailedDescription(),
           imageUrl: result.worldImageUrl(),
           color: result.worldColor(),
-          characterIds: [],
-          placeIds: [],
-          storyIds: []
+          characterIds: world?.characterIds || [],
+          placeIds: world?.placeIds || [],
+          storyIds: world?.storyIds || []
         }
-        this.worldService.createNewWorld(newWorld);
+        
+        if (world) {
+          // update world
+          console.log('update')
+          this.worldService.updateWorld(newWorld);
+        } else {
+          // create new world
+          console.log('create')
+          this.worldService.createNewWorld(newWorld);
+        }
       }
     });
   }

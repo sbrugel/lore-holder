@@ -8,6 +8,7 @@
     </mat-card-content>
     <mat-card-actions>
         <a mat-button [routerLink]="['/world', world.id]">VIEW</a>
-        <button mat-button>DELETE</button>
+        <button mat-button (click)="editFunction(world)">EDIT</button>
+        <button mat-button (click)="deleteWorld()">DELETE</button>
     </mat-card-actions>
 </mat-card>

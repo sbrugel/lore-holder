@@ -72,4 +72,20 @@ export class WorldService {
       docRef.update({ id: docRef.id });
     })
   }
+
+  /**
+   *
+   * @param updatedWorld The world to update in Firestore
+   */
+  updateWorld(updatedWorld: World) {
+    this.firestore.collection(this.collectionName).doc(updatedWorld.id).update(updatedWorld);
+  }
+
+  /**
+   *
+   * @param id The id of the world to delete
+   */
+  deleteWorld(id: string) {
+    this.firestore.collection(this.collectionName).doc(id).delete();
+  }
 }
