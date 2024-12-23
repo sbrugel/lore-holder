@@ -2,6 +2,13 @@
   <mat-toolbar>
     <mat-icon><a class="logo-url" [routerLink]="['/']">book</a></mat-icon>
     <span>Lore Builder</span>
+    <div *ngIf="!user">
+      <button (click)="signIn()">Sign In with Google</button>
+    </div>
+    <div *ngIf="user">
+      <p>Welcome, {{ user!.displayName }}!</p>
+      <button (click)="signOut()">Sign Out</button>
+    </div>
   </mat-toolbar>
   <section class="content">
     <router-outlet></router-outlet>
