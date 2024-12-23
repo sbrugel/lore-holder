@@ -6,6 +6,11 @@ export interface StoryModule {
      * ID of the module
      */
     id: string;
+    
+    /**
+     * The user who owns this
+     */
+    ownerId: string;
 
     /**
      * Type of the module

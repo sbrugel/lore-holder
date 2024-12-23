@@ -8,6 +8,7 @@ import { World } from '../_interfaces/world';
 import { WorldCardComponent } from '../world-card/world-card.component';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { AuthService } from '../_services/auth.service';
 
 @Component({
   selector: 'app-world-list',
@@ -28,6 +29,9 @@ export class WorldListComponent {
   filteredWorldList: World[] = [];
   worldService: WorldService = inject(WorldService);
 
+  authService: AuthService = inject(AuthService);
+  user: any;
+
   // dialog for new world
   readonly dialog = inject(MatDialog);
 
@@ -37,14 +41,15 @@ export class WorldListComponent {
   readonly newWorldImageUrl = signal('');
   readonly newWorldColor = signal('');
 
-  constructor() { }
-
   ngOnInit() {
     // subscribe to getAllWorlds observable
-    this.worldService.getAllWorlds().subscribe((worlds: World[]) => {
-      this.worldList = worlds;
-      // set filteredWorldList to worldList sorted by name
-      this.filteredWorldList = this.worldList.sort((a, b) => a.name.localeCompare(b.name));
+    this.authService.currentUser$.subscribe((user) => {
+      this.user = user;
+      this.worldService.getAllWorlds(this.user).subscribe((worlds: World[]) => {
+        this.worldList = worlds;
+        // set filteredWorldList to worldList sorted by name
+        this.filteredWorldList = this.worldList.sort((a, b) => a.name.localeCompare(b.name));
+      });
     });
   }
 
@@ -73,6 +78,7 @@ export class WorldListComponent {
       if (result) {
         const newWorld: World = {
           id: world?.id || '', // if new, will create new one. Or keep if editing
+          ownerId: world?.ownerId || this.user.uid, // if new, will create new one. Or keep if editing
           name: result.worldName(),
           description: result.worldDescription(),
           detailedDescription: result.worldDetailedDescription(),

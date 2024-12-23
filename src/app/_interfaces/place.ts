@@ -6,6 +6,11 @@ export interface Place {
      * The place ID
      */
     id: string;
+    
+    /**
+     * The user who owns this
+     */
+    ownerId: string;
 
     /**
      * The place name

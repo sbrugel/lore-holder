@@ -6,6 +6,11 @@ export interface Character {
      * The ID of this character object
      */
     id: string;
+    
+    /**
+     * The user who owns this
+     */
+    ownerId: string;
 
     /**
      * Character name

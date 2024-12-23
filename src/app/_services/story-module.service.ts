@@ -4,7 +4,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { map, Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class StoryModuleService {
   private collectionName = 'storyModules'; // collection name in Firebase
@@ -16,20 +16,24 @@ export class StoryModuleService {
    * @returns All story modules in the storyModulesList
    */
   getAllStoryModules(): Observable<StoryModule[]> {
-    return this.firestore.collection(this.collectionName).valueChanges({ idField: 'id' }).pipe(
-      map((data: any[]) => {
-        return data.map((data: any) => {
-          const storyModule: StoryModule = {
-            id: data.id,
-            type: data.type,
-            content: data.content,
-            appearance: data.appearance,
-            color: data.color
-          };
-          return storyModule;
-        });
-      })
-    );
+    return this.firestore
+      .collection(this.collectionName)
+      .valueChanges({ idField: 'id' })
+      .pipe(
+        map((data: any[]) => {
+          return data.map((data: any) => {
+            const storyModule: StoryModule = {
+              id: data.id,
+              ownerId: data.ownerId,
+              type: data.type,
+              content: data.content,
+              appearance: data.appearance,
+              color: data.color,
+            };
+            return storyModule;
+          });
+        })
+      );
   }
 
   /**
@@ -38,17 +42,22 @@ export class StoryModuleService {
    * @returns The story module with the given ID
    */
   getStoryModuleById(id: string): Observable<StoryModule> {
-    return this.firestore.collection(this.collectionName).doc(id).valueChanges().pipe(
-      map((data: any) => {
-        const storyModule: StoryModule = {
-          id: data.id,
-          type: data.type,
-          content: data.content,
-          appearance: data.appearance,
-          color: data.color
-        };
-        return storyModule;
-      })
-    );
+    return this.firestore
+      .collection(this.collectionName)
+      .doc(id)
+      .valueChanges()
+      .pipe(
+        map((data: any) => {
+          const storyModule: StoryModule = {
+            id: data.id,
+            ownerId: data.ownerId,
+            type: data.type,
+            content: data.content,
+            appearance: data.appearance,
+            color: data.color,
+          };
+          return storyModule;
+        })
+      );
   }
 }

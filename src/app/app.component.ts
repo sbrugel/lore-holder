@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
-import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import { AuthService } from './_services/auth.service';
 import { CommonModule } from '@angular/common';
@@ -42,9 +41,8 @@ export class AppComponent {
     });
   }
 
-  // Sign out
   signOut() {
     this.authService.signOut();
-    console.log('User signed out');
+    window.location.reload();
   }
 }

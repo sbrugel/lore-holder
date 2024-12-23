@@ -19,6 +19,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angu
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { AuthService } from '../_services/auth.service';
 
 @Component({
   selector: 'app-world-viewer',
@@ -51,6 +52,10 @@ export class WorldViewerComponent {
   storyService: StoryService = inject(StoryService);
   stories: Story[] = [];
 
+  authService: AuthService = inject(AuthService);
+  user: any;
+  
+
    // dialog for new world
   readonly dialog = inject(MatDialog);
   
@@ -64,20 +69,23 @@ export class WorldViewerComponent {
   readonly newCharacterPronouns = signal('');
 
   ngOnInit() {
-    this.worldService.getWorldById(this.route.snapshot.params['id']).subscribe((world: World) => {
-      this.world = world;
-    });
-
-    this.characterService.getAllCharacters().subscribe((characters: Character[]) => {
-      this.characters = characters.filter((character) => this.world!.characterIds.includes(character.id));
-    });
-
-    this.placeService.getAllPlaces().subscribe((places: Place[]) => {
-      this.places = places.filter((place) => this.world!.placeIds.includes(place.id));
-    });
-
-    this.storyService.getAllStories().subscribe((stories: Story[]) => {
-      this.stories = stories.filter((story) => this.world!.storyIds.includes(story.id));
+    this.authService.currentUser$.subscribe((user) => {
+      this.user = user;
+      this.worldService.getWorldById(this.route.snapshot.params['id']).subscribe((world: World) => {
+        this.world = world;
+      });
+  
+      this.characterService.getAllCharacters().subscribe((characters: Character[]) => {
+        this.characters = characters.filter((character) => this.world!.characterIds.includes(character.id));
+      });
+  
+      this.placeService.getAllPlaces().subscribe((places: Place[]) => {
+        this.places = places.filter((place) => this.world!.placeIds.includes(place.id));
+      });
+  
+      this.storyService.getAllStories().subscribe((stories: Story[]) => {
+        this.stories = stories.filter((story) => this.world!.storyIds.includes(story.id));
+      });
     });
   }
 
@@ -110,6 +118,7 @@ export class WorldViewerComponent {
       if (result) {
         const newCharacter: Character = {
           id: character?.id || '',
+          ownerId: character?.ownerId || this.user.uid,
           name: result.characterName(),
           description: result.characterDescription(),
           about: result.characterBio(),

@@ -17,7 +17,7 @@ export class AuthService {
       // Initialize auth state listener
       this.afAuth.onAuthStateChanged((user) => {
         if (user) {
-          console.log('User is signed in:', user); // Logging user data
+          console.log('User is signed in:', user.uid); // Logging user data
           this.currentUserSubject.next(user);  // Emit the signed-in user
         } else {
           console.log('No user signed in');

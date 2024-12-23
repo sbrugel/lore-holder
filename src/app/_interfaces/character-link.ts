@@ -6,6 +6,11 @@ export interface CharacterLink {
      * The ID of the link
      */
     id: string;
+    
+    /**
+     * The user who owns this
+     */
+    ownerId: string;
 
     /**
      * Character ID link start

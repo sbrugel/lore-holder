@@ -6,6 +6,11 @@ export interface World {
      * The world ID
      */
     id: string;
+    
+    /**
+     * The user who owns this
+     */
+    ownerId: string;
 
     /**
      * The world name

@@ -6,6 +6,11 @@ export interface CustomDetail {
      * The ID of this detail object
      */
     id: string;
+    
+    /**
+     * The user who owns this
+     */
+    ownerId: string;
 
     /**
      * The type of detail

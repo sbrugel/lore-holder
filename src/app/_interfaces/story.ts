@@ -6,6 +6,11 @@ export interface Story {
      * Story ID
      */
     id: string;
+    
+    /**
+     * The user who owns this
+     */
+    ownerId: string;
 
     /**
      * Title of the story
