@@ -1,6 +1,6 @@
 <div *ngIf="character">
-    <div [routerLink]="['/character', character.id]">
-        <mat-card class="pointer-elem">
+    <div>
+        <mat-card>
             <mat-card-header>
                 <div mat-card-avatar [ngStyle]="{ 
                     'background-image': 'url(' + character.imageUrl + ')', 
@@ -12,6 +12,9 @@
             </mat-card-header>
             <mat-card-content>
                 <p>{{ character.description }}</p>
+                <button mat-button [routerLink]="['/character', character.id]">VIEW</button>
+                <button mat-button (click)="editFunction(character)">EDIT</button>
+                <button mat-button (click)="deleteCharacter()">DELETE</button>
             </mat-card-content>
         </mat-card>
     </div>

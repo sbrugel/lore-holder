@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Character } from '../_interfaces/character';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { map, Observable } from 'rxjs';
+import { arrayUnion } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -61,11 +62,15 @@ export class CharacterService {
    * 
    * @param newCharacter The new character to add to the collection
    */
-  createNewCharacter(newCharacter: Character) {
+  createNewCharacter(newCharacter: Character, worldId: string) {
     const newDoc = this.firestore.collection(this.collectionName).add(newCharacter);
 
     newDoc.then((docRef) => {
       docRef.update({ id: docRef.id });
+      // update world with ID to add this character to characterIds
+      this.firestore.collection('worlds').doc(worldId).update({
+        characterIds: arrayUnion(docRef.id)
+      });
     });
   }
 

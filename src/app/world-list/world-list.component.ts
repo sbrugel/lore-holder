@@ -58,7 +58,7 @@ export class WorldListComponent {
   }
 
   openWorldDialog(world?: World) {
-    const dialogRef = this.dialog.open(NewWorldDialog, {
+    const dialogRef = this.dialog.open(WorldEditorDialog, {
       width: '70%',
       data: world ? {...world} : {
         name: this.newWorldName(),
@@ -114,10 +114,10 @@ export class WorldListComponent {
     MatFormFieldModule,
   ],
   templateUrl: './world-editor-dialog.html',
-  styleUrls: ['./world-editor-dialog.css']
+  styleUrls: ['../_common/editor-dialog.css']
 })
-export class NewWorldDialog {
-  readonly dialogRef = inject(MatDialogRef<NewWorldDialog>);
+export class WorldEditorDialog {
+  readonly dialogRef = inject(MatDialogRef<WorldEditorDialog>);
   data = inject<World>(MAT_DIALOG_DATA);
 
   readonly worldName = model(this.data.name);

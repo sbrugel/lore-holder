@@ -9,7 +9,6 @@ import { CustomDetail } from '../_interfaces/custom-detail';
 import { MatButtonModule } from '@angular/material/button';
 import { CharacterLinkService } from './../_services/character-link.service';
 import { CharacterLink } from '../_interfaces/character-link';
-import { CharacterCardComponent } from '../character-card/character-card.component';
 import { CharacterLinkCardComponent } from "../character-link-card/character-link-card.component";
 
 @Component({

@@ -18,7 +18,3 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
         filled-label-text-color: map.get(my-theme.$primary-palette, 100), // Use white (shade 100) for text
     ));
 }
-
-.pointer-elem {
-    cursor: pointer;
-}

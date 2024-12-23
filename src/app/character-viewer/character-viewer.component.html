@@ -8,12 +8,6 @@
         <div *ngFor="let color of character.colors" class="segment"  [style.backgroundColor]="color"></div>
     </div>
 
-    <div class="buttoms-row">
-        <button mat-button>BACK</button>
-        <button mat-button>EDIT</button>
-        <button mat-button>DELETE</button>
-    </div>
-
     <mat-card class="about-card" appearance="outlined">
         <mat-card-header>
             <mat-card-title>About {{ character.name }}</mat-card-title>
