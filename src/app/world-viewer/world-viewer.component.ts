@@ -55,8 +55,7 @@ export class WorldViewerComponent {
   authService: AuthService = inject(AuthService);
   user: any;
   
-
-   // dialog for new world
+  // dialog for new world
   readonly dialog = inject(MatDialog);
   
   readonly newCharacterName = signal('');
@@ -67,6 +66,8 @@ export class WorldViewerComponent {
   readonly newCharacterGender = signal('');
   readonly newCharacterRace = signal('');
   readonly newCharacterPronouns = signal('');
+  readonly newCharacterColors = signal('');
+  readonly newCharacterGalleryLinks = signal('');
 
   ngOnInit() {
     this.authService.currentUser$.subscribe((user) => {
@@ -110,7 +111,9 @@ export class WorldViewerComponent {
         age: this.newCharacterAge(),
         gender: this.newCharacterGender(),
         race: this.newCharacterRace(),
-        pronouns: this.newCharacterPronouns()
+        pronouns: this.newCharacterPronouns(),
+        colors: this.newCharacterColors(),
+        galleryLinks: this.newCharacterGalleryLinks()
       }
     });
 
@@ -127,12 +130,12 @@ export class WorldViewerComponent {
           gender: result.characterGender(),
           race: result.characterRace(),
           pronouns: result.characterPronouns(),
-          colors: character?.colors || [],
-          galleryLinks: character?.galleryLinks || [],
+          colors: result.characterColors().split("\n"),
+          galleryLinks: result.characterGalleryLinks().split("\n"),
           detailIds: character?.detailIds || []
         }
 
-        console.log(newCharacter);
+        console.log(result.characterColors().split("\n"));
 
         if (character) {
           // update character
@@ -171,6 +174,8 @@ export class CharacterEditorDialog {
   readonly characterGender = model(this.data.gender);
   readonly characterRace = model(this.data.race);
   readonly characterPronouns = model(this.data.pronouns);
+  readonly characterColors = model(this.data.colors ? this.data.colors.join('\n') : '');
+  readonly characterGalleryLinks = model(this.data.galleryLinks ? this.data.galleryLinks.join('\n') : '');
 
   allowOnlyNumbers(event: KeyboardEvent): void {
     const charCode = event.which ? event.which : event.keyCode;

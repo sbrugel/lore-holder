@@ -103,7 +103,21 @@ export class CharacterService {
    *
    * @param characterId The id of the character to delete
    */
-  deleteCharacter(characterId: string) {
-    this.firestore.collection(this.collectionName).doc(characterId).delete();
+  async deleteCharacter(characterId: string) {
+    // iterate through all characterLinks and delete any that have fromId this ID, or toId this ID
+    await this.firestore
+      .collection('characterLinks')
+      .get()
+      .toPromise()
+      .then((querySnapshot) => {
+        querySnapshot!.forEach((doc) => {
+          const data: any = doc.data();
+          if (data.fromId === characterId || data.toId === characterId) {
+            this.firestore.collection('characterLinks').doc(doc.id).delete();
+          }
+      });
+    }).then(() => {
+      this.firestore.collection(this.collectionName).doc(characterId).delete();
+    });
   }
 }
