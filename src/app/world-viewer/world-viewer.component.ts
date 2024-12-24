@@ -1,4 +1,4 @@
-import { Component, inject, model, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, model, signal } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { WorldService } from '../_services/world.service';
 import { World } from '../_interfaces/world';
@@ -80,6 +80,8 @@ export class WorldViewerComponent {
   readonly newPlacePopulation = signal('');
 
   readonly newStoryTitle = signal('');
+  readonly newPreviousStory = signal('');
+  readonly newNextStory = signal('');
 
   ngOnInit() {
     this.authService.currentUser$.subscribe((user) => {
@@ -147,8 +149,6 @@ export class WorldViewerComponent {
           detailIds: character?.detailIds || []
         }
 
-        console.log(result.characterColors().split("\n"));
-
         if (character) {
           // update character
           this.characterService.updateCharacter(newCharacter);
@@ -204,31 +204,35 @@ export class WorldViewerComponent {
   }
 
   openStoryDialog(story?: Story) {
+    // Open the dialog once
     const dialogRef = this.dialog.open(StoryEditorDialog, {
       width: '70%',
       data: {
-        ...story ? { ...story } : { id: '', title: this.newStoryTitle() },
-        _allStories: this.storyService.getAllStories(),
+        ...story ? { ...story } : { id: '', title: this.newStoryTitle(), previousId: this.newPreviousStory(), nextId: this.newNextStory() },
+        _allStories: [...this.stories]
       },
     });
-
-    dialogRef.afterClosed().subscribe((result) => {
+  
+    // Handle after dialog is closed
+    dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
+        console.log(result.previousStoryId());
+        console.log(result.nextStoryId());
         const newStory: Story = {
           id: story?.id || '',
           ownerId: story?.ownerId || this.user.uid,
           title: result.storyTitle(),
           characterIds: story?.characterIds || [],
           moduleIds: story?.moduleIds || [],
-          previousId: story?.previousId || null,
-          nextId: story?.nextId || null
+          previousId: result.previousStoryId(),
+          nextId: result.nextStoryId(),
         }
-        
+  
         if (story) {
-          // update character
+          // update existing story
           this.storyService.updateStory(newStory);
         } else {
-          // create new character
+          // create new story
           this.storyService.createNewStory(newStory, this.world!.id);
         }
       }
@@ -329,6 +333,8 @@ export class StoryEditorDialog {
   data = inject(MAT_DIALOG_DATA);
 
   readonly storyTitle = model(this.data.title);
+  readonly previousStoryId = model(this.data.previousId);
+  readonly nextStoryId = model(this.data.nextId);
 
   readonly allStories = model(this.data._allStories);
 

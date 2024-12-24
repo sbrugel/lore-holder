@@ -6,7 +6,12 @@ import { MatInputModule } from '@angular/material/input';
 import { WorldService } from '../_services/world.service';
 import { World } from '../_interfaces/world';
 import { WorldCardComponent } from '../world-card/world-card.component';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AuthService } from '../_services/auth.service';
 
@@ -48,15 +53,17 @@ export class WorldListComponent {
       this.worldService.getAllWorlds(this.user).subscribe((worlds: World[]) => {
         this.worldList = worlds;
         // set filteredWorldList to worldList sorted by name
-        this.filteredWorldList = this.worldList.sort((a, b) => a.name.localeCompare(b.name));
+        this.filteredWorldList = this.worldList.sort((a, b) =>
+          a.name.localeCompare(b.name)
+        );
       });
     });
   }
 
   /**
    * Function passed into world-card component to open edit dialog
-   * @param world 
-   * @returns 
+   * @param world
+   * @returns
    */
   triggerWorldDialog(world?: World) {
     return () => this.openWorldDialog(world);
@@ -65,13 +72,15 @@ export class WorldListComponent {
   openWorldDialog(world?: World) {
     const dialogRef = this.dialog.open(WorldEditorDialog, {
       width: '70%',
-      data: world ? {...world} : {
-        name: this.newWorldName(),
-        description: this.newWorldDescription(),
-        detailedDescription: this.newWorldDetailedDescription(),
-        imageUrl: this.newWorldImageUrl(),
-        color: this.newWorldColor()
-      }
+      data: world
+        ? { ...world }
+        : {
+            name: this.newWorldName(),
+            description: this.newWorldDescription(),
+            detailedDescription: this.newWorldDetailedDescription(),
+            imageUrl: this.newWorldImageUrl(),
+            color: this.newWorldColor(),
+          },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -86,16 +95,14 @@ export class WorldListComponent {
           color: result.worldColor(),
           characterIds: world?.characterIds || [],
           placeIds: world?.placeIds || [],
-          storyIds: world?.storyIds || []
-        }
-        
+          storyIds: world?.storyIds || [],
+        };
+
         if (world) {
           // update world
-          console.log('update')
           this.worldService.updateWorld(newWorld);
         } else {
           // create new world
-          console.log('create')
           this.worldService.createNewWorld(newWorld);
         }
       }
@@ -120,7 +127,7 @@ export class WorldListComponent {
     MatFormFieldModule,
   ],
   templateUrl: './world-editor-dialog.html',
-  styleUrls: ['../_common/editor-dialog.css']
+  styleUrls: ['../_common/editor-dialog.css'],
 })
 export class WorldEditorDialog {
   readonly dialogRef = inject(MatDialogRef<WorldEditorDialog>);

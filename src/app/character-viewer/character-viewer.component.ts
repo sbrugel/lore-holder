@@ -9,9 +9,14 @@ import { CustomDetail } from '../_interfaces/custom-detail';
 import { MatButtonModule } from '@angular/material/button';
 import { CharacterLinkService } from './../_services/character-link.service';
 import { CharacterLink } from '../_interfaces/character-link';
-import { CharacterLinkCardComponent } from "../character-link-card/character-link-card.component";
+import { CharacterLinkCardComponent } from '../character-link-card/character-link-card.component';
 import { FormsModule } from '@angular/forms';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import {
+  MatDialogModule,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialog,
+} from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -20,9 +25,15 @@ import { DeleteConfirmComponent } from '../_common/delete-confirm/delete-confirm
 
 @Component({
   selector: 'app-character-viewer',
-  imports: [CommonModule, MatButtonModule, MatCardModule, RouterModule, CharacterLinkCardComponent],
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatCardModule,
+    RouterModule,
+    CharacterLinkCardComponent,
+  ],
   templateUrl: './character-viewer.component.html',
-  styleUrl: './character-viewer.component.css'
+  styleUrl: './character-viewer.component.css',
 })
 export class CharacterViewerComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
@@ -54,18 +65,27 @@ export class CharacterViewerComponent {
     if (this.character) {
       if (this.character.race) this.subtitleText.push(this.character.race);
 
-      if (this.character.age) this.subtitleText.push(this.character.age.toString());
+      if (this.character.age)
+        this.subtitleText.push(this.character.age.toString());
 
-      if (this.character.pronouns) this.subtitleText.push(this.character.pronouns.toString());
+      if (this.character.pronouns)
+        this.subtitleText.push(this.character.pronouns.toString());
 
-      this.detailsService.getAllCustomDetails().subscribe((details: CustomDetail[]) => {
-        this.details = details.filter((detail) => this.character!.detailIds.includes(detail.id));
-      });
+      this.detailsService
+        .getAllCustomDetails()
+        .subscribe((details: CustomDetail[]) => {
+          this.details = details.filter((detail) =>
+            this.character!.detailIds.includes(detail.id)
+          );
+        });
 
-      this.characterLinkService.getCharacterLinks().subscribe((links: CharacterLink[]) => {
-        this.characterLinks = links.filter((link) => link.fromId === this.character!.id);
-        console.log(this.characterLinks);
-      });
+      this.characterLinkService
+        .getCharacterLinks()
+        .subscribe((links: CharacterLink[]) => {
+          this.characterLinks = links.filter(
+            (link) => link.fromId === this.character!.id
+          );
+        });
     }
   }
 
@@ -73,23 +93,27 @@ export class CharacterViewerComponent {
     this.authService.currentUser$.subscribe((user) => {
       this.user = user;
       this.route.params.subscribe((params) => {
-        this.characterService.getCharacterById(params['id']).subscribe((character) => {
-          this.handleRender(character);
-        });
+        this.characterService
+          .getCharacterById(params['id'])
+          .subscribe((character) => {
+            this.handleRender(character);
+          });
       });
-    })
+    });
   }
 
   openDetailDialog(customDetail?: CustomDetail) {
     const dialogRef = this.dialog.open(DetailEditorDialog, {
       width: '70%',
-      data: customDetail ? {...customDetail} : {
-        id: '',
-        name: this.newDetailName(),
-        inputType: this.newDetailInputType(),
-        contents: this.newDetailContents(),
-        listContents: this.newDetailListContents()
-      }
+      data: customDetail
+        ? { ...customDetail }
+        : {
+            id: '',
+            name: this.newDetailName(),
+            inputType: this.newDetailInputType(),
+            contents: this.newDetailContents(),
+            listContents: this.newDetailListContents(),
+          },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -100,16 +124,22 @@ export class CharacterViewerComponent {
           name: result.detailName(),
           inputType: result.detailInputType(),
           contents: result.detailContents(),
-          listContents: result.detailContents().split("\n").map((line: any) => line.trim()),
+          listContents: result
+            .detailContents()
+            .split('\n')
+            .map((line: any) => line.trim()),
           expansionPanel: customDetail?.expansionPanel || false,
-        }
+        };
 
         if (customDetail) {
           // update detail
           this.detailsService.updateCustomDetail(newDetail);
         } else {
           // create new detail
-          this.detailsService.createNewCustomDetail(newDetail, this.character!.id);
+          this.detailsService.createNewCustomDetail(
+            newDetail,
+            this.character!.id
+          );
         }
       }
     });
@@ -131,7 +161,7 @@ export class CharacterViewerComponent {
 @Component({
   selector: 'detail-editor-dialog',
   imports: [
-CommonModule,
+    CommonModule,
     MatButtonModule,
     MatDialogModule,
     MatInputModule,
@@ -140,7 +170,7 @@ CommonModule,
     MatFormFieldModule,
   ],
   templateUrl: './detail-editor-dialog.html',
-  styleUrls: ['../_common/editor-dialog.css']
+  styleUrls: ['../_common/editor-dialog.css'],
 })
 export class DetailEditorDialog {
   readonly dialogRef = inject(MatDialogRef<DetailEditorDialog>);

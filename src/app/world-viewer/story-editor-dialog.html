@@ -9,6 +9,24 @@
                 </mat-error>
             </mat-form-field>
 
+            <mat-form-field class="example-full-width">
+                <mat-label>Previous Story</mat-label>
+                <mat-select [(ngModel)]="previousStoryId" name="previousStoryId">
+                    <mat-option *ngFor="let story of allStories()" [value]="story.id">
+                        {{story.title}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Next Story</mat-label>
+                <mat-select [(ngModel)]="nextStoryId" name="nextStoryId">
+                    <mat-option *ngFor="let story of allStories()" [value]="story.id">
+                        {{story.title}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
             <p><em>You can add character tags and modules in the story viewer.</em></p>
         </div>
     </form>
@@ -16,7 +34,7 @@
 <mat-dialog-actions>
     <button 
         mat-button 
-        [mat-dialog-close]="{storyTitle: storyTitle}" 
+        [mat-dialog-close]="{storyTitle: storyTitle, previousStoryId: previousStoryId, nextStoryId: nextStoryId}" 
         [disabled]="storyForm.invalid"
     >CREATE</button>
 </mat-dialog-actions>

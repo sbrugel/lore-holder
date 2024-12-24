@@ -104,16 +104,14 @@ export class StoryService {
   async deleteStory(storyId: string) {
     // delete moduleIds of this story
     // TODO: fix this soon lol
-    const doc = await this.firestore.collection(this.collectionName).doc(storyId).get().toPromise();
-    console.log("delete modules")
-    const moduleIds = (doc!.data() as any).moduleIds;
-    // delete all modules in this story
-    for (const moduleId of moduleIds) {
-      await this.firestore.collection('modules').doc(moduleId).delete();
-    }
+    // const doc = await this.firestore.collection(this.collectionName).doc(storyId).get().toPromise();
+    // const moduleIds = (doc!.data() as any).moduleIds;
+    // // delete all modules in this story
+    // for (const moduleId of moduleIds) {
+    //   await this.firestore.collection('modules').doc(moduleId).delete();
+    // }
 
     // find any stories that have this story as their previousId and update their previousId to null
-    console.log("delete previous")
     const querySnapshotPrev = await this.firestore.collection(this.collectionName).get().toPromise();
     querySnapshotPrev!.forEach(async (doc) => {
       const data: any = doc.data();
@@ -123,7 +121,6 @@ export class StoryService {
     });
 
     // find any stories that have this story as their nextId and update their nextId to null
-    console.log("delete next")
     const querySnapshotNext = await this.firestore.collection(this.collectionName).get().toPromise();
     querySnapshotNext!.forEach(async (doc) => {
       const data: any = doc.data();
