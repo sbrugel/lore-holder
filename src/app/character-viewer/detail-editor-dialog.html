@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>Create New Detail</h2>
+<mat-dialog-content>
+    <form #detailForm="ngForm" novalidate>
+        <div class="dialog-form">
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Detail Name" [(ngModel)]="detailName" name="detailName" required>
+                <mat-error *ngIf="detailForm.controls['detailName']?.invalid">
+                    Detail Name is required.
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <select matNativeControl required [(ngModel)]="detailInputType" name="detailInputType">
+                    <option value="paragraph">Text</option>
+                    <option value="list">List</option>
+                    <mat-hint align="start">If List, one item per line.</mat-hint>
+                </select>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <textarea matInput placeholder="Contents" [(ngModel)]="detailContents" name="detailContents" required></textarea>
+                <mat-error *ngIf="detailForm.controls['detailContents']?.invalid">
+                    Contents are required.
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button 
+        mat-button 
+        [mat-dialog-close]="{detailName: detailName, detailInputType: detailInputType, detailContents: detailContents}" 
+        [disabled]="detailForm.invalid"
+    >CREATE</button>
+</mat-dialog-actions>

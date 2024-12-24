@@ -15,7 +15,7 @@ export interface CustomDetail {
     /**
      * The type of detail
      */
-    inputType: 'short' | 'long' | 'list';
+    inputType: 'text' | 'list';
 
     /**
      * Name of the detail

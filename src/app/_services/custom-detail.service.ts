@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CustomDetail } from '../_interfaces/custom-detail';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { map, Observable } from 'rxjs';
+import { arrayUnion } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -61,5 +62,50 @@ export class CustomDetailService {
           return customDetail;
         })
       );
+  }
+
+  /**
+   *
+   * @param customDetail The custom detail to add
+   * @param characterId The ID of the character to add this detauk to
+   */
+  createNewCustomDetail(newDetail: CustomDetail, characterId: string) {
+    const newDoc = this.firestore
+      .collection(this.collectionName)
+      .add(newDetail);
+    
+    newDoc.then((docRef) => {
+      docRef.update({ id: docRef.id });
+      // update char with ID to add this detail to detailIds
+      this.firestore
+        .collection('characters')
+        .doc(characterId)
+        .update({
+          detailIds: arrayUnion(docRef.id),
+        });
+    });
+  }
+
+  /**
+   *
+   * @param id The ID of the custom detail to update
+   * @param updatedDetail The updated custom detail
+   */
+  updateCustomDetail(updatedDetail: CustomDetail) {
+    this.firestore
+      .collection(this.collectionName)
+      .doc(updatedDetail.id)
+      .update(updatedDetail);
+  }
+
+  /**
+   *
+   * @param id The ID of the custom detail to delete
+   */
+  deleteCustomDetail(id: string) {
+    this.firestore
+      .collection(this.collectionName)
+      .doc(id)
+      .delete();
   }
 }
