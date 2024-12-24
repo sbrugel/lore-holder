@@ -1,0 +1,9 @@
+<mat-list-item role="listitem">
+    <p matListItemTitle>{{ story.title }}</p>
+    <span matListItemText>
+        Actions: 
+        <button mat-button [routerLink]="['/story', story.id]">VIEW</button>
+        <button mat-button (click)="editFunction(story)">EDIT</button>
+        <button mat-button (click)="deleteStory()">DELETE</button>
+    </span>
+</mat-list-item>

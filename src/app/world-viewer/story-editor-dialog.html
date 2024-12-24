@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>Create New Story</h2>
+<mat-dialog-content>
+    <form #storyForm="ngForm" novalidate>
+        <div class="dialog-form">
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Story Title" [(ngModel)]="storyTitle" name="storyTitle" required>
+                <mat-error *ngIf="storyForm.controls['storyTitle']?.invalid">
+                    Story Title is required.
+                </mat-error>
+            </mat-form-field>
+
+            <p><em>You can add character tags and modules in the story viewer.</em></p>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button 
+        mat-button 
+        [mat-dialog-close]="{storyTitle: storyTitle}" 
+        [disabled]="storyForm.invalid"
+    >CREATE</button>
+</mat-dialog-actions>

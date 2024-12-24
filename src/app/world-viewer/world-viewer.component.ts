@@ -21,6 +21,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '../_services/auth.service';
 import { PlaceCardComponent } from '../place-card/place-card.component';
+import { StoryCardComponent } from '../story-card/story-card.component';
+import { MatSelectModule } from '@angular/material/select'; 
 
 @Component({
   selector: 'app-world-viewer',
@@ -34,7 +36,8 @@ import { PlaceCardComponent } from '../place-card/place-card.component';
     MatTabsModule, 
     RouterModule, 
     CharacterCardComponent,
-    PlaceCardComponent
+    PlaceCardComponent,
+    StoryCardComponent
   ],
 templateUrl: './world-viewer.component.html',
   styleUrl: './world-viewer.component.css'
@@ -75,6 +78,8 @@ export class WorldViewerComponent {
   readonly newPlaceDescription = signal('');
   readonly newPlaceAbout = signal('');
   readonly newPlacePopulation = signal('');
+
+  readonly newStoryTitle = signal('');
 
   ngOnInit() {
     this.authService.currentUser$.subscribe((user) => {
@@ -172,7 +177,6 @@ export class WorldViewerComponent {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
       if (result) {
         const newPlace: Place = {
           id: place?.id || '',
@@ -190,6 +194,42 @@ export class WorldViewerComponent {
         } else {
           // create new character
           this.placeService.createNewPlace(newPlace, this.world!.id);
+        }
+      }
+    });
+  }
+
+  triggerStoryDialog(story?: Story) {
+    return () => this.openStoryDialog(story);
+  }
+
+  openStoryDialog(story?: Story) {
+    const dialogRef = this.dialog.open(StoryEditorDialog, {
+      width: '70%',
+      data: {
+        ...story ? { ...story } : { id: '', title: this.newStoryTitle() },
+        _allStories: this.storyService.getAllStories(),
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        const newStory: Story = {
+          id: story?.id || '',
+          ownerId: story?.ownerId || this.user.uid,
+          title: result.storyTitle(),
+          characterIds: story?.characterIds || [],
+          moduleIds: story?.moduleIds || [],
+          previousId: story?.previousId || null,
+          nextId: story?.nextId || null
+        }
+        
+        if (story) {
+          // update character
+          this.storyService.updateStory(newStory);
+        } else {
+          // create new character
+          this.storyService.createNewStory(newStory, this.world!.id);
         }
       }
     });
@@ -264,6 +304,33 @@ export class PlaceEditorDialog {
       event.preventDefault();
     }
   }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+}
+
+@Component({
+  selector: 'story-editor-dialog',
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatInputModule,
+    MatSelectModule,
+    FormsModule,
+    MatFormFieldModule,
+  ],
+  templateUrl: './story-editor-dialog.html',
+  styleUrls: ['../_common/editor-dialog.css']
+})
+export class StoryEditorDialog {
+  readonly dialogRef = inject(MatDialogRef<StoryEditorDialog>);
+  data = inject(MAT_DIALOG_DATA);
+
+  readonly storyTitle = model(this.data.title);
+
+  readonly allStories = model(this.data._allStories);
 
   onNoClick(): void {
     this.dialogRef.close();

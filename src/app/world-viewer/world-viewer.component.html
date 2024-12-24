@@ -3,12 +3,6 @@
     <div class="world-body">
         <h1>{{ world.name }}</h1>
 
-        <div class="buttoms-row">
-            <a mat-button [routerLink]="['/worlds']">BACK</a>
-            <button mat-button>EDIT</button>
-            <button mat-button>DELETE</button>
-        </div>
-
         <div *ngIf="world.detailedDescription">
             <mat-card class="about-card" appearance="outlined">
                 <mat-card-header>
@@ -48,6 +42,7 @@
                 </ng-template>
             </mat-tab>
             <mat-tab label="Stories">
+                <button mat-flat-button class="primary" type="button" (click)="openStoryDialog()">New Story</button>
                 <div *ngIf="stories.length > 0; else noStories">
                     <mat-chip-listbox multiple>
                         <div *ngFor="let character of characters">
@@ -55,9 +50,11 @@
                         </div>
                     </mat-chip-listbox>
                     <mat-list role="list" class="mat-mdc-chip-set-stacked">
-                        <mat-list-item *ngFor="let story of stories" role="listitem" [routerLink]="['/story', story.id]">
-                            <h3 mat-line class="pointer-elem">{{ story.title }}</h3>
-                        </mat-list-item>
+                        <app-story-card 
+                            *ngFor="let story of stories" 
+                            [story]="story"
+                            [editFunction]="triggerStoryDialog(story)"
+                        ></app-story-card>
                     </mat-list>
                 </div>
                 <ng-template #noStories>
