@@ -7,6 +7,7 @@
         </div>
     </mat-chip-set>
 
+    <button mat-flat-button class="primary" type="button" (click)="openModuleDialog()">New Module</button>
     <div *ngIf="storyModules.length > 0; else noModules">
         <div *ngFor="let module of storyModules">
             <div *ngIf="module.type === 'text'">
@@ -15,6 +16,11 @@
             <div *ngIf="module.type === 'image'">
                 <img [src]="module.content" alt="Image">
             </div>
+            <button mat-button>EDIT</button> 
+            <button mat-button>DELETE</button>
+            <!-- TODO: we'll implement this soon(TM) -->
+            <!-- <button mat-button>UP</button> 
+            <button mat-button>DOWN</button> -->
         </div>
     </div>
     <ng-template #noModules>

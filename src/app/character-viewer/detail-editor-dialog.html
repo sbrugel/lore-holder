@@ -10,11 +10,14 @@
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-                <select matNativeControl required [(ngModel)]="detailInputType" name="detailInputType">
-                    <option value="paragraph">Text</option>
-                    <option value="list">List</option>
-                    <mat-hint align="start">If List, one item per line.</mat-hint>
-                </select>
+                <mat-select required [(ngModel)]="detailInputType" name="detailInputType">
+                    <mat-option value="paragraph">Text</mat-option>
+                    <mat-option value="list">List</mat-option>
+                </mat-select>
+                <mat-hint align="start">If List, one item per line.</mat-hint>
+                <mat-error *ngIf="detailForm.controls['detailInputType']?.invalid">
+                    Input type is required.
+                </mat-error>
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
