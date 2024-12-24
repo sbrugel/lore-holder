@@ -35,17 +35,13 @@
                 </ng-template>
             </mat-tab>
             <mat-tab label="Places">
+                <button mat-flat-button class="primary" type="button" (click)="openPlaceDialog()">New Place</button>
                 <div *ngIf="places.length > 0; else noPlaces">
-                    <div *ngFor = "let place of places" [routerLink]="['/place', place.id]">
-                        <mat-card class="pointer-elem">
-                            <mat-card-header>
-                                <mat-card-title>{{ place.name }}</mat-card-title>
-                            </mat-card-header>
-                            <mat-card-content>
-                                <p>{{ place.description }}</p>
-                            </mat-card-content>
-                        </mat-card>
-                    </div>
+                    <app-place-card 
+                        *ngFor="let place of places" 
+                        [place]="place"
+                        [editFunction]="triggerPlaceDialog(place)"
+                    ></app-place-card>
                 </div>
                 <ng-template #noPlaces>
                     <p>No places yet!</p>

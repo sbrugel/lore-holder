@@ -70,6 +70,7 @@ export class CharacterService {
   /**
    *
    * @param newCharacter The new character to add to the collection
+   * @param worldId The ID of the world to add this character to
    */
   createNewCharacter(newCharacter: Character, worldId: string) {
     const newDoc = this.firestore

@@ -18,7 +18,7 @@ export interface Place {
     name: string;
 
     /**
-     * The place description
+     * The place description (brief)
      */
     description: string | null;
 
@@ -26,6 +26,11 @@ export interface Place {
      * The place population
      */
     population: number | null;
+
+    /**
+     * The more detailed info of the place
+     */
+    about: string | null;
 
     /**
      * The character IDs of characters that are from this place

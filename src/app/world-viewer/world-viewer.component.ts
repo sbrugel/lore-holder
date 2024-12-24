@@ -20,6 +20,7 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '../_services/auth.service';
+import { PlaceCardComponent } from '../place-card/place-card.component';
 
 @Component({
   selector: 'app-world-viewer',
@@ -33,6 +34,7 @@ import { AuthService } from '../_services/auth.service';
     MatTabsModule, 
     RouterModule, 
     CharacterCardComponent,
+    PlaceCardComponent
   ],
 templateUrl: './world-viewer.component.html',
   styleUrl: './world-viewer.component.css'
@@ -68,6 +70,11 @@ export class WorldViewerComponent {
   readonly newCharacterPronouns = signal('');
   readonly newCharacterColors = signal('');
   readonly newCharacterGalleryLinks = signal('');
+
+  readonly newPlaceName = signal('');
+  readonly newPlaceDescription = signal('');
+  readonly newPlaceAbout = signal('');
+  readonly newPlacePopulation = signal('');
 
   ngOnInit() {
     this.authService.currentUser$.subscribe((user) => {
@@ -147,6 +154,46 @@ export class WorldViewerComponent {
       }
     });
   }
+
+  triggerPlaceDialog(place?: Place) {
+    return () => this.openPlaceDialog(place);
+  }
+
+  openPlaceDialog(place?: Place) {
+    const dialogRef = this.dialog.open(PlaceEditorDialog, {
+      width: '70%',
+      data: place ? {...place} : {
+        id: '',
+        name: this.newPlaceName(),
+        description: this.newPlaceDescription(),
+        about: this.newPlaceAbout(),
+        population: this.newPlacePopulation()
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result);
+      if (result) {
+        const newPlace: Place = {
+          id: place?.id || '',
+          ownerId: place?.ownerId || this.user.uid,
+          name: result.placeName(),
+          description: result.placeDescription(),
+          about: result.placeAbout(),
+          population: result.placePopulation(),
+          characterIds: place?.characterIds || []
+        }
+        
+        if (place) {
+          // update character
+          this.placeService.updatePlace(newPlace);
+        } else {
+          // create new character
+          this.placeService.createNewPlace(newPlace, this.world!.id);
+        }
+      }
+    });
+  }
 }
 
 @Component({
@@ -176,6 +223,40 @@ export class CharacterEditorDialog {
   readonly characterPronouns = model(this.data.pronouns);
   readonly characterColors = model(this.data.colors ? this.data.colors.join('\n') : '');
   readonly characterGalleryLinks = model(this.data.galleryLinks ? this.data.galleryLinks.join('\n') : '');
+
+  allowOnlyNumbers(event: KeyboardEvent): void {
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+    }
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+}
+
+@Component({
+  selector: 'place-editor-dialog',
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatInputModule,
+    FormsModule,
+    MatFormFieldModule,
+  ],
+  templateUrl: './place-editor-dialog.html',
+  styleUrls: ['../_common/editor-dialog.css']
+})
+export class PlaceEditorDialog {
+  readonly dialogRef = inject(MatDialogRef<PlaceEditorDialog>);
+  data = inject<Place>(MAT_DIALOG_DATA);
+
+  readonly placeName = model(this.data.name);
+  readonly placeDescription = model(this.data.description);
+  readonly placeAbout = model(this.data.about);
+  readonly placePopulation = model(this.data.population);
 
   allowOnlyNumbers(event: KeyboardEvent): void {
     const charCode = event.which ? event.which : event.keyCode;

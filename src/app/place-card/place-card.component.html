@@ -1,0 +1,13 @@
+<div>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>{{ place.name }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p>{{ place.description }}</p>
+            <button mat-button [routerLink]="['/place', place.id]">VIEW</button>
+            <button mat-button (click)="editFunction(place)">EDIT</button>
+            <button mat-button (click)="deletePlace()">DELETE</button>
+        </mat-card-content>
+    </mat-card>
+</div>
