@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, model, signal } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Character } from '../_interfaces/character';
 import { CharacterService } from '../_services/character.service';
@@ -12,8 +12,12 @@ import { AuthService } from '../_services/auth.service';
 import { DeleteConfirmComponent } from '../_common/delete-confirm/delete-confirm.component';
 import { DetailEditorDialog } from '../_dialogs/detail-editor-dialog.component';
 import { CustomDetail } from '../_interfaces/custom-detail';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { CustomDetailService } from '../_services/custom-detail.service';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-place-viewer',
@@ -29,6 +33,7 @@ export class PlaceViewerComponent {
 
   characterService: CharacterService = inject(CharacterService);
   characters: Character[] = [];
+  allCharacters: Character[] = [];
 
   detailsService: CustomDetailService = inject(CustomDetailService);
   details: CustomDetail[] = [];
@@ -43,6 +48,8 @@ export class PlaceViewerComponent {
   readonly newDetailContents = signal('');
   readonly newDetailListContents = signal([]);
 
+  readonly newResidentId = signal(''); // a Character to add as a resident
+
   ngOnInit() {
     this.authService.currentUser$.subscribe((user) => {
       this.user = user;
@@ -52,6 +59,7 @@ export class PlaceViewerComponent {
           if (this.place) {
             this.characterService.getAllCharacters().subscribe((characters: Character[]) => {
               this.characters = characters.filter((character) => this.place!.characterIds.includes(character.id));
+              this.allCharacters = characters;
             });
             this.detailsService
               .getAllCustomDetails()
@@ -120,5 +128,65 @@ export class PlaceViewerComponent {
         this.detailsService.deleteCustomDetail(customDetail.id);
       }
     });
+  }
+
+  openResidentDialog() {
+    // Open the dialog once
+    const dialogRef = this.dialog.open(PlaceResidentDialog, {
+      width: '70%',
+      data: {
+        residentId: this.newResidentId(),
+        _allCharacters: [...this.allCharacters],
+      },
+    });
+
+    // Handle after dialog is closed
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result) {
+        if (!this.place!.characterIds.includes(result.residentId())) {
+          const updatedPlace = {
+            ...this.place,
+            characterIds: [...this.place!.characterIds, result.residentId()],
+          } as Place;
+          this.placeService.updatePlace(updatedPlace);
+        } else {
+          alert('Character already lives here!');
+        }
+      }
+    });
+  }
+
+  removeResident(characterId: string) {
+    const updatedPlace = {
+      ...this.place,
+      characterIds: this.place!.characterIds.filter((id) => id !== characterId),
+    } as Place;
+    this.placeService.updatePlace(updatedPlace);
+  }
+}
+
+@Component({
+  selector: 'place-resident-dialog',
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatInputModule,
+    MatSelectModule,
+    FormsModule,
+    MatFormFieldModule,
+  ],
+  templateUrl: '../_dialogs/place-resident-dialog.html',
+  styleUrls: ['../_common/editor-dialog.css'],
+})
+export class PlaceResidentDialog {
+  readonly dialogRef = inject(MatDialogRef<PlaceResidentDialog>);
+  data = inject(MAT_DIALOG_DATA);
+
+  readonly residentId = model(this.data.residentId);
+  readonly allCharacters = model(this.data._allCharacters);
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }

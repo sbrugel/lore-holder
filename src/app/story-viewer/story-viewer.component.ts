@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, model, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink, RouterModule } from '@angular/router';
 import { StoryService } from '../_services/story.service';
 import { Story } from '../_interfaces/story';
@@ -80,43 +80,43 @@ export class StoryViewerComponent {
   }
 
   openModuleDialog(storyModule?: StoryModule) {
-      const dialogRef = this.dialog.open(ModuleEditorDialog, {
-        width: '70%',
-        data: storyModule
-          ? { ...storyModule }
-          : {
-              id: '',
-              moduleType: this.newModuleType(),
-              moduleContents: this.newModuleContents(),
-              moduleAppearance: this.newModuleAppearance(),
-              moduleColor: this.newModuleColor(),
-            },
-      });
-  
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
-          const newModule: StoryModule = {
-            id: storyModule?.id || '',
-            ownerId: storyModule?.ownerId || this.user.uid,
-            type: result.moduleType(),
-            content: result.moduleContents(),
-            appearance: result.moduleAppearance(),
-            color: result.moduleColor(),
-          };
-  
-          if (storyModule) {
-            // update detail
-            this.storyModuleService.updateStoryModule(newModule);
-          } else {
-            // create new detail
-            this.storyModuleService.createNewStoryModule(
-              newModule,
-              this.story!.id
-            );
-          }
+    const dialogRef = this.dialog.open(ModuleEditorDialog, {
+      width: '70%',
+      data: storyModule
+        ? { ...storyModule }
+        : {
+            id: '',
+            moduleType: this.newModuleType(),
+            moduleContents: this.newModuleContents(),
+            moduleAppearance: this.newModuleAppearance(),
+            moduleColor: this.newModuleColor(),
+          },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        const newModule: StoryModule = {
+          id: storyModule?.id || '',
+          ownerId: storyModule?.ownerId || this.user.uid,
+          type: result.moduleType(),
+          content: result.moduleContents(),
+          appearance: result.moduleAppearance(),
+          color: result.moduleColor(),
+        };
+
+        if (storyModule) {
+          // update detail
+          this.storyModuleService.updateStoryModule(newModule);
+        } else {
+          // create new detail
+          this.storyModuleService.createNewStoryModule(
+            newModule,
+            this.story!.id
+          );
         }
-      });
-    }
+      }
+    });
+  }
 }
 
 @Component({
@@ -137,10 +137,10 @@ export class ModuleEditorDialog {
   readonly dialogRef = inject(MatDialogRef<ModuleEditorDialog>);
   data = inject(MAT_DIALOG_DATA);
 
-  readonly moduleType = signal(this.data.moduleType);
-  readonly moduleContents = signal(this.data.moduleContents);
-  readonly moduleAppearance = signal(this.data.moduleAppearance);
-  readonly moduleColor = signal(this.data.moduleColor);
+  readonly moduleType = model(this.data.moduleType);
+  readonly moduleContents = model(this.data.moduleContents);
+  readonly moduleAppearance = model(this.data.moduleAppearance);
+  readonly moduleColor = model(this.data.moduleColor);
 
   onNoClick(): void {
     this.dialogRef.close();

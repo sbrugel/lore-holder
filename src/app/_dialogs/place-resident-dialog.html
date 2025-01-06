@@ -1,0 +1,23 @@
+<!-- HTML for the new place resident dialog, accessible from the Place Viewer -->
+<h2 mat-dialog-title>Add Resident to Place</h2>
+<mat-dialog-content>
+    <form #storyForm="ngForm" novalidate>
+        <div class="dialog-form">
+            <mat-form-field class="example-full-width">
+                <mat-label>Who to add?</mat-label>
+                <mat-select [(ngModel)]="residentId" name="residentId">
+                    <mat-option *ngFor="let character of allCharacters()" [value]="character.id">
+                        {{character.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button 
+        mat-button 
+        [mat-dialog-close]="{residentId: residentId}" 
+        [disabled]="storyForm.invalid"
+    >CREATE</button>
+</mat-dialog-actions>

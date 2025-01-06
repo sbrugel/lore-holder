@@ -43,8 +43,26 @@
     </div>
 
     <h1>Residents of {{ place.name }}</h1>
+    <button mat-flat-button class="primary" type="button" (click)="openResidentDialog()">Add Resident</button>
     <div *ngIf="characters.length > 0; else noChars">
-        <app-character-card *ngFor="let character of characters" [character]="character"></app-character-card>
+        <div *ngFor="let character of characters">
+            <mat-card>
+                <mat-card-header>
+                    <div mat-card-avatar [ngStyle]="{ 
+                        'background-image': 'url(' + character.imageUrl + ')', 
+                        'background-size': 'cover' 
+                        }" >
+                    </div>
+                    <mat-card-title>{{ character.name }}</mat-card-title>
+                    <mat-card-subtitle>{{ character.race }} | <em>{{ character.pronouns }}</em></mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>{{ character.description }}</p>
+                    <button mat-button [routerLink]="['/character', character.id]">VIEW</button>
+                    <button mat-button (click)="removeResident(character.id)">REMOVE RESIDENT</button>
+                </mat-card-content>
+            </mat-card>
+        </div>
     </div>
     <ng-template #noChars>
         <p>No characters yet!</p>
