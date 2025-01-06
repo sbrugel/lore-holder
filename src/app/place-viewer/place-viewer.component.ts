@@ -21,7 +21,7 @@ import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-place-viewer',
-  imports: [CommonModule, MatButtonModule, MatCardModule, RouterModule, CharacterCardComponent],
+  imports: [CommonModule, MatButtonModule, MatCardModule, RouterModule],
   templateUrl: './place-viewer.component.html',
   styleUrl: './place-viewer.component.css'
 })
