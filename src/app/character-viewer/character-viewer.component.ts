@@ -169,7 +169,7 @@ export class CharacterViewerComponent {
     FormsModule,
     MatFormFieldModule,
   ],
-  templateUrl: './detail-editor-dialog.html',
+  templateUrl: '../_dialogs/detail-editor-dialog.html',
   styleUrls: ['../_common/editor-dialog.css'],
 })
 export class DetailEditorDialog {

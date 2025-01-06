@@ -126,7 +126,7 @@ export class WorldListComponent {
     FormsModule,
     MatFormFieldModule,
   ],
-  templateUrl: './world-editor-dialog.html',
+  templateUrl: '../_dialogs/world-editor-dialog.html',
   styleUrls: ['../_common/editor-dialog.css'],
 })
 export class WorldEditorDialog {

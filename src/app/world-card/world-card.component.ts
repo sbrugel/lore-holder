@@ -49,7 +49,7 @@ export class WorldCardComponent {
 @Component({
   selector: 'world-card-dialog',
   imports: [MatDialogModule],
-  templateUrl: './world-card-dialog.html',
+  templateUrl: '../_dialogs/world-card-dialog.html',
 })
 export class WorldCardDialog {
   data = inject(MAT_DIALOG_DATA);

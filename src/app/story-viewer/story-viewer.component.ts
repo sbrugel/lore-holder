@@ -130,7 +130,7 @@ export class StoryViewerComponent {
     FormsModule,
     MatFormFieldModule,
   ],
-  templateUrl: './module-editor-dialog.html',
+  templateUrl: '../_dialogs/module-editor-dialog.html',
   styleUrls: ['../_common/editor-dialog.css'],
 })
 export class ModuleEditorDialog {

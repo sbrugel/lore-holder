@@ -250,7 +250,7 @@ export class WorldViewerComponent {
     FormsModule,
     MatFormFieldModule,
   ],
-  templateUrl: './character-editor-dialog.html',
+  templateUrl: '../_dialogs/character-editor-dialog.html',
   styleUrls: ['../_common/editor-dialog.css']
 })
 export class CharacterEditorDialog {
@@ -290,7 +290,7 @@ export class CharacterEditorDialog {
     FormsModule,
     MatFormFieldModule,
   ],
-  templateUrl: './place-editor-dialog.html',
+  templateUrl: '../_dialogs/place-editor-dialog.html',
   styleUrls: ['../_common/editor-dialog.css']
 })
 export class PlaceEditorDialog {
@@ -325,7 +325,7 @@ export class PlaceEditorDialog {
     FormsModule,
     MatFormFieldModule,
   ],
-  templateUrl: './story-editor-dialog.html',
+  templateUrl: '../_dialogs/story-editor-dialog.html',
   styleUrls: ['../_common/editor-dialog.css']
 })
 export class StoryEditorDialog {
