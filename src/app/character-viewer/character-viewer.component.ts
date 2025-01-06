@@ -22,6 +22,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { AuthService } from '../_services/auth.service';
 import { DeleteConfirmComponent } from '../_common/delete-confirm/delete-confirm.component';
+import { DetailEditorDialog } from '../_dialogs/detail-editor-dialog.component';
 
 @Component({
   selector: 'app-character-viewer',
@@ -155,33 +156,5 @@ export class CharacterViewerComponent {
         this.detailsService.deleteCustomDetail(customDetail.id);
       }
     });
-  }
-}
-
-@Component({
-  selector: 'detail-editor-dialog',
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatInputModule,
-    MatSelectModule,
-    FormsModule,
-    MatFormFieldModule,
-  ],
-  templateUrl: '../_dialogs/detail-editor-dialog.html',
-  styleUrls: ['../_common/editor-dialog.css'],
-})
-export class DetailEditorDialog {
-  readonly dialogRef = inject(MatDialogRef<DetailEditorDialog>);
-  data = inject(MAT_DIALOG_DATA);
-
-  readonly detailName = signal(this.data.name);
-  readonly detailInputType = signal(this.data.inputType);
-  readonly detailContents = signal(this.data.contents);
-  readonly detailListContents = signal(this.data.listContents);
-
-  onNoClick(): void {
-    this.dialogRef.close();
   }
 }

@@ -27,6 +27,7 @@ export class PlaceService {
               population: data.population,
               about: data.about,
               characterIds: data.characterIds,
+              detailIds: data.detailIds,
             };
             return place;
           });
@@ -49,6 +50,7 @@ export class PlaceService {
             population: data.population,
             about: data.about,
             characterIds: data.characterIds,
+            detailIds: data.detailIds,
           };
           return place;
         })
@@ -56,14 +58,12 @@ export class PlaceService {
   }
 
   /**
-     *
-     * @param newPlace The new place to create
-     * @param worldId The ID of the world to add this place to
-     */
+   *
+   * @param newPlace The new place to create
+   * @param worldId The ID of the world to add this place to
+   */
   createNewPlace(newPlace: Place, worldId: string) {
-    const newDoc = this.firestore
-      .collection(this.collectionName)
-      .add(newPlace);
+    const newDoc = this.firestore.collection(this.collectionName).add(newPlace);
 
     newDoc.then((docRef) => {
       docRef.update({ id: docRef.id });
@@ -78,9 +78,9 @@ export class PlaceService {
   }
 
   /**
-     *
-     * @param updatedPlace The updated Place to save to Firestore
-     */
+   *
+   * @param updatedPlace The updated Place to save to Firestore
+   */
   updatePlace(updatedPlace: Place) {
     this.firestore
       .collection(this.collectionName)
@@ -89,9 +89,9 @@ export class PlaceService {
   }
 
   /**
-     *
-     * @param placeId The ID of the place to delete
-     */
+   *
+   * @param placeId The ID of the place to delete
+   */
   deletePlace(placeId: string) {
     this.firestore.collection(this.collectionName).doc(placeId).delete();
   }

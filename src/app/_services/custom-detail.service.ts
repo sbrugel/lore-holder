@@ -67,9 +67,10 @@ export class CustomDetailService {
   /**
    *
    * @param customDetail The custom detail to add
-   * @param characterId The ID of the character to add this detauk to
+   * @param objectId The ID of the character OR place to add this detail to
+   * @param collectionName The collection name to add this detail to (default is 'characters')
    */
-  createNewCustomDetail(newDetail: CustomDetail, characterId: string) {
+  createNewCustomDetail(newDetail: CustomDetail, objectId: string, collectionName='characters') {
     const newDoc = this.firestore
       .collection(this.collectionName)
       .add(newDetail);
@@ -78,8 +79,8 @@ export class CustomDetailService {
       docRef.update({ id: docRef.id });
       // update char with ID to add this detail to detailIds
       this.firestore
-        .collection('characters')
-        .doc(characterId)
+        .collection(collectionName)
+        .doc(objectId)
         .update({
           detailIds: arrayUnion(docRef.id),
         });

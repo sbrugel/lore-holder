@@ -36,4 +36,9 @@ export interface Place {
      * The character IDs of characters that are from this place
      */
     characterIds: string[];
+
+    /**
+     * The detail IDs of custom details for this place
+     */
+    detailIds: string[];
 }

@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, inject, model, signal } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  inject,
+  model,
+  signal,
+} from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { WorldService } from '../_services/world.service';
 import { World } from '../_interfaces/world';
@@ -14,33 +20,38 @@ import { StoryService } from '../_services/story.service';
 import { Story } from '../_interfaces/story';
 import { MatListModule } from '@angular/material/list';
 import { MatChipsModule } from '@angular/material/chips';
-import { CharacterCardComponent } from "../character-card/character-card.component";
-import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { CharacterCardComponent } from '../character-card/character-card.component';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '../_services/auth.service';
 import { PlaceCardComponent } from '../place-card/place-card.component';
 import { StoryCardComponent } from '../story-card/story-card.component';
-import { MatSelectModule } from '@angular/material/select'; 
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-world-viewer',
   imports: [
-    CommonModule, 
-    MatButtonModule, 
-    MatCardModule, 
-    MatChipsModule, 
+    CommonModule,
+    MatButtonModule,
+    MatCardModule,
+    MatChipsModule,
     MatDialogModule,
-    MatListModule, 
-    MatTabsModule, 
-    RouterModule, 
+    MatListModule,
+    MatTabsModule,
+    RouterModule,
     CharacterCardComponent,
     PlaceCardComponent,
-    StoryCardComponent
+    StoryCardComponent,
   ],
-templateUrl: './world-viewer.component.html',
-  styleUrl: './world-viewer.component.css'
+  templateUrl: './world-viewer.component.html',
+  styleUrl: './world-viewer.component.css',
 })
 export class WorldViewerComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
@@ -59,10 +70,10 @@ export class WorldViewerComponent {
 
   authService: AuthService = inject(AuthService);
   user: any;
-  
+
   // dialog for new world
   readonly dialog = inject(MatDialog);
-  
+
   readonly newCharacterName = signal('');
   readonly newCharacterDescription = signal('');
   readonly newCharacterBio = signal('');
@@ -86,28 +97,38 @@ export class WorldViewerComponent {
   ngOnInit() {
     this.authService.currentUser$.subscribe((user) => {
       this.user = user;
-      this.worldService.getWorldById(this.route.snapshot.params['id']).subscribe((world: World) => {
-        this.world = world;
-      });
-  
-      this.characterService.getAllCharacters().subscribe((characters: Character[]) => {
-        this.characters = characters.filter((character) => this.world!.characterIds.includes(character.id));
-      });
-  
+      this.worldService
+        .getWorldById(this.route.snapshot.params['id'])
+        .subscribe((world: World) => {
+          this.world = world;
+        });
+
+      this.characterService
+        .getAllCharacters()
+        .subscribe((characters: Character[]) => {
+          this.characters = characters.filter((character) =>
+            this.world!.characterIds.includes(character.id)
+          );
+        });
+
       this.placeService.getAllPlaces().subscribe((places: Place[]) => {
-        this.places = places.filter((place) => this.world!.placeIds.includes(place.id));
+        this.places = places.filter((place) =>
+          this.world!.placeIds.includes(place.id)
+        );
       });
-  
+
       this.storyService.getAllStories().subscribe((stories: Story[]) => {
-        this.stories = stories.filter((story) => this.world!.storyIds.includes(story.id));
+        this.stories = stories.filter((story) =>
+          this.world!.storyIds.includes(story.id)
+        );
       });
     });
   }
 
   /**
    * Function passed into character-card component to open edit dialog
-   * @param character 
-   * @returns 
+   * @param character
+   * @returns
    */
   triggerCharacterDialog(character?: Character) {
     return () => this.openCharacterDialog(character);
@@ -116,19 +137,21 @@ export class WorldViewerComponent {
   openCharacterDialog(character?: Character) {
     const dialogRef = this.dialog.open(CharacterEditorDialog, {
       width: '70%',
-      data: character ? {...character} : {
-        id: '',
-        name: this.newCharacterName(),
-        description: this.newCharacterDescription(),
-        about: this.newCharacterBio(),
-        imageUrl: this.newCharacterImageUrl(),
-        age: this.newCharacterAge(),
-        gender: this.newCharacterGender(),
-        race: this.newCharacterRace(),
-        pronouns: this.newCharacterPronouns(),
-        colors: this.newCharacterColors(),
-        galleryLinks: this.newCharacterGalleryLinks()
-      }
+      data: character
+        ? { ...character }
+        : {
+            id: '',
+            name: this.newCharacterName(),
+            description: this.newCharacterDescription(),
+            about: this.newCharacterBio(),
+            imageUrl: this.newCharacterImageUrl(),
+            age: this.newCharacterAge(),
+            gender: this.newCharacterGender(),
+            race: this.newCharacterRace(),
+            pronouns: this.newCharacterPronouns(),
+            colors: this.newCharacterColors(),
+            galleryLinks: this.newCharacterGalleryLinks(),
+          },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -144,17 +167,20 @@ export class WorldViewerComponent {
           gender: result.characterGender(),
           race: result.characterRace(),
           pronouns: result.characterPronouns(),
-          colors: result.characterColors().split("\n"),
-          galleryLinks: result.characterGalleryLinks().split("\n"),
-          detailIds: character?.detailIds || []
-        }
+          colors: result.characterColors().split('\n'),
+          galleryLinks: result.characterGalleryLinks().split('\n'),
+          detailIds: character?.detailIds || [],
+        };
 
         if (character) {
           // update character
           this.characterService.updateCharacter(newCharacter);
         } else {
           // create new character
-          this.characterService.createNewCharacter(newCharacter, this.world!.id);
+          this.characterService.createNewCharacter(
+            newCharacter,
+            this.world!.id
+          );
         }
       }
     });
@@ -167,13 +193,15 @@ export class WorldViewerComponent {
   openPlaceDialog(place?: Place) {
     const dialogRef = this.dialog.open(PlaceEditorDialog, {
       width: '70%',
-      data: place ? {...place} : {
-        id: '',
-        name: this.newPlaceName(),
-        description: this.newPlaceDescription(),
-        about: this.newPlaceAbout(),
-        population: this.newPlacePopulation()
-      }
+      data: place
+        ? { ...place }
+        : {
+            id: '',
+            name: this.newPlaceName(),
+            description: this.newPlaceDescription(),
+            about: this.newPlaceAbout(),
+            population: this.newPlacePopulation(),
+          },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -185,9 +213,10 @@ export class WorldViewerComponent {
           description: result.placeDescription(),
           about: result.placeAbout(),
           population: result.placePopulation(),
-          characterIds: place?.characterIds || []
-        }
-        
+          characterIds: place?.characterIds || [],
+          detailIds: place?.detailIds || [],
+        };
+
         if (place) {
           // update character
           this.placeService.updatePlace(newPlace);
@@ -208,11 +237,18 @@ export class WorldViewerComponent {
     const dialogRef = this.dialog.open(StoryEditorDialog, {
       width: '70%',
       data: {
-        ...story ? { ...story } : { id: '', title: this.newStoryTitle(), previousId: this.newPreviousStory(), nextId: this.newNextStory() },
-        _allStories: [...this.stories]
+        ...(story
+          ? { ...story }
+          : {
+              id: '',
+              title: this.newStoryTitle(),
+              previousId: this.newPreviousStory(),
+              nextId: this.newNextStory(),
+            }),
+        _allStories: [...this.stories],
       },
     });
-  
+
     // Handle after dialog is closed
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
@@ -226,8 +262,8 @@ export class WorldViewerComponent {
           moduleIds: story?.moduleIds || [],
           previousId: result.previousStoryId(),
           nextId: result.nextStoryId(),
-        }
-  
+        };
+
         if (story) {
           // update existing story
           this.storyService.updateStory(newStory);
@@ -251,7 +287,7 @@ export class WorldViewerComponent {
     MatFormFieldModule,
   ],
   templateUrl: '../_dialogs/character-editor-dialog.html',
-  styleUrls: ['../_common/editor-dialog.css']
+  styleUrls: ['../_common/editor-dialog.css'],
 })
 export class CharacterEditorDialog {
   readonly dialogRef = inject(MatDialogRef<CharacterEditorDialog>);
@@ -265,8 +301,12 @@ export class CharacterEditorDialog {
   readonly characterGender = model(this.data.gender);
   readonly characterRace = model(this.data.race);
   readonly characterPronouns = model(this.data.pronouns);
-  readonly characterColors = model(this.data.colors ? this.data.colors.join('\n') : '');
-  readonly characterGalleryLinks = model(this.data.galleryLinks ? this.data.galleryLinks.join('\n') : '');
+  readonly characterColors = model(
+    this.data.colors ? this.data.colors.join('\n') : ''
+  );
+  readonly characterGalleryLinks = model(
+    this.data.galleryLinks ? this.data.galleryLinks.join('\n') : ''
+  );
 
   allowOnlyNumbers(event: KeyboardEvent): void {
     const charCode = event.which ? event.which : event.keyCode;
@@ -291,7 +331,7 @@ export class CharacterEditorDialog {
     MatFormFieldModule,
   ],
   templateUrl: '../_dialogs/place-editor-dialog.html',
-  styleUrls: ['../_common/editor-dialog.css']
+  styleUrls: ['../_common/editor-dialog.css'],
 })
 export class PlaceEditorDialog {
   readonly dialogRef = inject(MatDialogRef<PlaceEditorDialog>);
@@ -326,7 +366,7 @@ export class PlaceEditorDialog {
     MatFormFieldModule,
   ],
   templateUrl: '../_dialogs/story-editor-dialog.html',
-  styleUrls: ['../_common/editor-dialog.css']
+  styleUrls: ['../_common/editor-dialog.css'],
 })
 export class StoryEditorDialog {
   readonly dialogRef = inject(MatDialogRef<StoryEditorDialog>);
