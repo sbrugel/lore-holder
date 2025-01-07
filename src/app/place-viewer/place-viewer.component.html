@@ -33,7 +33,7 @@
             </div>
             <ng-template #para>
                 <mat-card-content>
-                    <p>{{ detail.contents }}</p>
+                    <p *ngFor="let item of detail.listContents">{{ item }}</p>
                 </mat-card-content>
             </ng-template>
             <!-- don't need a trigger function here as it's not passed into another component -->
