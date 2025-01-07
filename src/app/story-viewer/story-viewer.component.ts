@@ -50,7 +50,7 @@ export class StoryViewerComponent {
   readonly newModuleType = signal('text');
   readonly newModuleContents = signal('');
   readonly newModuleAppearance = signal('normal');
-  readonly newModuleColor = signal('#000000');
+  readonly newModuleColor = signal('#ffffff');
 
   readonly newTagCharacterId = signal('');
 
