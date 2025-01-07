@@ -40,7 +40,7 @@ export class PlaceViewerComponent {
   readonly dialog = inject(MatDialog);
   
   readonly newDetailName = signal('');
-  readonly newDetailInputType = signal('text');
+  readonly newDetailInputType = signal('paragraph');
   readonly newDetailContents = signal('');
   readonly newDetailListContents = signal([]);
 

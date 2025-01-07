@@ -1,28 +1,30 @@
 <!-- HTML for the new/edit character dialog, accessible from the World Viewer -->
-<h2 mat-dialog-title>Create New Character</h2>
+<h2 mat-dialog-title>Character Editor</h2>
 <mat-dialog-content>
     <form #characterForm="ngForm" novalidate>
         <div class="dialog-form">
             <mat-form-field class="example-full-width">
-                <input matInput placeholder="Character Name" [(ngModel)]="characterName" name="characterName" required>
+                <input matInput [(ngModel)]="characterName" name="characterName" required>
+                <mat-hint align="start">Character Name*</mat-hint>
                 <mat-error *ngIf="characterForm.controls['characterName']?.invalid">
                     Character Name is required.
                 </mat-error>
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-                <textarea matInput #desc placeholder="Character Description" [(ngModel)]="characterDescription" maxlength="500" name="characterDescription"></textarea>
+                <textarea matInput #desc [(ngModel)]="characterDescription" maxlength="500" name="characterDescription"></textarea>
                 <mat-hint align="start">A brief intro to your character</mat-hint>
                 <mat-hint align="end">{{desc.value.length}} / 500</mat-hint>
             </mat-form-field>
             
             <mat-form-field class="example-full-width">
-                <textarea matInput placeholder="Biography" [(ngModel)]="characterBio" name="characterBio"></textarea>
-                <mat-hint align="start">Extensive information about your character</mat-hint>
+                <textarea matInput [(ngModel)]="characterBio" name="characterBio"></textarea>
+                <mat-hint align="start">Biography/extensive information about your character</mat-hint>
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-                <input matInput placeholder="Image URL" [(ngModel)]="characterImageUrl" name="characterImageUrl" required pattern="https?://.+">
+                <input matInput [(ngModel)]="characterImageUrl" name="characterImageUrl" required pattern="https?://.+">
+                <mat-hint align="start">Image URL*</mat-hint>
                 <mat-error *ngIf="characterForm.controls['characterImageUrl']?.errors?.['required']">
                     Image URL is required.
                 </mat-error>
@@ -32,29 +34,33 @@
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-                <input matInput type="number" placeholder="Age" [(ngModel)]="characterAge" name="characterAge" (keypress)="allowOnlyNumbers($event)">
+                <input matInput type="number" [(ngModel)]="characterAge" name="characterAge" (keypress)="allowOnlyNumbers($event)">
+                <mat-hint align="start">Age</mat-hint>
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-                <input matInput placeholder="Gender" [(ngModel)]="characterGender" name="characterGender">
+                <input matInput [(ngModel)]="characterGender" name="characterGender">
+                <mat-hint align="start">Gender</mat-hint>
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-                <input matInput placeholder="Race" [(ngModel)]="characterRace" name="characterRace">
+                <input matInput [(ngModel)]="characterRace" name="characterRace">
+                <mat-hint align="start">Race</mat-hint>
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-                <input matInput placeholder="Pronouns" [(ngModel)]="characterPronouns" name="characterPronouns">
+                <input matInput [(ngModel)]="characterPronouns" name="characterPronouns">
+                <mat-hint align="start">Pronouns</mat-hint>
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-                <textarea matInput placeholder="Colors" [(ngModel)]="characterColors" name="characterColors"></textarea>
-                <mat-hint align="start">One hex code (i.e. "#0000ff") per line</mat-hint>
+                <textarea matInput [(ngModel)]="characterColors" name="characterColors"></textarea>
+                <mat-hint align="start">Character Colors (one hex code (i.e. "#0000ff") per line)</mat-hint>
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-                <textarea matInput placeholder="Gallery Links" [(ngModel)]="characterGalleryLinks" name="characterGalleryLinks"></textarea>
-                <mat-hint align="start">One URL per line</mat-hint>
+                <textarea matInput [(ngModel)]="characterGalleryLinks" name="characterGalleryLinks"></textarea>
+                <mat-hint align="start">Gallery Links (one image URL per line) (to be implemented soon)</mat-hint>
             </mat-form-field>
 
             <p><em>Custom details can be added in the character viewer page.</em></p>
@@ -66,5 +72,5 @@
         mat-button 
         [mat-dialog-close]="{characterName: characterName, characterDescription: characterDescription, characterBio: characterBio, characterImageUrl: characterImageUrl, characterAge: characterAge, characterGender: characterGender, characterRace: characterRace, characterPronouns: characterPronouns, characterColors: characterColors, characterGalleryLinks: characterGalleryLinks}" 
         [disabled]="characterForm.invalid"
-    >CREATE</button>
+    >SUBMIT</button>
 </mat-dialog-actions>

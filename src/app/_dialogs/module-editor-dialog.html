@@ -1,35 +1,37 @@
 <!-- HTML for the new/edit module dialog, accessible from the Story Viewer -->
-<h2 mat-dialog-title>Create New Module</h2>
+<h2 mat-dialog-title>Story Module Editor</h2>
 <mat-dialog-content>
     <form #moduleForm="ngForm" novalidate>
         <div class="dialog-form">
             <mat-form-field class="example-full-width">
-                <mat-select required placeholder="Module Type" required [(ngModel)]="moduleType" name="moduleType">
+                <mat-select required [(ngModel)]="moduleType" name="moduleType">
                     <mat-option value="text">Text</mat-option>
                     <mat-option value="image">Image</mat-option>
                 </mat-select>
+                <mat-hint align="start">Module Type*</mat-hint>
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-                <textarea matInput placeholder="Contents" [(ngModel)]="moduleContents" name="moduleContents" required></textarea>
-                <mat-hint>If text, this is the text. If image, this is a URL to the image.</mat-hint>
+                <textarea matInput [(ngModel)]="moduleContents" name="moduleContents" required></textarea>
+                <mat-hint>Module Contents*. If text, this is the text to display. If image, this is an image URL.</mat-hint>
                 <mat-error *ngIf="moduleForm.controls['moduleContents']?.invalid">
                     Contents are required.
                 </mat-error>
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-                <mat-select placeholder="Text Appearance" required [(ngModel)]="moduleAppearance" name="moduleAppearance">
+                <mat-select required [(ngModel)]="moduleAppearance" name="moduleAppearance">
                     <mat-option value="normal">Normal</mat-option>
                     <mat-option value="bold">Bold</mat-option>
                     <mat-option value="italic">Italics</mat-option>
                     <mat-option value="underlined">Underlined</mat-option>
                 </mat-select>
+                <mat-hint align="start">Module Appearance* (text only)</mat-hint>
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-                <textarea matInput placeholder="Text Color" [(ngModel)]="moduleColor" name="moduleColor" required></textarea>
-                <mat-hint>Only needed if type is text. Enter a hex code (#000000)</mat-hint>
+                <textarea matInput [(ngModel)]="moduleColor" name="moduleColor" required></textarea>
+                <mat-hint>Module Color (text only. Enter a hex code (#000000))</mat-hint>
             </mat-form-field>
         </div>
     </form>
@@ -39,5 +41,5 @@
         mat-button 
         [mat-dialog-close]="{moduleType: moduleType, moduleContents: moduleContents, moduleAppearance: moduleAppearance, moduleColor: moduleColor}" 
         [disabled]="moduleForm.invalid"
-    >CREATE</button>
+    >SUBMIT</button>
 </mat-dialog-actions>

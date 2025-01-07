@@ -4,28 +4,29 @@
     <form #storyForm="ngForm" novalidate>
         <div class="dialog-form">
             <mat-form-field class="example-full-width">
-                <input matInput placeholder="Story Title" [(ngModel)]="storyTitle" name="storyTitle" required>
+                <input matInput [(ngModel)]="storyTitle" name="storyTitle" required>
+                <mat-hint align="start">Story Title*</mat-hint>
                 <mat-error *ngIf="storyForm.controls['storyTitle']?.invalid">
                     Story Title is required.
                 </mat-error>
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-                <mat-label>Previous Story</mat-label>
                 <mat-select [(ngModel)]="previousStoryId" name="previousStoryId">
                     <mat-option *ngFor="let story of allStories()" [value]="story.id">
                         {{story.title}}
                     </mat-option>
                 </mat-select>
+                <mat-hint align="start">Previous Story</mat-hint>
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-                <mat-label>Next Story</mat-label>
                 <mat-select [(ngModel)]="nextStoryId" name="nextStoryId">
                     <mat-option *ngFor="let story of allStories()" [value]="story.id">
                         {{story.title}}
                     </mat-option>
                 </mat-select>
+                <mat-hint align="start">Next Story</mat-hint>
             </mat-form-field>
 
             <p><em>You can add character tags and modules in the story viewer.</em></p>

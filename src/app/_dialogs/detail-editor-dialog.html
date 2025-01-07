@@ -1,28 +1,30 @@
 <!-- HTML for the new/edit detail dialog, accessible from the Character and Place Viewers -->
-<h2 mat-dialog-title>Create New Detail</h2>
+<h2 mat-dialog-title>Custom Detail Editor</h2>
 <mat-dialog-content>
     <form #detailForm="ngForm" novalidate>
         <div class="dialog-form">
             <mat-form-field class="example-full-width">
-                <input matInput placeholder="Detail Name" [(ngModel)]="detailName" name="detailName" required>
+                <input matInput [(ngModel)]="detailName" name="detailName" required>
+                <mat-hint align="start">Detail Name*</mat-hint>
                 <mat-error *ngIf="detailForm.controls['detailName']?.invalid">
                     Detail Name is required.
                 </mat-error>
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-                <mat-select required [(ngModel)]="detailInputType" name="detailInputType">
+                <mat-select [(ngModel)]="detailInputType" name="detailInputType" required>
                     <mat-option value="paragraph">Text</mat-option>
                     <mat-option value="list">List</mat-option>
                 </mat-select>
-                <mat-hint align="start">If List, one item per line.</mat-hint>
-                <mat-error *ngIf="detailForm.controls['detailInputType']?.invalid">
-                    Input type is required.
+                <mat-hint align="start">Detail Type*</mat-hint>
+                <mat-error *ngIf="detailForm.controls['detailInputType']?.errors?.['required']">
+                    Detail type is required.
                 </mat-error>
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-                <textarea matInput placeholder="Contents" [(ngModel)]="detailContents" name="detailContents" required></textarea>
+                <textarea matInput [(ngModel)]="detailContents" name="detailContents" required></textarea>
+                <mat-hint align="start">Detail Contents*. If List, each line will be its own bullet point.</mat-hint>
                 <mat-error *ngIf="detailForm.controls['detailContents']?.invalid">
                     Contents are required.
                 </mat-error>
@@ -35,5 +37,5 @@
         mat-button 
         [mat-dialog-close]="{detailName: detailName, detailInputType: detailInputType, detailContents: detailContents}" 
         [disabled]="detailForm.invalid"
-    >CREATE</button>
+    >SUBMIT</button>
 </mat-dialog-actions>

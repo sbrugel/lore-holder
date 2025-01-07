@@ -1,31 +1,33 @@
 <!-- HTML for the new/edit place dialog, accessible from the World Viewer -->
-<h2 mat-dialog-title>Create New Place</h2>
+<h2 mat-dialog-title>Place Editor</h2>
 <mat-dialog-content>
     <form #placeForm="ngForm" novalidate>
         <div class="dialog-form">
             <mat-form-field class="example-full-width">
-                <input matInput placeholder="Place Name" [(ngModel)]="placeName" name="placeName" required>
+                <input matInput [(ngModel)]="placeName" name="placeName" required>
+                <mat-hint align="start">Place Name*</mat-hint>
                 <mat-error *ngIf="placeForm.controls['placeName']?.invalid">
                     Place Name is required.
                 </mat-error>
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-                <textarea matInput #desc placeholder="Place Description" [(ngModel)]="placeDescription" maxlength="500" name="placeDescription"></textarea>
+                <textarea matInput #desc [(ngModel)]="placeDescription" maxlength="500" name="placeDescription"></textarea>
                 <mat-hint align="start">A brief intro to your place</mat-hint>
                 <mat-hint align="end">{{desc.value.length}} / 500</mat-hint>
             </mat-form-field>
             
             <mat-form-field class="example-full-width">
-                <textarea matInput placeholder="About" [(ngModel)]="placeAbout" name="placeAbout"></textarea>
+                <textarea matInput [(ngModel)]="placeAbout" name="placeAbout"></textarea>
                 <mat-hint align="start">Extensive information about your place</mat-hint>
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-                <input matInput type="number" placeholder="Population" [(ngModel)]="placePopulation" name="placePopulation" (keypress)="allowOnlyNumbers($event)">
+                <input matInput type="number" [(ngModel)]="placePopulation" name="placePopulation" (keypress)="allowOnlyNumbers($event)">
+                <mat-hint align="start">Population</mat-hint>
             </mat-form-field>
 
-            <p><em>You can add characters to this place in the place viewer.</em></p>
+            <p><em>You can add place custom details and residents in the place viewer.</em></p>
         </div>
     </form>
 </mat-dialog-content>
@@ -34,5 +36,5 @@
         mat-button 
         [mat-dialog-close]="{placeName: placeName, placeDescription: placeDescription, placeAbout: placeAbout, placePopulation: placePopulation}" 
         [disabled]="placeForm.invalid"
-    >CREATE</button>
+    >SUBMIT</button>
 </mat-dialog-actions>
