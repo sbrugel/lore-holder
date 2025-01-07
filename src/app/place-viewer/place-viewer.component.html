@@ -1,4 +1,4 @@
-<div *ngIf="place; else noPlace">
+<div *ngIf="place && this.user.uid === place.ownerId; else noPlace">
     <h1>{{ place.name }}</h1>
     <p>{{ place.population ? 'Population: ' + place.population : '' }}</p>
 
@@ -70,5 +70,5 @@
     
 </div>
 <ng-template #noPlace>
-    <p>No place found with this ID</p>
+    <p>This place doesn't exist, or you don't have viewing access</p>
 </ng-template>

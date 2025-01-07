@@ -29,6 +29,7 @@ import { StoryCardComponent } from '../story-card/story-card.component';
 import { CharacterEditorDialog } from '../_dialogs/character-editor-dialog.component';
 import { PlaceEditorDialog } from '../_dialogs/place-editor-dialog.component';
 import { StoryEditorDialog } from '../_dialogs/story-editor-dialog.component';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-world-viewer',
@@ -44,6 +45,7 @@ import { StoryEditorDialog } from '../_dialogs/story-editor-dialog.component';
     CharacterCardComponent,
     PlaceCardComponent,
     StoryCardComponent,
+    ReactiveFormsModule
   ],
   templateUrl: './world-viewer.component.html',
   styleUrl: './world-viewer.component.css',
@@ -56,6 +58,7 @@ export class WorldViewerComponent {
 
   characterService: CharacterService = inject(CharacterService);
   characters: Character[] = [];
+  selectedCharacters: FormControl = new FormControl([]); // selected characters for story filtering
 
   placeService: PlaceService = inject(PlaceService);
   places: Place[] = [];
@@ -112,12 +115,29 @@ export class WorldViewerComponent {
         );
       });
 
-      this.storyService.getAllStories().subscribe((stories: Story[]) => {
-        this.stories = stories.filter((story) =>
-          this.world!.storyIds.includes(story.id)
-        );
-      });
+      this.updateStories();
     });
+  }
+
+  updateStories() {
+    this.storyService.getAllStories().subscribe((stories: Story[]) => {
+      this.stories = stories.filter((story) =>
+        this.world!.storyIds.includes(story.id) 
+        && this.hasSelectedCharacterTag(story)
+      );
+    });
+  }
+
+  /**
+   * If no character tags are selected, include this story in filtering (return true).
+   * If at least one tag is selected, then return the story if it includes at least one of the selected tags.
+   */
+  hasSelectedCharacterTag(story: Story) {
+    if (!this.selectedCharacters) return true;
+    if (this.selectedCharacters.value.length === 0) {
+      console.log("a");
+      return true;
+    } else return story.characterIds.some((characterId) => this.selectedCharacters.value.includes(characterId));
   }
 
   /**

@@ -19,6 +19,7 @@ import { AuthService } from '../_services/auth.service';
 import { DeleteConfirmComponent } from '../_common/delete-confirm/delete-confirm.component';
 import { CharacterAddDialog } from '../_dialogs/character-add-dialog.component';
 import { ModuleEditorDialog } from '../_dialogs/module-editor-dialog.component';
+import { OKDialogComponent } from '../_common/ok-dialog/ok-dialog.component';
 
 @Component({
   selector: 'app-story-viewer',
@@ -156,7 +157,13 @@ export class StoryViewerComponent {
           } as Story;
           this.storyService.updateStory(updatedStory);
         } else {
-          alert('Character already is a tag!');
+          this.dialog.open(OKDialogComponent, {
+            width: '70%',
+            data: {
+              title: 'Note',
+              message: 'This tag is already being used for this story!',
+            }
+          });
         }
       }
     });

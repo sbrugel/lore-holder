@@ -1,4 +1,4 @@
-<div *ngIf="character; else noChar">
+<div *ngIf="character && this.user.uid === character.ownerId; else noChar">
     <img [src]="character.imageUrl" />
     <h1>{{ character.name }}</h1>
     <h3><em>{{ subtitleText.join(' • ') }}</em></h3>
@@ -57,5 +57,5 @@
         
 </div>
 <ng-template #noChar>
-    <p>No character found with this ID</p>
+    <p>This character doesn't exist, or you don't have viewing access</p>
 </ng-template>

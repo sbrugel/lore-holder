@@ -14,6 +14,7 @@ import { CustomDetail } from '../_interfaces/custom-detail';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomDetailService } from '../_services/custom-detail.service';
 import { CharacterAddDialog } from '../_dialogs/character-add-dialog.component';
+import { OKDialogComponent } from '../_common/ok-dialog/ok-dialog.component';
 
 @Component({
   selector: 'app-place-viewer',
@@ -146,7 +147,13 @@ export class PlaceViewerComponent {
           } as Place;
           this.placeService.updatePlace(updatedPlace);
         } else {
-          alert('Character already lives here!');
+          this.dialog.open(OKDialogComponent, {
+            width: '70%',
+            data: {
+              title: 'Note',
+              message: 'This character already lives here!',
+            }
+          });
         }
       }
     });

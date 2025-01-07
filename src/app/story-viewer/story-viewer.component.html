@@ -1,4 +1,4 @@
-<div *ngIf="story; else noStory">
+<div *ngIf="story && this.user.uid === story.ownerId; else noStory">
     <h1>{{ story.title }}</h1>
 
     <button mat-flat-button class="primary" type="button" (click)="openTagDialog()">Add Tag</button>
@@ -70,5 +70,5 @@
     
 </div>
 <ng-template #noStory>
-    <p>No story found with this ID</p>
+    <p>This story doesn't exist, or you don't have viewing access</p>
 </ng-template>

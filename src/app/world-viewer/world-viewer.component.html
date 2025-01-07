@@ -1,4 +1,4 @@
-<div *ngIf="world; else worldNotFound">
+<div *ngIf="world && this.user.uid === world.ownerId; else worldNotFound">
     <img [src]="world.imageUrl" alt="World image">
     <div class="world-body">
         <h1>{{ world.name }}</h1>
@@ -43,15 +43,16 @@
             </mat-tab>
             <mat-tab label="Stories">
                 <button mat-flat-button class="primary" type="button" (click)="openStoryDialog()">New Story</button>
+                <p><em>Click the tags below to filter stories by tags. If no tags are selected, all stories will be displayed.</em></p>
+                <mat-chip-listbox [formControl]="selectedCharacters" multiple>
+                    <div *ngFor="let character of characters">
+                        <mat-chip-option [value]="character.id" (click)="updateStories()">{{ character.name }}</mat-chip-option>
+                    </div>
+                </mat-chip-listbox>
                 <div *ngIf="stories.length > 0; else noStories">
-                    <mat-chip-listbox multiple>
-                        <div *ngFor="let character of characters">
-                            <mat-chip-option selected>{{ character.name }}</mat-chip-option>
-                        </div>
-                    </mat-chip-listbox>
                     <mat-list role="list" class="mat-mdc-chip-set-stacked">
                         <app-story-card 
-                            *ngFor="let story of stories" 
+                            *ngFor="let story of stories"
                             [story]="story"
                             [editFunction]="triggerStoryDialog(story)"
                         ></app-story-card>
@@ -66,5 +67,5 @@
 </div>
 
 <ng-template #worldNotFound>
-    <p>World not found :(</p>
+    <p>This world doesn't exist, or you don't have viewing access</p>
 </ng-template>
