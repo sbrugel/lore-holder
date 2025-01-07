@@ -1,9 +1,11 @@
 <div *ngIf="story; else noStory">
     <h1>{{ story.title }}</h1>
 
+    <button mat-flat-button class="primary" type="button" (click)="openTagDialog()">Add Tag</button>
+    <p><em>Click on a tag to remove it</em></p>
     <mat-chip-set multiple>
         <div *ngFor="let character of characters">
-            <mat-chip>{{ character.name }}</mat-chip>
+            <mat-chip (click)="removeTag(character.id)">{{ character.name }}</mat-chip>
         </div>
     </mat-chip-set>
 

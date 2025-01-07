@@ -17,6 +17,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { AuthService } from '../_services/auth.service';
 import { DeleteConfirmComponent } from '../_common/delete-confirm/delete-confirm.component';
+import { CharacterAddDialog } from '../_dialogs/character-add-dialog.component';
 
 @Component({
   selector: 'app-story-viewer',
@@ -37,6 +38,7 @@ export class StoryViewerComponent {
 
   characterService: CharacterService = inject(CharacterService);
   characters: Character[] = [];
+  allCharacters: Character[] = [];
 
   authService: AuthService = inject(AuthService);
   user: any;
@@ -47,6 +49,8 @@ export class StoryViewerComponent {
   readonly newModuleContents = signal('');
   readonly newModuleAppearance = signal('normal');
   readonly newModuleColor = signal('#000000');
+
+  readonly newTagCharacterId = signal('');
 
   ngOnInit() {
     this.authService.currentUser$.subscribe((user) => {
@@ -61,6 +65,7 @@ export class StoryViewerComponent {
   
             this.characterService.getAllCharacters().subscribe((characters) => {
               this.characters = characters.filter((character) => this.story!.characterIds.includes(character.id));
+              this.allCharacters = characters.filter((character) => character.ownerId === this.user.uid);
             });
   
             if (this.story.previousId) {
@@ -128,6 +133,40 @@ export class StoryViewerComponent {
         this.storyModuleService.deleteStoryModule(storyModule.id);
       }
     });
+  }
+
+  openTagDialog() {
+    // Open the dialog once
+    const dialogRef = this.dialog.open(CharacterAddDialog, {
+      width: '70%',
+      data: {
+        tagCharacterId: this.newTagCharacterId(),
+        _allCharacters: [...this.allCharacters],
+      },
+    });
+
+    // Handle after dialog is closed
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result) {
+        if (!this.story!.characterIds.includes(result.characterId())) {
+          const updatedStory = {
+            ...this.story,
+            characterIds: [...this.story!.characterIds, result.characterId()],
+          } as Story;
+          this.storyService.updateStory(updatedStory);
+        } else {
+          alert('Character already is a tag!');
+        }
+      }
+    });
+  }
+
+  removeTag(characterId: string) {
+    const updatedStory = {
+      ...this.story,
+      characterIds: this.story!.characterIds.filter((id) => id !== characterId),
+    } as Story;
+    this.storyService.updateStory(updatedStory);
   }
 }
 

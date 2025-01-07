@@ -18,6 +18,7 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { CharacterAddDialog } from '../_dialogs/character-add-dialog.component';
 
 @Component({
   selector: 'app-place-viewer',
@@ -59,7 +60,7 @@ export class PlaceViewerComponent {
           if (this.place) {
             this.characterService.getAllCharacters().subscribe((characters: Character[]) => {
               this.characters = characters.filter((character) => this.place!.characterIds.includes(character.id));
-              this.allCharacters = characters;
+              this.allCharacters = characters.filter((character) => character.ownerId === this.user.uid);
             });
             this.detailsService
               .getAllCustomDetails()
@@ -132,7 +133,7 @@ export class PlaceViewerComponent {
 
   openResidentDialog() {
     // Open the dialog once
-    const dialogRef = this.dialog.open(PlaceResidentDialog, {
+    const dialogRef = this.dialog.open(CharacterAddDialog, {
       width: '70%',
       data: {
         residentId: this.newResidentId(),
@@ -143,10 +144,10 @@ export class PlaceViewerComponent {
     // Handle after dialog is closed
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
-        if (!this.place!.characterIds.includes(result.residentId())) {
+        if (!this.place!.characterIds.includes(result.characterId())) {
           const updatedPlace = {
             ...this.place,
-            characterIds: [...this.place!.characterIds, result.residentId()],
+            characterIds: [...this.place!.characterIds, result.characterId()],
           } as Place;
           this.placeService.updatePlace(updatedPlace);
         } else {
@@ -162,31 +163,5 @@ export class PlaceViewerComponent {
       characterIds: this.place!.characterIds.filter((id) => id !== characterId),
     } as Place;
     this.placeService.updatePlace(updatedPlace);
-  }
-}
-
-@Component({
-  selector: 'place-resident-dialog',
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatInputModule,
-    MatSelectModule,
-    FormsModule,
-    MatFormFieldModule,
-  ],
-  templateUrl: '../_dialogs/place-resident-dialog.html',
-  styleUrls: ['../_common/editor-dialog.css'],
-})
-export class PlaceResidentDialog {
-  readonly dialogRef = inject(MatDialogRef<PlaceResidentDialog>);
-  data = inject(MAT_DIALOG_DATA);
-
-  readonly residentId = model(this.data.residentId);
-  readonly allCharacters = model(this.data._allCharacters);
-
-  onNoClick(): void {
-    this.dialogRef.close();
   }
 }
