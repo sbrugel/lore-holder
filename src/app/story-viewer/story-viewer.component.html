@@ -16,8 +16,8 @@
             <div *ngIf="module.type === 'image'">
                 <img [src]="module.content" alt="Image">
             </div>
-            <button mat-button>EDIT</button> 
-            <button mat-button>DELETE</button>
+            <button mat-button (click)="openModuleDialog(module)">EDIT</button> 
+            <button mat-button (click)="deleteModule(module)">DELETE</button>
             <!-- TODO: we'll implement this soon(TM) -->
             <!-- <button mat-button>UP</button> 
             <button mat-button>DOWN</button> -->

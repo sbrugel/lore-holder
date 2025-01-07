@@ -16,10 +16,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { AuthService } from '../_services/auth.service';
+import { DeleteConfirmComponent } from '../_common/delete-confirm/delete-confirm.component';
 
 @Component({
   selector: 'app-story-viewer',
-  imports: [CommonModule, MatButtonModule, MatCardModule, MatChipsModule, RouterLink, RouterModule],
+  imports: [CommonModule, MatButtonModule, MatCardModule, MatChipsModule, RouterModule],
   templateUrl: './story-viewer.component.html',
   styleUrl: './story-viewer.component.css'
 })
@@ -80,16 +81,17 @@ export class StoryViewerComponent {
   }
 
   openModuleDialog(storyModule?: StoryModule) {
+    console.log(storyModule)
     const dialogRef = this.dialog.open(ModuleEditorDialog, {
       width: '70%',
       data: storyModule
         ? { ...storyModule }
         : {
             id: '',
-            moduleType: this.newModuleType(),
-            moduleContents: this.newModuleContents(),
-            moduleAppearance: this.newModuleAppearance(),
-            moduleColor: this.newModuleColor(),
+            type: this.newModuleType(),
+            content: this.newModuleContents(),
+            appearance: this.newModuleAppearance(),
+            color: this.newModuleColor(),
           },
     });
 
@@ -105,15 +107,25 @@ export class StoryViewerComponent {
         };
 
         if (storyModule) {
-          // update detail
           this.storyModuleService.updateStoryModule(newModule);
         } else {
-          // create new detail
           this.storyModuleService.createNewStoryModule(
             newModule,
             this.story!.id
           );
         }
+      }
+    });
+  }
+
+  deleteModule(storyModule: StoryModule) {
+    const dialogRef = this.dialog.open(DeleteConfirmComponent, {
+      width: '70%',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.storyModuleService.deleteStoryModule(storyModule.id);
       }
     });
   }
@@ -137,10 +149,10 @@ export class ModuleEditorDialog {
   readonly dialogRef = inject(MatDialogRef<ModuleEditorDialog>);
   data = inject(MAT_DIALOG_DATA);
 
-  readonly moduleType = model(this.data.moduleType);
-  readonly moduleContents = model(this.data.moduleContents);
-  readonly moduleAppearance = model(this.data.moduleAppearance);
-  readonly moduleColor = model(this.data.moduleColor);
+  readonly moduleType = model(this.data.type);
+  readonly moduleContents = model(this.data.content);
+  readonly moduleAppearance = model(this.data.appearance);
+  readonly moduleColor = model(this.data.color);
 
   onNoClick(): void {
     this.dialogRef.close();
