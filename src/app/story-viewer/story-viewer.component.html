@@ -13,7 +13,19 @@
     <div *ngIf="storyModules.length > 0; else noModules">
         <div *ngFor="let module of storyModules">
             <div *ngIf="module.type === 'text'">
-                <p>{{ module.content }}</p>
+                <p 
+                    [ngClass]="{
+                        'bold': module.appearance === 'bold', 
+                        'italic': module.appearance === 'italic', 
+                        'underlined': module.appearance === 'underlined',
+                    }"
+                    [ngStyle]="{
+                        'color': module.color,
+                    }"
+                    *ngFor="let line of module.content.split('\n')"
+                >
+                    {{ line }}
+                </p>
             </div>
             <div *ngIf="module.type === 'image'">
                 <img [src]="module.content" alt="Image">
