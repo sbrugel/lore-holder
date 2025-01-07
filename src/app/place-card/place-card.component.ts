@@ -21,8 +21,8 @@ export class PlaceCardComponent {
   placeService: PlaceService = inject(PlaceService);
 
   /**
-       * Show a dialog for delete confirmation, then delete if confirmed.
-       */
+   * Show a dialog for delete confirmation, then delete if confirmed.
+   */
   deletePlace() {
     const dialogRef = this.dialog.open(DeleteConfirmComponent, {
       width: '70%',

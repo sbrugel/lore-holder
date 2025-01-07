@@ -18,6 +18,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { AuthService } from '../_services/auth.service';
 import { DeleteConfirmComponent } from '../_common/delete-confirm/delete-confirm.component';
 import { CharacterAddDialog } from '../_dialogs/character-add-dialog.component';
+import { ModuleEditorDialog } from '../_dialogs/module-editor-dialog.component';
 
 @Component({
   selector: 'app-story-viewer',
@@ -167,33 +168,5 @@ export class StoryViewerComponent {
       characterIds: this.story!.characterIds.filter((id) => id !== characterId),
     } as Story;
     this.storyService.updateStory(updatedStory);
-  }
-}
-
-@Component({
-  selector: 'module-editor-dialog',
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatInputModule,
-    MatSelectModule,
-    FormsModule,
-    MatFormFieldModule,
-  ],
-  templateUrl: '../_dialogs/module-editor-dialog.html',
-  styleUrls: ['../_common/editor-dialog.css'],
-})
-export class ModuleEditorDialog {
-  readonly dialogRef = inject(MatDialogRef<ModuleEditorDialog>);
-  data = inject(MAT_DIALOG_DATA);
-
-  readonly moduleType = model(this.data.type);
-  readonly moduleContents = model(this.data.content);
-  readonly moduleAppearance = model(this.data.appearance);
-  readonly moduleColor = model(this.data.color);
-
-  onNoClick(): void {
-    this.dialogRef.close();
   }
 }

@@ -4,12 +4,12 @@ import { MatCardModule } from '@angular/material/card';
 import {
   MatDialog,
   MatDialogModule,
-  MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { World } from '../_interfaces/world';
 import { WorldService } from '../_services/world.service';
 import { RouterModule } from '@angular/router';
 import { DeleteConfirmComponent } from '../_common/delete-confirm/delete-confirm.component';
+import { WorldCardDialog } from '../_dialogs/world-card-dialog.component';
 
 @Component({
   selector: 'app-world-card',
@@ -44,13 +44,4 @@ export class WorldCardComponent {
       }
     });
   }
-}
-
-@Component({
-  selector: 'world-card-dialog',
-  imports: [MatDialogModule],
-  templateUrl: '../_dialogs/world-card-dialog.html',
-})
-export class WorldCardDialog {
-  data = inject(MAT_DIALOG_DATA);
 }

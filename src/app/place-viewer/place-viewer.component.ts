@@ -1,4 +1,4 @@
-import { Component, inject, model, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Character } from '../_interfaces/character';
 import { CharacterService } from '../_services/character.service';
@@ -7,17 +7,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { PlaceService } from '../_services/place.service';
 import { Place } from '../_interfaces/place';
-import { CharacterCardComponent } from "../character-card/character-card.component";
 import { AuthService } from '../_services/auth.service';
 import { DeleteConfirmComponent } from '../_common/delete-confirm/delete-confirm.component';
 import { DetailEditorDialog } from '../_dialogs/detail-editor-dialog.component';
 import { CustomDetail } from '../_interfaces/custom-detail';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { CustomDetailService } from '../_services/custom-detail.service';
-import { FormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
 import { CharacterAddDialog } from '../_dialogs/character-add-dialog.component';
 
 @Component({

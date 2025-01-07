@@ -21,8 +21,8 @@ export class StoryCardComponent {
   StoryService = inject(StoryService);
 
   /**
-     * Show a dialog for delete confirmation, then delete if confirmed.
-     */
+   * Show a dialog for delete confirmation, then delete if confirmed.
+   */
   deleteStory() {
     const dialogRef = this.dialog.open(DeleteConfirmComponent, {
       width: '70%',

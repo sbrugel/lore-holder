@@ -1,14 +1,12 @@
 import {
-  ChangeDetectorRef,
   Component,
   inject,
-  model,
   signal,
 } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { WorldService } from '../_services/world.service';
 import { World } from '../_interfaces/world';
-import { CommonModule, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -22,18 +20,15 @@ import { MatListModule } from '@angular/material/list';
 import { MatChipsModule } from '@angular/material/chips';
 import { CharacterCardComponent } from '../character-card/character-card.component';
 import {
-  MAT_DIALOG_DATA,
   MatDialog,
   MatDialogModule,
-  MatDialogRef,
 } from '@angular/material/dialog';
-import { FormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '../_services/auth.service';
 import { PlaceCardComponent } from '../place-card/place-card.component';
 import { StoryCardComponent } from '../story-card/story-card.component';
-import { MatSelectModule } from '@angular/material/select';
+import { CharacterEditorDialog } from '../_dialogs/character-editor-dialog.component';
+import { PlaceEditorDialog } from '../_dialogs/place-editor-dialog.component';
+import { StoryEditorDialog } from '../_dialogs/story-editor-dialog.component';
 
 @Component({
   selector: 'app-world-viewer',
@@ -273,112 +268,5 @@ export class WorldViewerComponent {
         }
       }
     });
-  }
-}
-
-@Component({
-  selector: 'character-editor-dialog',
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatInputModule,
-    FormsModule,
-    MatFormFieldModule,
-  ],
-  templateUrl: '../_dialogs/character-editor-dialog.html',
-  styleUrls: ['../_common/editor-dialog.css'],
-})
-export class CharacterEditorDialog {
-  readonly dialogRef = inject(MatDialogRef<CharacterEditorDialog>);
-  data = inject<Character>(MAT_DIALOG_DATA);
-
-  readonly characterName = model(this.data.name);
-  readonly characterDescription = model(this.data.description);
-  readonly characterBio = model(this.data.about);
-  readonly characterImageUrl = model(this.data.imageUrl);
-  readonly characterAge = model(this.data.age);
-  readonly characterGender = model(this.data.gender);
-  readonly characterRace = model(this.data.race);
-  readonly characterPronouns = model(this.data.pronouns);
-  readonly characterColors = model(
-    this.data.colors ? this.data.colors.join('\n') : ''
-  );
-  readonly characterGalleryLinks = model(
-    this.data.galleryLinks ? this.data.galleryLinks.join('\n') : ''
-  );
-
-  allowOnlyNumbers(event: KeyboardEvent): void {
-    const charCode = event.which ? event.which : event.keyCode;
-    if (charCode < 48 || charCode > 57) {
-      event.preventDefault();
-    }
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-}
-
-@Component({
-  selector: 'place-editor-dialog',
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatInputModule,
-    FormsModule,
-    MatFormFieldModule,
-  ],
-  templateUrl: '../_dialogs/place-editor-dialog.html',
-  styleUrls: ['../_common/editor-dialog.css'],
-})
-export class PlaceEditorDialog {
-  readonly dialogRef = inject(MatDialogRef<PlaceEditorDialog>);
-  data = inject<Place>(MAT_DIALOG_DATA);
-
-  readonly placeName = model(this.data.name);
-  readonly placeDescription = model(this.data.description);
-  readonly placeAbout = model(this.data.about);
-  readonly placePopulation = model(this.data.population);
-
-  allowOnlyNumbers(event: KeyboardEvent): void {
-    const charCode = event.which ? event.which : event.keyCode;
-    if (charCode < 48 || charCode > 57) {
-      event.preventDefault();
-    }
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-}
-
-@Component({
-  selector: 'story-editor-dialog',
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatInputModule,
-    MatSelectModule,
-    FormsModule,
-    MatFormFieldModule,
-  ],
-  templateUrl: '../_dialogs/story-editor-dialog.html',
-  styleUrls: ['../_common/editor-dialog.css'],
-})
-export class StoryEditorDialog {
-  readonly dialogRef = inject(MatDialogRef<StoryEditorDialog>);
-  data = inject(MAT_DIALOG_DATA);
-
-  readonly storyTitle = model(this.data.title);
-  readonly previousStoryId = model(this.data.previousId);
-  readonly nextStoryId = model(this.data.nextId);
-
-  readonly allStories = model(this.data._allStories);
-
-  onNoClick(): void {
-    this.dialogRef.close();
   }
 }

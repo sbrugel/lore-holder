@@ -8,7 +8,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
 
 @Component({
-    selector: 'character-add-dialog',
+    selector: 'module-editor-dialog',
     imports: [
         CommonModule,
         MatButtonModule,
@@ -18,17 +18,20 @@ import { MatSelectModule } from "@angular/material/select";
         FormsModule,
         MatFormFieldModule,
     ],
-    templateUrl: '../_dialogs/character-add-dialog.html',
+    templateUrl: '../_dialogs/module-editor-dialog.html',
     styleUrls: ['../_common/editor-dialog.css'],
 })
-export class CharacterAddDialog {
-    readonly dialogRef = inject(MatDialogRef<CharacterAddDialog>);
+export class ModuleEditorDialog {
+    readonly dialogRef = inject(MatDialogRef<ModuleEditorDialog>);
     data = inject(MAT_DIALOG_DATA);
 
-    readonly characterId = model(this.data.characterId);
-    readonly allCharacters = model(this.data._allCharacters);
+    readonly moduleType = model(this.data.type);
+    readonly moduleContents = model(this.data.content);
+    readonly moduleAppearance = model(this.data.appearance);
+    readonly moduleColor = model(this.data.color);
 
     onNoClick(): void {
         this.dialogRef.close();
-    }
+    }   
 }
+  

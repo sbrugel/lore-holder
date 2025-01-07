@@ -22,8 +22,8 @@ export class CharacterCardComponent {
   characterService: CharacterService = inject(CharacterService);
 
   /**
-     * Show a dialog for delete confirmation, then delete if confirmed.
-     */
+   * Show a dialog for delete confirmation, then delete if confirmed.
+   */
   deleteCharacter() {
     const dialogRef = this.dialog.open(DeleteConfirmComponent, {
       width: '70%',

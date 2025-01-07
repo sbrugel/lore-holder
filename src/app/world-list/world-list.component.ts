@@ -1,4 +1,4 @@
-import { Component, inject, model, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,13 +7,11 @@ import { WorldService } from '../_services/world.service';
 import { World } from '../_interfaces/world';
 import { WorldCardComponent } from '../world-card/world-card.component';
 import {
-  MAT_DIALOG_DATA,
   MatDialog,
   MatDialogModule,
-  MatDialogRef,
 } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { AuthService } from '../_services/auth.service';
+import { WorldEditorDialog } from '../_dialogs/world-editor-dialog.component';
 
 @Component({
   selector: 'app-world-list',
@@ -116,30 +114,3 @@ export class WorldListComponent {
   }
 }
 
-@Component({
-  selector: 'world-editor-dialog',
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatInputModule,
-    FormsModule,
-    MatFormFieldModule,
-  ],
-  templateUrl: '../_dialogs/world-editor-dialog.html',
-  styleUrls: ['../_common/editor-dialog.css'],
-})
-export class WorldEditorDialog {
-  readonly dialogRef = inject(MatDialogRef<WorldEditorDialog>);
-  data = inject<World>(MAT_DIALOG_DATA);
-
-  readonly worldName = model(this.data.name);
-  readonly worldDescription = model(this.data.description);
-  readonly worldDetailedDescription = model(this.data.detailedDescription);
-  readonly worldImageUrl = model(this.data.imageUrl);
-  readonly worldColor = model(this.data.color);
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-}
