@@ -3,21 +3,20 @@
     <div class="world-body">
         <h1>{{ world.name }}</h1>
 
-        <div *ngIf="world.detailedDescription">
-            <mat-card class="about-card" appearance="outlined">
-                <mat-card-header>
-                    <mat-card-title>About this World</mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
-                    <p>{{ world.detailedDescription }}</p>
-                </mat-card-content>
-            </mat-card>
+        <div *ngIf="world.detailedDescription" class="worldBio">
+            <h2>About this World</h2>
+            <p>{{ world.detailedDescription }}</p>
+        </div>
+
+        <div class="newButtons">
+            <button mat-flat-button class="primary" type="button" (click)="openCharacterDialog()">New Character</button>
+            <button mat-flat-button class="primary" type="button" (click)="openPlaceDialog()">New Place</button>
+            <button mat-flat-button class="primary" type="button" (click)="openStoryDialog()">New Story</button>
         </div>
 
         <mat-tab-group>
             <mat-tab label="Characters" >
-                <button mat-flat-button class="primary" type="button" (click)="openCharacterDialog()">New Character</button>
-                <div *ngIf="characters.length > 0; else noChars">
+                <div *ngIf="characters.length > 0; else noChars" class="charCards">
                     <app-character-card 
                         *ngFor="let character of characters" 
                         [character]="character"
@@ -29,7 +28,6 @@
                 </ng-template>
             </mat-tab>
             <mat-tab label="Places">
-                <button mat-flat-button class="primary" type="button" (click)="openPlaceDialog()">New Place</button>
                 <div *ngIf="places.length > 0; else noPlaces">
                     <app-place-card 
                         *ngFor="let place of places" 
@@ -42,15 +40,16 @@
                 </ng-template>
             </mat-tab>
             <mat-tab label="Stories">
-                <button mat-flat-button class="primary" type="button" (click)="openStoryDialog()">New Story</button>
-                <mat-chip-listbox [formControl]="selectedCharacters" multiple>
-                    <div *ngFor="let character of characters">
-                        <mat-chip-option [value]="character.id" (click)="updateStories()">{{ character.name }}</mat-chip-option>
-                    </div>
-                </mat-chip-listbox>
+                <div class="charTags">
+                    <mat-chip-listbox [formControl]="selectedCharacters" multiple>
+                        <div *ngFor="let character of characters">
+                            <mat-chip-option [value]="character.id" (click)="updateStories()">{{ character.name }}</mat-chip-option>
+                        </div>
+                    </mat-chip-listbox>
+                </div>
                 <div *ngIf="stories.length > 0; else noStories">
                     <p><em>Click the tags above to filter stories by tags. If no tags are selected, all stories will be displayed.</em></p>
-                    <mat-list role="list" class="mat-mdc-chip-set-stacked">
+                    <mat-list role="list" class="mat-mdc-chip-set-stacked storyCards">
                         <app-story-card 
                             *ngFor="let story of stories"
                             [story]="story"
