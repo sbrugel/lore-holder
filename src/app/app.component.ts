@@ -5,10 +5,11 @@ import { MatIconModule } from '@angular/material/icon';
 import 'firebase/compat/auth';
 import { AuthService } from './_services/auth.service';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-root',
-  imports: [MatToolbarModule, MatIconModule, RouterLink, RouterOutlet, CommonModule],
+  imports: [MatButtonModule, MatToolbarModule, MatIconModule, RouterLink, RouterOutlet, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

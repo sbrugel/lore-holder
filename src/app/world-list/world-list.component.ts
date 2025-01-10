@@ -9,6 +9,7 @@ import { WorldCardComponent } from '../world-card/world-card.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AuthService } from '../_services/auth.service';
 import { WorldEditorDialog } from '../_dialogs/world-editor-dialog.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-world-list',
@@ -31,6 +32,8 @@ export class WorldListComponent {
 
   authService: AuthService = inject(AuthService);
   user: any;
+
+  toastr: ToastrService = inject(ToastrService);
 
   // dialog for new world
   readonly dialog = inject(MatDialog);
@@ -79,31 +82,37 @@ export class WorldListComponent {
           },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        const newWorld: World = {
-          id: world?.id || '', // if new, will create new one. Or keep if editing
-          ownerId: world?.ownerId || this.user.uid, // if new, will create new one. Or keep if editing
-          creationDate: world?.creationDate || new Date(),
-          name: result.worldName(),
-          description: result.worldDescription(),
-          detailedDescription: result.worldDetailedDescription(),
-          imageUrl: result.worldImageUrl() !== '' ? result.worldImageUrl() : 'https://www.shutterstock.com/image-illustration/small-fairy-tale-town-fiction-600nw-1267144957.jpg',
-          color: result.worldColor(),
-          characterIds: world?.characterIds || [],
-          placeIds: world?.placeIds || [],
-          storyIds: world?.storyIds || [],
-        };
-
-        if (world) {
-          // update world
-          this.worldService.updateWorld(newWorld);
-        } else {
-          // create new world
-          this.worldService.createNewWorld(newWorld);
+    try {
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          const newWorld: World = {
+            id: world?.id || '', // if new, will create new one. Or keep if editing
+            ownerId: world?.ownerId || this.user.uid, // if new, will create new one. Or keep if editing
+            creationDate: world?.creationDate || new Date(),
+            name: result.worldName(),
+            description: result.worldDescription(),
+            detailedDescription: result.worldDetailedDescription(),
+            imageUrl: result.worldImageUrl() !== '' ? result.worldImageUrl() : 'https://www.shutterstock.com/image-illustration/small-fairy-tale-town-fiction-600nw-1267144957.jpg',
+            color: result.worldColor(),
+            characterIds: world?.characterIds || [],
+            placeIds: world?.placeIds || [],
+            storyIds: world?.storyIds || [],
+          };
+  
+          if (world) {
+            // update world
+            this.worldService.updateWorld(newWorld);
+            this.toastr.success('World updated successfully!');
+          } else {
+            // create new world
+            this.worldService.createNewWorld(newWorld);
+            this.toastr.success('World created successfully!');
+          }
         }
-      }
-    });
+      });
+    } catch (error) {
+      this.toastr.error('There was an error saving your world: ' + error);
+    }
   }
 
   filterResults(text: string) {

@@ -1,19 +1,18 @@
 <h1>My Worlds</h1>
-<section>
-    <button mat-flat-button class="primary" type="button" (click)="openWorldDialog()">New World</button>
+<section *ngIf="this.user">
+    <button mat-flat-button class="primary" type="button" (click)="openWorldDialog()">Create New World</button>
     <form>
-        <mat-form-field class="example-full-width">
+        <mat-form-field>
             <mat-label>Filter worlds</mat-label>
-            <input matInput placeholder="Start typing..." #filter>
+            <input matInput placeholder="Start typing..." (input)="filterResults(filter.value)" #filter>
         </mat-form-field>
-        <button mat-flat-button class="primary" type="button" (click)="filterResults(filter.value)">Search</button>
     </form>
 </section>
-<div *ngIf="worldList.length > 0; else noWorlds">
+<div *ngIf="worldList.length > 0; else noWorlds" class="world-cards">
     <section class="results">
         <app-world-card *ngFor="let world of filteredWorldList" [world]="world" [editFunction]="triggerWorldDialog(world)"></app-world-card>
     </section>
 </div>
 <ng-template #noWorlds>
-    <p>No worlds found!</p>
+    <p>{{this.user ? 'No worlds found' : 'Please login to view your worlds'}}</p>
 </ng-template>

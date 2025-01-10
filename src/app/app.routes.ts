@@ -10,31 +10,31 @@ export const routes: Routes = [
     {
         path: '',
         component: LandingComponent,
-        title: 'Home page',
+        title: 'Home',
     },
     {
         path: 'worlds',
         component: WorldListComponent,
-        title: 'Worlds list',
+        title: 'Worlds List',
     },
     {
         path: 'world/:id',
         component: WorldViewerComponent,
-        title: 'World viewer',
+        title: 'World Viewer',
     },
     {
         path: 'character/:id',
         component: CharacterViewerComponent,
-        title: 'Character viewer',
+        title: 'Character Viewer',
     },
     {
         path: 'place/:id',
         component: PlaceViewerComponent,
-        title: 'Place viewer',
+        title: 'Place Viewer',
     },
     {
         path: 'story/:id',
         component: StoryViewerComponent,
-        title: 'Story viewer',
+        title: 'Story Viewer',
     },
 ];

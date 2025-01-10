@@ -26,3 +26,8 @@ mat-card-actions {
     display: flex;
     justify-content: center;
 }
+
+a, button {
+    font-size: 1.3em;
+    margin: 10px;
+}
