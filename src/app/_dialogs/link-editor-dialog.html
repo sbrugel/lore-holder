@@ -1,0 +1,45 @@
+<!-- HTML for the new/edit detail dialog, accessible from the Character and Place Viewers -->
+<h2 mat-dialog-title>Custom Detail Editor</h2>
+<mat-dialog-content>
+    <form #linkForm="ngForm" novalidate>
+        <div class="dialog-form">
+            <mat-form-field class="example-full-width">
+                <mat-label>Who to link to?</mat-label>
+                <mat-select [(ngModel)]="linkTo" name="linkTo">
+                    <mat-option *ngFor="let character of allCharacters()" [value]="character.id">
+                        {{character.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <textarea matInput [(ngModel)]="linkDetails" name="linkDetails" required></textarea>
+                <mat-hint align="start">Link Details*</mat-hint>
+                <mat-error *ngIf="linkForm.controls['linkDetails']?.invalid">
+                    Details are required.
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-select [(ngModel)]="linkType" name="linkType" required>
+                    <mat-option value="friend">Friend</mat-option>
+                    <mat-option value="enemy">Enemy</mat-option>
+                    <mat-option value="family">Family</mat-option>
+                    <mat-option value="lover">Lover</mat-option>
+                    <mat-option value="other">Other</mat-option>
+                </mat-select>
+                <mat-hint align="start">Link Type*</mat-hint>
+                <mat-error *ngIf="linkForm.controls['linkType']?.errors?.['required']">
+                    Link type is required.
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button 
+        mat-button 
+        [mat-dialog-close]="{linkTo: linkTo, linkDetails: linkDetails, linkType: linkType}" 
+        [disabled]="linkForm.invalid"
+    >SUBMIT</button>
+</mat-dialog-actions>

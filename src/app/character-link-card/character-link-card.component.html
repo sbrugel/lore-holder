@@ -1,5 +1,5 @@
 <div *ngIf="character">
-    <div [routerLink]="['/character', character.id]">
+    <div>
         <mat-card class="pointer-elem">
             <mat-card-header>
                 <div mat-card-avatar [ngStyle]="{ 
@@ -8,10 +8,13 @@
                   }" >
                 </div>
                 <mat-card-title>{{ character.name }}</mat-card-title>
-                <mat-card-subtitle>{{ character.race }} | <em>{{ character.pronouns }}</em></mat-card-subtitle>
+                <mat-card-subtitle >{{ character.race }} <em>{{ (character.pronouns ? "(" + character.pronouns + ")" : "") }}</em></mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
                 <p>{{ cardSubtext }}</p>
+                <button mat-button [routerLink]="['/character', character.id]">VIEW</button>
+                <button mat-button (click)="editFunction(characterLink)">EDIT LINK</button>
+                <button mat-button (click)="deleteCharacterLink()">DELETE LINK</button>
             </mat-card-content>
         </mat-card>
     </div>

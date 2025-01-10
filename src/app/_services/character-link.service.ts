@@ -62,4 +62,37 @@ export class CharacterLinkService {
         })
       );
   }
+
+  /**
+   * 
+   * @param newLink The new link to create
+   */
+  createNewLink(newLink: CharacterLink) {
+    const newDoc = this.firestore
+      .collection(this.collectionName)
+      .add(newLink);
+
+    newDoc.then((docRef) => {
+      docRef.update({ id: docRef.id });
+    });
+  }
+
+  /**
+   * 
+   * @param updatedLink The updated link to save
+   */
+  updateLink(updatedLink: CharacterLink) {
+    this.firestore
+      .collection(this.collectionName)
+      .doc(updatedLink.id)
+      .update(updatedLink);
+  }
+
+  /**
+   * 
+   * @param linkId The ID of the link to delete
+   */
+  deleteLink(linkId: string) {
+    this.firestore.collection(this.collectionName).doc(linkId).delete();
+  }
 }

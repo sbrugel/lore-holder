@@ -43,9 +43,12 @@
     </div>
 
     <h1>Character Links</h1>
+    <button mat-flat-button class="primary" type="button" (click)="openLinkDialog()">New Link</button>
     <div *ngIf="this.characterLinks.length > 0; else noLinks">
         <div *ngFor="let link of this.characterLinks">
             <app-character-link-card 
+                [characterLink]="link"
+                [editFunction]="triggerLinkDialog(link)" 
                 [characterInput]="this.characterService.getCharacterById(link.toId)!" 
                 [cardSubtext]="link.relationType.toUpperCase() + ' - ' + link.details">
             </app-character-link-card>

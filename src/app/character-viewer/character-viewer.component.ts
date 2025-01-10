@@ -14,6 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../_services/auth.service';
 import { DeleteConfirmComponent } from '../_common/delete-confirm/delete-confirm.component';
 import { DetailEditorDialog } from '../_dialogs/detail-editor-dialog.component';
+import { CharacterLinkEditorDialog } from '../_dialogs/link-editor-dialog.component';
 
 @Component({
   selector: 'app-character-viewer',
@@ -32,6 +33,7 @@ export class CharacterViewerComponent {
 
   characterService: CharacterService = inject(CharacterService);
   character: Character | undefined;
+  allCharacters: Character[] = [];
 
   detailsService: CustomDetailService = inject(CustomDetailService);
   details: CustomDetail[] = [];
@@ -50,6 +52,10 @@ export class CharacterViewerComponent {
   readonly newDetailInputType = signal('paragraph');
   readonly newDetailContents = signal('');
   readonly newDetailListContents = signal([]);
+
+  readonly newLinkTo = signal('');
+  readonly newLinkDetails = signal('');
+  readonly newLinkType = signal('friend');
 
   handleRender(character: Character) {
     this.character = character;
@@ -98,6 +104,11 @@ export class CharacterViewerComponent {
           .subscribe((character) => {
             this.handleRender(character);
           });
+      });
+      this.characterService.getAllCharacters().subscribe((characters) => {
+        this.allCharacters = characters.filter(
+          (character) => character.ownerId === this.user.uid
+        );
       });
     });
   }
@@ -154,5 +165,47 @@ export class CharacterViewerComponent {
         this.detailsService.deleteCustomDetail(customDetail.id);
       }
     });
+  }
+
+  openLinkDialog(characterLink?: CharacterLink) {
+    const dialogRef = this.dialog.open(CharacterLinkEditorDialog, {
+      width: '70%',
+      data: {
+        ...(characterLink
+          ? { ...characterLink }
+          : {
+              id: '',
+              name: this.newDetailName(),
+              inputType: this.newDetailInputType(),
+              contents: this.newDetailContents(),
+              listContents: this.newDetailListContents(),
+            }),
+        _allCharacters: [...this.allCharacters],
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        const newLink: CharacterLink = {
+          id: characterLink?.id || '',
+          ownerId: characterLink?.ownerId || this.user.uid,
+          creationDate: characterLink?.creationDate || new Date(),
+          fromId: this.character!.id,
+          toId: result.linkTo(),
+          details: result.linkDetails(),
+          relationType: result.linkType(),
+        };
+
+        if (characterLink) {
+          this.characterLinkService.updateLink(newLink);
+        } else {
+          this.characterLinkService.createNewLink(newLink);
+        }
+      }
+    });
+  }
+
+  triggerLinkDialog(characterLink?: CharacterLink) {
+    return () => this.openLinkDialog(characterLink);
   }
 }
