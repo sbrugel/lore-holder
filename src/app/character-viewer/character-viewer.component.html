@@ -1,68 +1,70 @@
 <div *ngIf="character && this.user.uid === character.ownerId; else noChar">
-    <img [src]="character.imageUrl" />
-    <h1>{{ character.name }}</h1>
-    <h3><em>{{ subtitleText.join(' • ') }}</em></h3>
-
-    <div *ngIf="character.about" class="charBio">
-        <h2>About {{ character.name }}</h2>
-        <p>{{ character.about }}</p>
-    </div>
-
-    <button mat-flat-button class="primary" type="button" (click)="openDetailDialog()">Add Custom Detail</button>
-    <div class="detailGrid">
-        <div class="column">
-            <ng-container *ngFor="let detail of details; let i = index">
-                <div *ngIf="i % 2 === 0" class="detailItem">
-                    <h2>{{ detail.name }}</h2>
-                    <div *ngIf="detail.inputType === 'list'; else para">
-                        <ul>
-                            <li *ngFor="let item of detail.listContents">{{ item }}</li>
-                        </ul>
-                    </div>
-                    <ng-template #para>
-                        <p *ngFor="let item of detail.listContents">{{ item }}</p>
-                    </ng-template>
-                    <button mat-button (click)="openDetailDialog(detail)">EDIT</button>
-                    <button mat-button (click)="deleteDetail(detail)">DELETE</button>
+    <div class="container">
+        <div class="leftCol">
+            <img [src]="character.imageUrl" />
+            <h1>{{ character.name }}</h1>
+            <h3><em>{{ subtitleText.join(' • ') }}</em></h3>
+        </div>
+        <div class="rightCol">
+            <div *ngIf="character.about" class="charBio">
+                <h2>About {{ character.name }}</h2>
+                <p *ngFor="let line of character.about.split('\n')">{{ line }}</p>
+            </div>
+            <button mat-flat-button class="primary" type="button" (click)="openDetailDialog()">Add Custom Detail</button>
+            <div class="detailGrid">
+                <div class="column">
+                    <ng-container *ngFor="let detail of details; let i = index">
+                        <div *ngIf="i % 2 === 0" class="detailItem">
+                            <h2>{{ detail.name }}</h2>
+                            <div *ngIf="detail.inputType === 'list'; else para">
+                                <ul>
+                                    <li *ngFor="let item of detail.listContents">{{ item }}</li>
+                                </ul>
+                            </div>
+                            <ng-template #para>
+                                <p *ngFor="let item of detail.listContents">{{ item }}</p>
+                            </ng-template>
+                            <button mat-button (click)="openDetailDialog(detail)">EDIT</button>
+                            <button mat-button (click)="deleteDetail(detail)">DELETE</button>
+                        </div>
+                    </ng-container>
                 </div>
-            </ng-container>
-        </div>
-        <div class="column">
-            <ng-container *ngFor="let detail of details; let i = index">
-                <div *ngIf="i % 2 !== 0" class="detailItem">
-                    <h2>{{ detail.name }}</h2>
-                    <div *ngIf="detail.inputType === 'list'; else para">
-                        <ul>
-                            <li *ngFor="let item of detail.listContents">{{ item }}</li>
-                        </ul>
-                    </div>
-                    <ng-template #para>
-                        <p *ngFor="let item of detail.listContents">{{ item }}</p>
-                    </ng-template>
-                    <button mat-button (click)="openDetailDialog(detail)">EDIT</button>
-                    <button mat-button (click)="deleteDetail(detail)">DELETE</button>
+                <div class="column">
+                    <ng-container *ngFor="let detail of details; let i = index">
+                        <div *ngIf="i % 2 !== 0" class="detailItem">
+                            <h2>{{ detail.name }}</h2>
+                            <div *ngIf="detail.inputType === 'list'; else para">
+                                <ul>
+                                    <li *ngFor="let item of detail.listContents">{{ item }}</li>
+                                </ul>
+                            </div>
+                            <ng-template #para>
+                                <p *ngFor="let item of detail.listContents">{{ item }}</p>
+                            </ng-template>
+                            <button mat-button (click)="openDetailDialog(detail)">EDIT</button>
+                            <button mat-button (click)="deleteDetail(detail)">DELETE</button>
+                        </div>
+                    </ng-container>
                 </div>
-            </ng-container>
-        </div>
-    </div>
-    
+            </div>
 
-    <h2>Character Associations</h2>
-    <button mat-flat-button class="primary" type="button" (click)="openLinkDialog()">New Association</button>
-    <div *ngIf="this.characterLinks.length > 0; else noLinks" class="linkCards">
-        <div *ngFor="let link of this.characterLinks">
-            <app-character-link-card 
-                [characterLink]="link"
-                [editFunction]="triggerLinkDialog(link)" 
-                [characterInput]="this.characterService.getCharacterById(link.toId)!" 
-                [cardSubtext]="link.relationType.toUpperCase() + ' - ' + link.details">
-            </app-character-link-card>
+            <h2>Character Associations</h2>
+            <button mat-flat-button class="primary" type="button" (click)="openLinkDialog()">New Association</button>
+            <div *ngIf="this.characterLinks.length > 0; else noLinks" class="linkCards">
+                <div *ngFor="let link of this.characterLinks">
+                    <app-character-link-card 
+                        [characterLink]="link"
+                        [editFunction]="triggerLinkDialog(link)" 
+                        [characterInput]="this.characterService.getCharacterById(link.toId)!" 
+                        [cardSubtext]="link.relationType.toUpperCase() + ' - ' + link.details">
+                    </app-character-link-card>
+                </div>
+            </div>
+            <ng-template #noLinks>
+                <p>No associations yet!</p>
+            </ng-template>
         </div>
     </div>
-    <ng-template #noLinks>
-        <p>No associations yet!</p>
-    </ng-template>
-        
 </div>
 <ng-template #noChar>
     <p>This character doesn't exist, or you don't have viewing access</p>

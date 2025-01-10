@@ -1,3 +1,27 @@
+.container {
+    display: flex;
+    margin-left: 15vw;
+    margin-right: 15vw;
+    
+    /* center the content */
+    justify-content: center;
+}
+
+.leftCol {
+    margin-right: 10px;
+    padding: 10px;
+    width: 25%;
+  
+    /* don't move when you scroll */
+    position: sticky; 
+    top: 0; 
+    height: 100vh;
+}
+
+.rightCol {
+    width: 75%;
+}
+
 h1 {
     text-align: center;
     font-size: 4em;
@@ -34,22 +58,11 @@ button {
     margin: 10px auto;
 }
 
-.color-bar {
-    display: flex;
-    width: 20vw;
-    height: 1vw;
-    margin: 10px auto; /* center horizontally */
-}
-
-.segment {
-    flex: 1; /* distribute width evenly */
-}
-
 .charBio {
-    margin-left: 15vw;
-    margin-right: 15vw;
     margin-top: 10px;
     margin-bottom: 10px;
+    margin-left: 3vw;
+    margin-right: 3vw;
 
     padding: 10px;
 
@@ -60,15 +73,12 @@ button {
 
 .detailGrid {
     display: flex;
-    justify-content: space-between;
-    margin-left: 15vw;
-    margin-right: 15vw;
 }
 
 .detailItem {
     margin-bottom: 1vw;
-    margin-left: 3vw;
-    margin-right: 3vw;
+    margin-left: 1vw;
+    margin-right: 1vw;
     padding: 10px;
     border: 1px solid #ccc;
 
@@ -85,8 +95,6 @@ button {
 }
 
 .linkCards {
-    margin-left: 15vw;
-    margin-right: 15vw;
     margin-top: 10px;
     margin-bottom: 10px;
 }
