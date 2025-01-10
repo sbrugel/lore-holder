@@ -6,10 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { WorldService } from '../_services/world.service';
 import { World } from '../_interfaces/world';
 import { WorldCardComponent } from '../world-card/world-card.component';
-import {
-  MatDialog,
-  MatDialogModule,
-} from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AuthService } from '../_services/auth.service';
 import { WorldEditorDialog } from '../_dialogs/world-editor-dialog.component';
 
@@ -52,7 +49,8 @@ export class WorldListComponent {
         this.worldList = worlds;
         // set filteredWorldList to worldList sorted by name
         this.filteredWorldList = this.worldList.sort((a, b) =>
-          a.name.localeCompare(b.name)
+          // sort by creation date from latest to oldest
+          a.creationDate > b.creationDate ? -1 : 1
         );
       });
     });
@@ -86,6 +84,7 @@ export class WorldListComponent {
         const newWorld: World = {
           id: world?.id || '', // if new, will create new one. Or keep if editing
           ownerId: world?.ownerId || this.user.uid, // if new, will create new one. Or keep if editing
+          creationDate: world?.creationDate || new Date(),
           name: result.worldName(),
           description: result.worldDescription(),
           detailedDescription: result.worldDetailedDescription(),
@@ -113,4 +112,3 @@ export class WorldListComponent {
     });
   }
 }
-

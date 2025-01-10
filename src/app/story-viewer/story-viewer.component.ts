@@ -10,7 +10,12 @@ import { Character } from '../_interfaces/character';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -23,9 +28,15 @@ import { OKDialogComponent } from '../_common/ok-dialog/ok-dialog.component';
 
 @Component({
   selector: 'app-story-viewer',
-  imports: [CommonModule, MatButtonModule, MatCardModule, MatChipsModule, RouterModule],
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatCardModule,
+    MatChipsModule,
+    RouterModule,
+  ],
   templateUrl: './story-viewer.component.html',
-  styleUrl: './story-viewer.component.css'
+  styleUrl: './story-viewer.component.css',
 })
 export class StoryViewerComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
@@ -61,25 +72,44 @@ export class StoryViewerComponent {
         this.storyService.getStoryById(params['id']).subscribe((story) => {
           this.story = story;
           if (this.story) {
-            this.storyModuleService.getAllStoryModules().subscribe((storyModules) => {
-              this.storyModules = storyModules.filter((storyModule) => this.story!.moduleIds.includes(storyModule.id));
-            });
-  
+            this.storyModuleService
+              .getAllStoryModules()
+              .subscribe((storyModules) => {
+                this.storyModules = storyModules.filter((storyModule) =>
+                  this.story!.moduleIds.includes(storyModule.id)
+                );
+                this.storyModules = this.storyModules.sort((a, b) =>
+                  // sort by creation date from latest to oldest
+                  a.creationDate > b.creationDate ? 1 : -1
+                );
+              });
+
             this.characterService.getAllCharacters().subscribe((characters) => {
-              this.characters = characters.filter((character) => this.story!.characterIds.includes(character.id));
-              this.allCharacters = characters.filter((character) => character.ownerId === this.user.uid);
+              this.characters = characters.filter((character) =>
+                this.story!.characterIds.includes(character.id)
+              );
+              this.allCharacters = characters.filter(
+                (character) => character.ownerId === this.user.uid
+              );
+              this.allCharacters = this.allCharacters.sort((a, b) =>
+                a.name.localeCompare(b.name)
+              );
             });
-  
+
             if (this.story.previousId) {
-              this.storyService.getStoryById(this.story.previousId).subscribe((previousStory) => {
-                this.previousStory = previousStory;
-              });
+              this.storyService
+                .getStoryById(this.story.previousId)
+                .subscribe((previousStory) => {
+                  this.previousStory = previousStory;
+                });
             }
-  
+
             if (this.story.nextId) {
-              this.storyService.getStoryById(this.story.nextId).subscribe((nextStory) => {
-                this.nextStory = nextStory;
-              });
+              this.storyService
+                .getStoryById(this.story.nextId)
+                .subscribe((nextStory) => {
+                  this.nextStory = nextStory;
+                });
             }
           }
         });
@@ -88,7 +118,7 @@ export class StoryViewerComponent {
   }
 
   openModuleDialog(storyModule?: StoryModule) {
-    console.log(storyModule)
+    console.log(storyModule);
     const dialogRef = this.dialog.open(ModuleEditorDialog, {
       width: '70%',
       data: storyModule
@@ -107,6 +137,7 @@ export class StoryViewerComponent {
         const newModule: StoryModule = {
           id: storyModule?.id || '',
           ownerId: storyModule?.ownerId || this.user.uid,
+          creationDate: storyModule?.creationDate || new Date(),
           type: result.moduleType(),
           content: result.moduleContents(),
           appearance: result.moduleAppearance(),
@@ -162,7 +193,7 @@ export class StoryViewerComponent {
             data: {
               title: 'Note',
               message: 'This tag is already being used for this story!',
-            }
+            },
           });
         }
       }

@@ -22,6 +22,7 @@ export class CharacterService {
             const character: Character = {
               id: data.id,
               ownerId: data.ownerId,
+              creationDate: data.creationDate,
               name: data.name,
               imageUrl: data.imageUrl,
               description: data.description,
@@ -50,6 +51,7 @@ export class CharacterService {
           const character: Character = {
             id: data.id,
             ownerId: data.ownerId,
+            creationDate: data.creationDate,
             name: data.name,
             imageUrl: data.imageUrl,
             description: data.description,
@@ -116,9 +118,13 @@ export class CharacterService {
           if (data.fromId === characterId || data.toId === characterId) {
             this.firestore.collection('characterLinks').doc(doc.id).delete();
           }
+        });
+      })
+      .then(() => {
+        this.firestore
+          .collection(this.collectionName)
+          .doc(characterId)
+          .delete();
       });
-    }).then(() => {
-      this.firestore.collection(this.collectionName).doc(characterId).delete();
-    });
   }
 }

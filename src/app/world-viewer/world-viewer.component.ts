@@ -1,8 +1,4 @@
-import {
-  Component,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { WorldService } from '../_services/world.service';
 import { World } from '../_interfaces/world';
@@ -19,10 +15,7 @@ import { Story } from '../_interfaces/story';
 import { MatListModule } from '@angular/material/list';
 import { MatChipsModule } from '@angular/material/chips';
 import { CharacterCardComponent } from '../character-card/character-card.component';
-import {
-  MatDialog,
-  MatDialogModule,
-} from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AuthService } from '../_services/auth.service';
 import { PlaceCardComponent } from '../place-card/place-card.component';
 import { StoryCardComponent } from '../story-card/story-card.component';
@@ -45,7 +38,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
     CharacterCardComponent,
     PlaceCardComponent,
     StoryCardComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   templateUrl: './world-viewer.component.html',
   styleUrl: './world-viewer.component.css',
@@ -107,11 +100,17 @@ export class WorldViewerComponent {
           this.characters = characters.filter((character) =>
             this.world!.characterIds.includes(character.id)
           );
+          this.characters = this.characters.sort((a, b) =>
+            a.name.localeCompare(b.name)
+          );
         });
 
       this.placeService.getAllPlaces().subscribe((places: Place[]) => {
         this.places = places.filter((place) =>
           this.world!.placeIds.includes(place.id)
+        );
+        this.places = this.places.sort((a, b) =>
+          a.name.localeCompare(b.name)
         );
       });
 
@@ -121,9 +120,14 @@ export class WorldViewerComponent {
 
   updateStories() {
     this.storyService.getAllStories().subscribe((stories: Story[]) => {
-      this.stories = stories.filter((story) =>
-        this.world!.storyIds.includes(story.id) 
-        && this.hasSelectedCharacterTag(story)
+      this.stories = stories.filter(
+        (story) =>
+          this.world!.storyIds.includes(story.id) &&
+          this.hasSelectedCharacterTag(story)
+      );
+      this.stories = this.stories.sort((a, b) =>
+        // sort by creation date from latest to oldest
+        a.creationDate > b.creationDate ? -1 : 1
       );
     });
   }
@@ -135,9 +139,12 @@ export class WorldViewerComponent {
   hasSelectedCharacterTag(story: Story) {
     if (!this.selectedCharacters) return true;
     if (this.selectedCharacters.value.length === 0) {
-      console.log("a");
+      console.log('a');
       return true;
-    } else return story.characterIds.some((characterId) => this.selectedCharacters.value.includes(characterId));
+    } else
+      return story.characterIds.some((characterId) =>
+        this.selectedCharacters.value.includes(characterId)
+      );
   }
 
   /**
@@ -174,6 +181,7 @@ export class WorldViewerComponent {
         const newCharacter: Character = {
           id: character?.id || '',
           ownerId: character?.ownerId || this.user.uid,
+          creationDate: character?.creationDate || new Date(),
           name: result.characterName(),
           description: result.characterDescription(),
           about: result.characterBio(),
@@ -224,6 +232,7 @@ export class WorldViewerComponent {
         const newPlace: Place = {
           id: place?.id || '',
           ownerId: place?.ownerId || this.user.uid,
+          creationDate: place?.creationDate || new Date(),
           name: result.placeName(),
           description: result.placeDescription(),
           about: result.placeAbout(),
@@ -272,6 +281,7 @@ export class WorldViewerComponent {
         const newStory: Story = {
           id: story?.id || '',
           ownerId: story?.ownerId || this.user.uid,
+          creationDate: story?.creationDate || new Date(),
           title: result.storyTitle(),
           characterIds: story?.characterIds || [],
           moduleIds: story?.moduleIds || [],

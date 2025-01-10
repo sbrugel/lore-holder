@@ -11,6 +11,11 @@ export interface StoryModule {
      * The user who owns this
      */
     ownerId: string;
+    
+    /**
+     * The date of creation for this object
+     */
+    creationDate: Date;
 
     /**
      * Type of the module

@@ -27,6 +27,7 @@ export class WorldService {
               const world: World = {
                 id: data.id,
                 ownerId: data.ownerId,
+                creationDate: data.creationDate,
                 name: data.name,
                 description: data.description,
                 detailedDescription: data.detailedDescription,
@@ -37,7 +38,7 @@ export class WorldService {
                 storyIds: data.storyIds || [],
               };
               return world;
-          });
+            });
         })
       );
   }
@@ -58,6 +59,7 @@ export class WorldService {
           const world: World = {
             id: data.id,
             ownerId: data.ownerId,
+            creationDate: data.creationDate,
             name: data.name,
             description: data.description,
             detailedDescription: data.detailedDescription,

@@ -13,6 +13,11 @@ export interface CustomDetail {
     ownerId: string;
 
     /**
+     * The date of creation for this object
+     */
+    creationDate: Date;
+
+    /**
      * The type of detail
      */
     inputType: 'text' | 'list';

@@ -13,6 +13,11 @@ export interface CharacterLink {
     ownerId: string;
 
     /**
+     * The date of creation for this object
+     */
+    creationDate: Date;
+
+    /**
      * Character ID link start
      */
     fromId: string;

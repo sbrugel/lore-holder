@@ -11,6 +11,11 @@ export interface World {
      * The user who owns this
      */
     ownerId: string;
+    
+    /**
+     * The date of creation for this object
+     */
+    creationDate: Date;
 
     /**
      * The world name

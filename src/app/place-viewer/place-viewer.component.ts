@@ -20,7 +20,7 @@ import { OKDialogComponent } from '../_common/ok-dialog/ok-dialog.component';
   selector: 'app-place-viewer',
   imports: [CommonModule, MatButtonModule, MatCardModule, RouterModule],
   templateUrl: './place-viewer.component.html',
-  styleUrl: './place-viewer.component.css'
+  styleUrl: './place-viewer.component.css',
 })
 export class PlaceViewerComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
@@ -39,7 +39,7 @@ export class PlaceViewerComponent {
   user: any;
 
   readonly dialog = inject(MatDialog);
-  
+
   readonly newDetailName = signal('');
   readonly newDetailInputType = signal('paragraph');
   readonly newDetailContents = signal('');
@@ -54,17 +54,31 @@ export class PlaceViewerComponent {
         this.placeService.getPlaceById(params['id']).subscribe((place) => {
           this.place = place;
           if (this.place) {
-            this.characterService.getAllCharacters().subscribe((characters: Character[]) => {
-              this.characters = characters.filter((character) => this.place!.characterIds.includes(character.id));
-              this.allCharacters = characters.filter((character) => character.ownerId === this.user.uid);
-            });
+            this.characterService
+              .getAllCharacters()
+              .subscribe((characters: Character[]) => {
+                this.characters = characters.filter((character) =>
+                  this.place!.characterIds.includes(character.id)
+                );
+                this.allCharacters = characters.filter(
+                  (character) => character.ownerId === this.user.uid
+                );
+                this.allCharacters = this.allCharacters.sort((a, b) =>
+                  a.name.localeCompare(b.name)
+                );
+              });
+
             this.detailsService
               .getAllCustomDetails()
               .subscribe((details: CustomDetail[]) => {
                 this.details = details.filter((detail) =>
                   this.place!.detailIds.includes(detail.id)
                 );
-            });
+                this.details = this.details.sort((a, b) =>
+                  // sort by creation date from latest to oldest
+                  a.creationDate > b.creationDate ? 1 : -1
+                );
+              });
           }
         });
       });
@@ -90,6 +104,7 @@ export class PlaceViewerComponent {
         const newDetail: CustomDetail = {
           id: customDetail?.id || '',
           ownerId: customDetail?.ownerId || this.user.uid,
+          creationDate: customDetail?.creationDate || new Date(),
           name: result.detailName(),
           inputType: result.detailInputType(),
           contents: result.detailContents(),
@@ -114,7 +129,7 @@ export class PlaceViewerComponent {
       }
     });
   }
-  
+
   deleteDetail(customDetail: CustomDetail) {
     const dialogRef = this.dialog.open(DeleteConfirmComponent, {
       width: '70%',
@@ -152,7 +167,7 @@ export class PlaceViewerComponent {
             data: {
               title: 'Note',
               message: 'This character already lives here!',
-            }
+            },
           });
         }
       }

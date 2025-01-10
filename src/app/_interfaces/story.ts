@@ -11,6 +11,11 @@ export interface Story {
      * The user who owns this
      */
     ownerId: string;
+    
+    /**
+     * The date of creation for this object
+     */
+    creationDate: Date;
 
     /**
      * Title of the story

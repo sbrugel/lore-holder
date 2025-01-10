@@ -69,6 +69,10 @@ export class CharacterViewerComponent {
           this.details = details.filter((detail) =>
             this.character!.detailIds.includes(detail.id)
           );
+          this.details = this.details.sort((a, b) =>
+            // sort by creation date from latest to oldest
+            a.creationDate > b.creationDate ? 1 : -1
+          );
         });
 
       this.characterLinkService
@@ -76,6 +80,10 @@ export class CharacterViewerComponent {
         .subscribe((links: CharacterLink[]) => {
           this.characterLinks = links.filter(
             (link) => link.fromId === this.character!.id
+          );
+          this.characterLinks = this.characterLinks.sort((a, b) =>
+            // sort by creation date from latest to oldest
+            a.creationDate > b.creationDate ? 1 : -1
           );
         });
     }
@@ -113,6 +121,7 @@ export class CharacterViewerComponent {
         const newDetail: CustomDetail = {
           id: customDetail?.id || '',
           ownerId: customDetail?.ownerId || this.user.uid,
+          creationDate: customDetail?.creationDate || new Date(),
           name: result.detailName(),
           inputType: result.detailInputType(),
           contents: result.detailContents(),

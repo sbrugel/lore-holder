@@ -26,6 +26,7 @@ export class StoryService {
             const story: Story = {
               id: data.id,
               ownerId: data.ownerId,
+              creationDate: data.creationDate,
               title: data.title,
               characterIds: data.characterIds,
               moduleIds: data.moduleIds,
@@ -53,6 +54,7 @@ export class StoryService {
           const story: Story = {
             id: data.id,
             ownerId: data.ownerId,
+            creationDate: data.creationDate,
             title: data.title,
             characterIds: data.characterIds,
             moduleIds: data.moduleIds,
@@ -65,14 +67,12 @@ export class StoryService {
   }
 
   /**
-     *
-     * @param newStory The new Story to create
-     * @param worldId The ID of the world to add this Story to
-     */
+   *
+   * @param newStory The new Story to create
+   * @param worldId The ID of the world to add this Story to
+   */
   createNewStory(newStory: Story, worldId: string) {
-    const newDoc = this.firestore
-      .collection(this.collectionName)
-      .add(newStory);
+    const newDoc = this.firestore.collection(this.collectionName).add(newStory);
 
     newDoc.then((docRef) => {
       docRef.update({ id: docRef.id });
@@ -87,9 +87,9 @@ export class StoryService {
   }
 
   /**
-     *
-     * @param updatedStory The updated Story to save to Firestore
-     */
+   *
+   * @param updatedStory The updated Story to save to Firestore
+   */
   updateStory(updatedStory: Story) {
     this.firestore
       .collection(this.collectionName)
@@ -98,9 +98,9 @@ export class StoryService {
   }
 
   /**
-     *
-     * @param storyId The ID of the story to delete
-     */
+   *
+   * @param storyId The ID of the story to delete
+   */
   async deleteStory(storyId: string) {
     // delete moduleIds of this story
     // TODO: fix this soon lol
@@ -112,23 +112,35 @@ export class StoryService {
     // }
 
     // find any stories that have this story as their previousId and update their previousId to null
-    const querySnapshotPrev = await this.firestore.collection(this.collectionName).get().toPromise();
+    const querySnapshotPrev = await this.firestore
+      .collection(this.collectionName)
+      .get()
+      .toPromise();
     querySnapshotPrev!.forEach(async (doc) => {
       const data: any = doc.data();
       if (data.previousId === storyId) {
-      await this.firestore.collection(this.collectionName).doc(doc.id).update({ previousId: null });
+        await this.firestore
+          .collection(this.collectionName)
+          .doc(doc.id)
+          .update({ previousId: null });
       }
     });
 
     // find any stories that have this story as their nextId and update their nextId to null
-    const querySnapshotNext = await this.firestore.collection(this.collectionName).get().toPromise();
+    const querySnapshotNext = await this.firestore
+      .collection(this.collectionName)
+      .get()
+      .toPromise();
     querySnapshotNext!.forEach(async (doc) => {
       const data: any = doc.data();
       if (data.nextId === storyId) {
-      await this.firestore.collection(this.collectionName).doc(doc.id).update({ nextId: null });
+        await this.firestore
+          .collection(this.collectionName)
+          .doc(doc.id)
+          .update({ nextId: null });
       }
     });
-    
+
     this.firestore.collection(this.collectionName).doc(storyId).delete();
   }
 }

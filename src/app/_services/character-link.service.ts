@@ -25,6 +25,7 @@ export class CharacterLinkService {
             const characterLink: CharacterLink = {
               id: data.id,
               ownerId: data.ownerId,
+              creationDate: data.creationDate,
               fromId: data.fromId,
               toId: data.toId,
               details: data.details,
@@ -51,6 +52,7 @@ export class CharacterLinkService {
           const characterLink: CharacterLink = {
             id: data.id,
             ownerId: data.ownerId,
+            creationDate: data.creationDate,
             fromId: data.fromId,
             toId: data.toId,
             details: data.details,

@@ -22,6 +22,7 @@ export class PlaceService {
             const place: Place = {
               id: data.id,
               ownerId: data.ownerId,
+              creationDate: data.creationDate,
               name: data.name,
               description: data.description,
               population: data.population,
@@ -45,6 +46,7 @@ export class PlaceService {
           const place: Place = {
             id: data.id,
             ownerId: data.ownerId,
+            creationDate: data.creationDate,
             name: data.name,
             description: data.description,
             population: data.population,

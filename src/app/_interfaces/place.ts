@@ -11,6 +11,11 @@ export interface Place {
      * The user who owns this
      */
     ownerId: string;
+    
+    /**
+     * The date of creation for this object
+     */
+    creationDate: Date;
 
     /**
      * The place name

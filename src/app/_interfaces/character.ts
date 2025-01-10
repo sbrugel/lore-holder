@@ -13,6 +13,11 @@ export interface Character {
     ownerId: string;
 
     /**
+     * The date of creation for this object
+     */
+    creationDate: Date;
+
+    /**
      * Character name
      */
     name: string;

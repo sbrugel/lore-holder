@@ -26,6 +26,7 @@ export class CustomDetailService {
             const customDetail: CustomDetail = {
               id: data.id,
               ownerId: data.ownerId,
+              creationDate: data.creationDate,
               inputType: data.inputType,
               name: data.name,
               contents: data.contents,
@@ -53,6 +54,7 @@ export class CustomDetailService {
           const customDetail: CustomDetail = {
             id: data.id,
             ownerId: data.ownerId,
+            creationDate: data.creationDate,
             inputType: data.inputType,
             name: data.name,
             contents: data.contents,
@@ -70,11 +72,15 @@ export class CustomDetailService {
    * @param objectId The ID of the character OR place to add this detail to
    * @param collectionName The collection name to add this detail to (default is 'characters')
    */
-  createNewCustomDetail(newDetail: CustomDetail, objectId: string, collectionName='characters') {
+  createNewCustomDetail(
+    newDetail: CustomDetail,
+    objectId: string,
+    collectionName = 'characters'
+  ) {
     const newDoc = this.firestore
       .collection(this.collectionName)
       .add(newDetail);
-    
+
     newDoc.then((docRef) => {
       docRef.update({ id: docRef.id });
       // update char with ID to add this detail to detailIds
@@ -104,9 +110,6 @@ export class CustomDetailService {
    * @param id The ID of the custom detail to delete
    */
   deleteCustomDetail(id: string) {
-    this.firestore
-      .collection(this.collectionName)
-      .doc(id)
-      .delete();
+    this.firestore.collection(this.collectionName).doc(id).delete();
   }
 }
