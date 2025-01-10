@@ -23,11 +23,11 @@
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-                <input matInput [(ngModel)]="worldImageUrl" name="worldImageUrl" required pattern="https?://.+">
-                <mat-hint align="start">Image URL*</mat-hint>
-                <mat-error *ngIf="worldForm.controls['worldImageUrl']?.errors?.['required']">
+                <input matInput [(ngModel)]="worldImageUrl" name="worldImageUrl" pattern="https?://.+">
+                <mat-hint align="start">Image URL</mat-hint>
+                <!-- <mat-error *ngIf="worldForm.controls['worldImageUrl']?.errors?.['required']">
                     Image URL is required.
-                </mat-error>
+                </mat-error> -->
                 <mat-error *ngIf="worldForm.controls['worldImageUrl']?.errors?.['pattern']">
                     Must be a valid URL (must start with http:// or https://).
                 </mat-error>

@@ -1,5 +1,3 @@
-// TS for the new/edit detail dialog, accessible from the Character and Place Viewers
-
 import { CommonModule } from "@angular/common";
 import { Component, inject, signal } from "@angular/core";
 import { FormsModule } from "@angular/forms";

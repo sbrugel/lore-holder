@@ -88,7 +88,7 @@ export class WorldListComponent {
           name: result.worldName(),
           description: result.worldDescription(),
           detailedDescription: result.worldDetailedDescription(),
-          imageUrl: result.worldImageUrl(),
+          imageUrl: result.worldImageUrl() !== '' ? result.worldImageUrl() : 'https://www.shutterstock.com/image-illustration/small-fairy-tale-town-fiction-600nw-1267144957.jpg',
           color: result.worldColor(),
           characterIds: world?.characterIds || [],
           placeIds: world?.placeIds || [],

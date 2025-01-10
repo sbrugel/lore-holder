@@ -1,5 +1,5 @@
-import { Component, inject, model, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, RouterLink, RouterModule } from '@angular/router';
+import { Component, inject, signal } from '@angular/core';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { StoryService } from '../_services/story.service';
 import { Story } from '../_interfaces/story';
 import { StoryModuleService } from './../_services/story-module.service';
@@ -10,16 +10,7 @@ import { Character } from '../_interfaces/character';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
-import { FormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
+import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../_services/auth.service';
 import { DeleteConfirmComponent } from '../_common/delete-confirm/delete-confirm.component';
 import { CharacterAddDialog } from '../_dialogs/character-add-dialog.component';
@@ -118,7 +109,6 @@ export class StoryViewerComponent {
   }
 
   openModuleDialog(storyModule?: StoryModule) {
-    console.log(storyModule);
     const dialogRef = this.dialog.open(ModuleEditorDialog, {
       width: '70%',
       data: storyModule

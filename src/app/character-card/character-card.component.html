@@ -8,7 +8,7 @@
                   }" >
                 </div>
                 <mat-card-title>{{ character.name }}</mat-card-title>
-                <mat-card-subtitle>{{ character.race }} | <em>{{ character.pronouns }}</em></mat-card-subtitle>
+                <mat-card-subtitle >{{ character.race }} <em>{{ (character.pronouns ? "(" + character.pronouns + ")" : "") }}</em></mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
                 <p>{{ character.description }}</p>

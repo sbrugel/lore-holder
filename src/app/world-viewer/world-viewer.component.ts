@@ -139,7 +139,6 @@ export class WorldViewerComponent {
   hasSelectedCharacterTag(story: Story) {
     if (!this.selectedCharacters) return true;
     if (this.selectedCharacters.value.length === 0) {
-      console.log('a');
       return true;
     } else
       return story.characterIds.some((characterId) =>
@@ -185,7 +184,7 @@ export class WorldViewerComponent {
           name: result.characterName(),
           description: result.characterDescription(),
           about: result.characterBio(),
-          imageUrl: result.characterImageUrl(),
+          imageUrl: result.characterImageUrl() !== '' ? result.characterImageUrl() : 'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg',
           age: result.characterAge(),
           gender: result.characterGender(),
           race: result.characterRace(),
@@ -276,8 +275,6 @@ export class WorldViewerComponent {
     // Handle after dialog is closed
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
-        console.log(result.previousStoryId());
-        console.log(result.nextStoryId());
         const newStory: Story = {
           id: story?.id || '',
           ownerId: story?.ownerId || this.user.uid,
