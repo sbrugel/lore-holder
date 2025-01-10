@@ -1,10 +1,10 @@
 <!-- HTML for the new/edit detail dialog, accessible from the Character and Place Viewers -->
-<h2 mat-dialog-title>Custom Detail Editor</h2>
+<h2 mat-dialog-title>Character Association Editor</h2>
 <mat-dialog-content>
     <form #linkForm="ngForm" novalidate>
         <div class="dialog-form">
             <mat-form-field class="example-full-width">
-                <mat-label>Who to link to?</mat-label>
+                <mat-label>Who to associate with?</mat-label>
                 <mat-select [(ngModel)]="linkTo" name="linkTo">
                     <mat-option *ngFor="let character of allCharacters()" [value]="character.id">
                         {{character.name}}
@@ -14,7 +14,7 @@
 
             <mat-form-field class="example-full-width">
                 <textarea matInput [(ngModel)]="linkDetails" name="linkDetails" required></textarea>
-                <mat-hint align="start">Link Details*</mat-hint>
+                <mat-hint align="start">Association Details*</mat-hint>
                 <mat-error *ngIf="linkForm.controls['linkDetails']?.invalid">
                     Details are required.
                 </mat-error>
@@ -28,9 +28,9 @@
                     <mat-option value="lover">Lover</mat-option>
                     <mat-option value="other">Other</mat-option>
                 </mat-select>
-                <mat-hint align="start">Link Type*</mat-hint>
+                <mat-hint align="start">Association Type*</mat-hint>
                 <mat-error *ngIf="linkForm.controls['linkType']?.errors?.['required']">
-                    Link type is required.
+                    Type is required.
                 </mat-error>
             </mat-form-field>
         </div>
