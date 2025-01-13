@@ -40,7 +40,7 @@
                 </ng-template>
             </mat-tab>
             <mat-tab label="Stories">
-                <div class="charTags">
+                <div class="tags">
                     <mat-chip-listbox [formControl]="selectedCharacters" multiple>
                         <div *ngFor="let character of characters">
                             <mat-chip-option [value]="character.id" (click)="updateStories()">{{ character.name }}</mat-chip-option>

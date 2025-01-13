@@ -1,12 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-landing',
-  imports: [MatButtonModule],
+  imports: [CommonModule, MatButtonModule, MatExpansionModule],
   templateUrl: './landing.component.html',
-  styleUrl: './landing.component.css'
+  styleUrls: ['./landing.component.css', '../app.component.css']
 })
 export class LandingComponent {
   title = 'landing';
+  readonly panelOpenState = signal(false);
 }

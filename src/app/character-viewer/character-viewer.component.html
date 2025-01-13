@@ -6,7 +6,7 @@
             <h3><em>{{ subtitleText.join(' • ') }}</em></h3>
         </div>
         <div class="rightCol">
-            <div *ngIf="character.about" class="charBio">
+            <div *ngIf="character.about" class="bio">
                 <h2>About {{ character.name }}</h2>
                 <p *ngFor="let line of character.about.split('\n')">{{ line }}</p>
             </div>

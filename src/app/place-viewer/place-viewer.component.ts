@@ -20,7 +20,11 @@ import { OKDialogComponent } from '../_common/ok-dialog/ok-dialog.component';
   selector: 'app-place-viewer',
   imports: [CommonModule, MatButtonModule, MatCardModule, RouterModule],
   templateUrl: './place-viewer.component.html',
-  styleUrls: ['./place-viewer.component.css', '../_common/object-viewer.css'],
+  styleUrls: [
+    './place-viewer.component.css',
+    '../_common/object-viewer.css',
+    '../app.component.css',
+  ],
 })
 export class PlaceViewerComponent {
   route: ActivatedRoute = inject(ActivatedRoute);

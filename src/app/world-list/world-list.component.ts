@@ -22,7 +22,7 @@ import { ToastrService } from 'ngx-toastr';
     WorldCardComponent,
   ],
   templateUrl: './world-list.component.html',
-  styleUrl: './world-list.component.css',
+  styleUrls: ['./world-list.component.css', '../app.component.css'],
 })
 export class WorldListComponent {
   // displayed worlds

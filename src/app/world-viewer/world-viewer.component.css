@@ -1,17 +1,4 @@
-h1 {
-    text-align: center;
-    font-size: 4em;
-    margin: 10px;
-}
-
-h2 {
-    text-align: center;
-    font-size: 1.7em;
-    margin: 10px;
-}
-
 p {
-    text-align: center;
     margin-left: 15vw;
     margin-right: 15vw;
     margin-top: 10px;
@@ -39,8 +26,9 @@ mat-tab-group {
 }
 
 button {
+    display: inline;
     font-size: 1.1em;
-    margin: 10px;
+    margin: 10px !important;
 }
 
 .newButtons {
@@ -53,15 +41,6 @@ img {
     width: 100%;
     aspect-ratio: 16 / 2;
     object-fit: cover;
-}
-
-.charTags {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin: 10px;
-    margin-left: 10vw;
-    margin-right: 10vw;
 }
 
 .storyCards {

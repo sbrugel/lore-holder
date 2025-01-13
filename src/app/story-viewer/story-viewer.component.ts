@@ -27,7 +27,11 @@ import { OKDialogComponent } from '../_common/ok-dialog/ok-dialog.component';
     RouterModule,
   ],
   templateUrl: './story-viewer.component.html',
-  styleUrls: ['./story-viewer.component.css', '../_common/object-viewer.css'],
+  styleUrls: [
+    './story-viewer.component.css',
+    '../_common/object-viewer.css',
+    '../app.component.css',
+  ],
 })
 export class StoryViewerComponent {
   route: ActivatedRoute = inject(ActivatedRoute);

@@ -12,15 +12,6 @@
 }
 
 /* Styles for the page as a whole */
-.tags {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin: 10px;
-    margin-left: 10vw;
-    margin-right: 10vw;
-}
-
 .module {
     margin-top: 20px;
     margin-bottom: 20px;

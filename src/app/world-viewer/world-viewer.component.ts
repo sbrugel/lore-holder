@@ -41,7 +41,11 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
   ],
   templateUrl: './world-viewer.component.html',
-  styleUrl: './world-viewer.component.css',
+  styleUrls: [
+    './world-viewer.component.css',
+    '../_common/object-viewer.css',
+    '../app.component.css',
+  ],
 })
 export class WorldViewerComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
@@ -109,9 +113,7 @@ export class WorldViewerComponent {
         this.places = places.filter((place) =>
           this.world!.placeIds.includes(place.id)
         );
-        this.places = this.places.sort((a, b) =>
-          a.name.localeCompare(b.name)
-        );
+        this.places = this.places.sort((a, b) => a.name.localeCompare(b.name));
       });
 
       this.updateStories();
@@ -184,7 +186,10 @@ export class WorldViewerComponent {
           name: result.characterName(),
           description: result.characterDescription(),
           about: result.characterBio(),
-          imageUrl: result.characterImageUrl() !== '' ? result.characterImageUrl() : 'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg',
+          imageUrl:
+            result.characterImageUrl() !== ''
+              ? result.characterImageUrl()
+              : 'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg',
           age: result.characterAge(),
           gender: result.characterGender(),
           race: result.characterRace(),

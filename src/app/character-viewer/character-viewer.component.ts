@@ -26,7 +26,7 @@ import { CharacterLinkEditorDialog } from '../_dialogs/link-editor-dialog.compon
     CharacterLinkCardComponent,
   ],
   templateUrl: './character-viewer.component.html',
-  styleUrls: ['./character-viewer.component.css', '../_common/object-viewer.css'],
+  styleUrls: ['./character-viewer.component.css', '../_common/object-viewer.css', '../app.component.css'],
 })
 export class CharacterViewerComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
