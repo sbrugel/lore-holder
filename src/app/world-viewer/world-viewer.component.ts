@@ -127,7 +127,7 @@ export class WorldViewerComponent {
       );
       this.stories = this.stories.sort((a, b) =>
         // sort by creation date from latest to oldest
-        a.creationDate > b.creationDate ? -1 : 1
+        a.creationDate > b.creationDate ? 1 : -1
       );
     });
   }

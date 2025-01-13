@@ -1,3 +1,4 @@
+/* Common CSS for object editor dialog components */
 .dialog-form {
     display: flex;
     flex-direction: column;

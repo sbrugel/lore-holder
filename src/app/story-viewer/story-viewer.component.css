@@ -1,3 +1,4 @@
+/* Styles for text modules */
 .bold {
     font-weight: bold;
 }
@@ -8,4 +9,42 @@
 
 .underlined {
     text-decoration: underline;
+}
+
+/* Styles for the page as a whole */
+.tags {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 10px;
+    margin-left: 10vw;
+    margin-right: 10vw;
+}
+
+.module {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 15vw;
+    margin-right: 15vw;
+
+    padding: 10px;
+
+    border: 2px solid #414754;
+    border-radius: 20px;
+}
+
+.module p {
+    font-size: 1.5em;
+}
+
+.centerButtons {
+    display: flex;
+    justify-content: center;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 70%;
 }

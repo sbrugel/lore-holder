@@ -3,15 +3,17 @@
 
     <button mat-flat-button class="primary" type="button" (click)="openTagDialog()">Add Tag</button>
     <p><em>Click on a tag to remove it</em></p>
-    <mat-chip-set multiple>
-        <div *ngFor="let character of characters">
-            <mat-chip (click)="removeTag(character.id)">{{ character.name }}</mat-chip>
-        </div>
-    </mat-chip-set>
+    <div class="tags">
+        <mat-chip-set multiple>
+            <div *ngFor="let character of characters">
+                <mat-chip (click)="removeTag(character.id)">{{ character.name }}</mat-chip>
+            </div>
+        </mat-chip-set>
+    </div>
 
     <button mat-flat-button class="primary" type="button" (click)="openModuleDialog()">New Module</button>
     <div *ngIf="storyModules.length > 0; else noModules">
-        <div *ngFor="let module of storyModules">
+        <div *ngFor="let module of storyModules" class="module">
             <div *ngIf="module.type === 'text'">
                 <p 
                     [ngClass]="{
@@ -30,42 +32,23 @@
             <div *ngIf="module.type === 'image'">
                 <img [src]="module.content" alt="Image">
             </div>
-            <button mat-button (click)="openModuleDialog(module)">EDIT</button> 
-            <button mat-button (click)="deleteModule(module)">DELETE</button>
-            <!-- TODO: we'll implement this soon(TM) -->
-            <!-- <button mat-button>UP</button> 
-            <button mat-button>DOWN</button> -->
+            <div class="centerButtons">
+                <button mat-button (click)="openModuleDialog(module)">EDIT</button> 
+                <button mat-button (click)="deleteModule(module)">DELETE</button>
+            </div>
         </div>
     </div>
     <ng-template #noModules>
         <p>No modules found for this story! Why not add some?</p>
     </ng-template>
 
-    <div class="buttoms-row">
-        <div *ngIf="this.previousStory">
-            <div [routerLink]="['/story', previousStory.id]">
-                <mat-card class="pointer-elem">
-                    <mat-card-header>
-                        <mat-card-title>Previous</mat-card-title>
-                    </mat-card-header>
-                    <mat-card-content>
-                        <p>{{ previousStory.title }}</p>
-                    </mat-card-content>
-                </mat-card>
-            </div>
-        </div>
-        <div *ngIf="this.nextStory">
-            <div [routerLink]="['/story', nextStory.id]">
-                <mat-card class="pointer-elem">
-                    <mat-card-header>
-                        <mat-card-title>Next</mat-card-title>
-                    </mat-card-header>
-                    <mat-card-content>
-                        <p>{{ nextStory.title }}</p>
-                    </mat-card-content>
-                </mat-card>
-            </div>
-        </div>
+    <div class="centerButtons">
+        <ng-container *ngIf="this.previousStory">
+            <button mat-flat-button class="primary" type="button" [routerLink]="['/story', previousStory.id]">Previous Story</button>
+        </ng-container>
+        <ng-container *ngIf="this.nextStory">
+            <button mat-flat-button class="primary" type="button" [routerLink]="['/story', nextStory.id]">Next Story</button>
+        </ng-container>
     </div>
     
 </div>

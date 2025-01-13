@@ -27,7 +27,7 @@ import { OKDialogComponent } from '../_common/ok-dialog/ok-dialog.component';
     RouterModule,
   ],
   templateUrl: './story-viewer.component.html',
-  styleUrl: './story-viewer.component.css',
+  styleUrls: ['./story-viewer.component.css', '../_common/object-viewer.css'],
 })
 export class StoryViewerComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
@@ -93,6 +93,8 @@ export class StoryViewerComponent {
                 .subscribe((previousStory) => {
                   this.previousStory = previousStory;
                 });
+            } else {
+              this.previousStory = undefined; // TODO: I know there is a better way to handle switching stories when switching the page
             }
 
             if (this.story.nextId) {
@@ -101,6 +103,8 @@ export class StoryViewerComponent {
                 .subscribe((nextStory) => {
                   this.nextStory = nextStory;
                 });
+            } else {
+              this.nextStory = undefined;
             }
           }
         });
