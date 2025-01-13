@@ -165,7 +165,7 @@ export class PlaceViewerComponent {
           this.dialog.open(OKDialogComponent, {
             width: '70%',
             data: {
-              title: 'Note',
+              title: 'Cannot add character',
               message: 'This character already lives here!',
             },
           });

@@ -181,7 +181,7 @@ export class StoryViewerComponent {
           this.dialog.open(OKDialogComponent, {
             width: '70%',
             data: {
-              title: 'Note',
+              title: 'Cannot add tag',
               message: 'This tag is already being used for this story!',
             },
           });

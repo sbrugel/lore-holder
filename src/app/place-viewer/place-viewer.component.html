@@ -1,72 +1,82 @@
 <div *ngIf="place && this.user.uid === place.ownerId; else noPlace">
-    <h1>{{ place.name }}</h1>
-    <p>{{ place.population ? 'Population: ' + place.population : '' }}</p>
-
-    <div class="buttoms-row">
-        <button mat-button>BACK</button>
-        <button mat-button>EDIT</button>
-        <button mat-button>DELETE</button>
-    </div>
-
-    <button mat-flat-button class="primary" type="button" (click)="openDetailDialog()">New Detail</button>
-
-    <mat-card appearance="outlined">
-        <mat-card-header>
-            <mat-card-title>About {{ place.name }}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <p>{{ place.about }}</p>
-        </mat-card-content>
-    </mat-card>
-
-    <div *ngFor="let detail of details">
-        <mat-card class="about-card" appearance="outlined">
-            <mat-card-header>
-                <mat-card-title>{{ detail.name }}</mat-card-title>
-            </mat-card-header>
-            <div *ngIf="detail.inputType === 'list'; else para">
-                <mat-card-content>
-                    <ul>
-                        <li *ngFor="let item of detail.listContents">{{ item }}</li>
-                    </ul>
-                </mat-card-content>
+    <div class="container">
+        <div class="leftCol">
+            <h1>{{ place.name }}</h1>
+            <h3><em>{{ place.description }}</em></h3>
+            <p>{{ place.population ? 'Population: ' + place.population : '' }}</p>
+        </div>
+        <div class="rightCol">
+            <div *ngIf="place.about" class="placeBio">
+                <h2>About {{ place.name }}</h2>
+                <p *ngFor="let line of place.about.split('\n')">{{ line }}</p>
             </div>
-            <ng-template #para>
-                <mat-card-content>
-                    <p *ngFor="let item of detail.listContents">{{ item }}</p>
-                </mat-card-content>
+            <button mat-flat-button class="primary" type="button" (click)="openDetailDialog()">Add Custom Detail</button>
+            <div class="detailGrid">
+                <div class="column">
+                    <ng-container *ngFor="let detail of details; let i = index">
+                        <div *ngIf="i % 2 === 0" class="detailItem">
+                            <h2>{{ detail.name }}</h2>
+                            <div *ngIf="detail.inputType === 'list'; else para">
+                                <ul>
+                                    <li *ngFor="let item of detail.listContents">{{ item }}</li>
+                                </ul>
+                            </div>
+                            <ng-template #para>
+                                <p *ngFor="let item of detail.listContents">{{ item }}</p>
+                            </ng-template>
+                            <button mat-button (click)="openDetailDialog(detail)">EDIT</button>
+                            <button mat-button (click)="deleteDetail(detail)">DELETE</button>
+                        </div>
+                    </ng-container>
+                </div>
+                <div class="column">
+                    <ng-container *ngFor="let detail of details; let i = index">
+                        <div *ngIf="i % 2 !== 0" class="detailItem">
+                            <h2>{{ detail.name }}</h2>
+                            <div *ngIf="detail.inputType === 'list'; else para">
+                                <ul>
+                                    <li *ngFor="let item of detail.listContents">{{ item }}</li>
+                                </ul>
+                            </div>
+                            <ng-template #para>
+                                <p *ngFor="let item of detail.listContents">{{ item }}</p>
+                            </ng-template>
+                            <button mat-button (click)="openDetailDialog(detail)">EDIT</button>
+                            <button mat-button (click)="deleteDetail(detail)">DELETE</button>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+            <h2>Residents of {{ place.name }}</h2>
+            <button mat-flat-button class="primary" type="button" (click)="openResidentDialog()">Add Resident</button>
+            <div *ngIf="characters.length > 0; else noChars">
+                <div *ngFor="let character of characters">
+                    <mat-card>
+                        <mat-card-header>
+                            <div mat-card-avatar [ngStyle]="{ 
+                                'background-image': 'url(' + character.imageUrl + ')', 
+                                'background-size': 'cover' 
+                                }" >
+                            </div>
+                            <mat-card-title>{{ character.name }}</mat-card-title>
+                            <mat-card-subtitle>{{ character.race }} | <em>{{ character.pronouns }}</em></mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <p>{{ character.description }}</p>
+                            <button mat-button [routerLink]="['/character', character.id]">VIEW</button>
+                            <button mat-button (click)="removeResident(character.id)">REMOVE RESIDENT</button>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+            <ng-template #noChars>
+                <p>No characters yet!</p>
             </ng-template>
-            <!-- don't need a trigger function here as it's not passed into another component -->
-            <button mat-button (click)="openDetailDialog(detail)">EDIT</button> 
-            <button mat-button (click)="deleteDetail(detail)">DELETE</button>
-        </mat-card>
-    </div>
-
-    <h1>Residents of {{ place.name }}</h1>
-    <button mat-flat-button class="primary" type="button" (click)="openResidentDialog()">Add Resident</button>
-    <div *ngIf="characters.length > 0; else noChars">
-        <div *ngFor="let character of characters">
-            <mat-card>
-                <mat-card-header>
-                    <div mat-card-avatar [ngStyle]="{ 
-                        'background-image': 'url(' + character.imageUrl + ')', 
-                        'background-size': 'cover' 
-                        }" >
-                    </div>
-                    <mat-card-title>{{ character.name }}</mat-card-title>
-                    <mat-card-subtitle>{{ character.race }} | <em>{{ character.pronouns }}</em></mat-card-subtitle>
-                </mat-card-header>
-                <mat-card-content>
-                    <p>{{ character.description }}</p>
-                    <button mat-button [routerLink]="['/character', character.id]">VIEW</button>
-                    <button mat-button (click)="removeResident(character.id)">REMOVE RESIDENT</button>
-                </mat-card-content>
-            </mat-card>
         </div>
     </div>
-    <ng-template #noChars>
-        <p>No characters yet!</p>
-    </ng-template>
+    
+
+    
     
 </div>
 <ng-template #noPlace>
