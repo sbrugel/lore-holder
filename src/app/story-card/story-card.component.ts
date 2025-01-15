@@ -6,6 +6,8 @@ import { DeleteConfirmComponent } from '../_common/delete-confirm/delete-confirm
 import { MatListModule } from '@angular/material/list';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { handleToastr } from '../_common/commonUtils';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-story-card',
@@ -20,6 +22,8 @@ export class StoryCardComponent {
   dialog = inject(MatDialog);
   StoryService = inject(StoryService);
 
+  toastr: ToastrService = inject(ToastrService);
+
   /**
    * Show a dialog for delete confirmation, then delete if confirmed.
    */
@@ -30,7 +34,7 @@ export class StoryCardComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.StoryService.deleteStory(this.story.id);
+        handleToastr(this.toastr, result, () => this.StoryService.deleteStory(this.story.id), "Story deleted successfully!");
       }
     });
   }

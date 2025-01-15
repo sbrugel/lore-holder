@@ -23,6 +23,8 @@ import { CharacterEditorDialog } from '../_dialogs/character-editor-dialog.compo
 import { PlaceEditorDialog } from '../_dialogs/place-editor-dialog.component';
 import { StoryEditorDialog } from '../_dialogs/story-editor-dialog.component';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { handleToastr } from '../_common/commonUtils';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-world-viewer',
@@ -65,6 +67,8 @@ export class WorldViewerComponent {
 
   authService: AuthService = inject(AuthService);
   user: any;
+
+  toastr: ToastrService = inject(ToastrService);
 
   // dialog for new world
   readonly dialog = inject(MatDialog);
@@ -200,14 +204,9 @@ export class WorldViewerComponent {
         };
 
         if (character) {
-          // update character
-          this.characterService.updateCharacter(newCharacter);
+          handleToastr(this.toastr, result, () => this.characterService.updateCharacter(newCharacter), "Character updated successfully!");
         } else {
-          // create new character
-          this.characterService.createNewCharacter(
-            newCharacter,
-            this.world!.id
-          );
+          handleToastr(this.toastr, result, () => this.characterService.createNewCharacter(newCharacter, this.world!.id), "Character created successfully!");
         }
       }
     });
@@ -246,11 +245,9 @@ export class WorldViewerComponent {
         };
 
         if (place) {
-          // update character
-          this.placeService.updatePlace(newPlace);
+          handleToastr(this.toastr, result, () => this.placeService.updatePlace(newPlace), "Place updated successfully!");
         } else {
-          // create new character
-          this.placeService.createNewPlace(newPlace, this.world!.id);
+          handleToastr(this.toastr, result, () => this.placeService.createNewPlace(newPlace, this.world!.id), "Place created successfully!");
         }
       }
     });
@@ -292,11 +289,9 @@ export class WorldViewerComponent {
         };
 
         if (story) {
-          // update existing story
-          this.storyService.updateStory(newStory);
+          handleToastr(this.toastr, result, () => this.storyService.updateStory(newStory), "Story updated successfully!");
         } else {
-          // create new story
-          this.storyService.createNewStory(newStory, this.world!.id);
+          handleToastr(this.toastr, result, () => this.storyService.createNewStory(newStory, this.world!.id), "Story created successfully!");
         }
       }
     });

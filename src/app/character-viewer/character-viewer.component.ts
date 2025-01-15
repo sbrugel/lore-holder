@@ -15,6 +15,8 @@ import { AuthService } from '../_services/auth.service';
 import { DeleteConfirmComponent } from '../_common/delete-confirm/delete-confirm.component';
 import { DetailEditorDialog } from '../_dialogs/detail-editor-dialog.component';
 import { CharacterLinkEditorDialog } from '../_dialogs/link-editor-dialog.component';
+import { ToastrService } from 'ngx-toastr';
+import { handleToastr } from '../_common/commonUtils';
 
 @Component({
   selector: 'app-character-viewer',
@@ -43,6 +45,8 @@ export class CharacterViewerComponent {
 
   authService: AuthService = inject(AuthService);
   user: any;
+
+  toastr: ToastrService = inject(ToastrService);
 
   subtitleText: string[] = [];
 
@@ -144,12 +148,9 @@ export class CharacterViewerComponent {
         };
 
         if (customDetail) {
-          this.detailsService.updateCustomDetail(newDetail);
+          handleToastr(this.toastr, result, () => this.detailsService.updateCustomDetail(newDetail), "Custom detail updated successfully!");
         } else {
-          this.detailsService.createNewCustomDetail(
-            newDetail,
-            this.character!.id
-          );
+          handleToastr(this.toastr, result, () => this.detailsService.createNewCustomDetail(newDetail,this.character!.id), "Custom detail created successfully!");
         }
       }
     });
@@ -161,9 +162,7 @@ export class CharacterViewerComponent {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.detailsService.deleteCustomDetail(customDetail.id);
-      }
+      handleToastr(this.toastr, result, () => this.detailsService.deleteCustomDetail(customDetail.id), "Custom detail deleted successfully!");
     });
   }
 
@@ -197,9 +196,9 @@ export class CharacterViewerComponent {
         };
 
         if (characterLink) {
-          this.characterLinkService.updateLink(newLink);
+          handleToastr(this.toastr, result, () => this.characterLinkService.updateLink(newLink), "Character association updated successfully!");
         } else {
-          this.characterLinkService.createNewLink(newLink);
+          handleToastr(this.toastr, result, () => this.characterLinkService.createNewLink(newLink), "Character association created successfully!");
         }
       }
     });

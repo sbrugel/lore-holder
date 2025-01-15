@@ -10,6 +10,8 @@ import { WorldService } from '../_services/world.service';
 import { RouterModule } from '@angular/router';
 import { DeleteConfirmComponent } from '../_common/delete-confirm/delete-confirm.component';
 import { WorldCardDialog } from '../_dialogs/world-card-dialog.component';
+import { handleToastr } from '../_common/commonUtils';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-world-card',
@@ -23,6 +25,8 @@ export class WorldCardComponent {
 
   dialog = inject(MatDialog);
   worldService: WorldService = inject(WorldService);
+
+  toastr: ToastrService = inject(ToastrService);
 
   showFullImage() {
     this.dialog.open(WorldCardDialog, {
@@ -40,7 +44,7 @@ export class WorldCardComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.worldService.deleteWorld(this.world.id);
+        handleToastr(this.toastr, result, () => this.worldService.deleteWorld(this.world.id), "World deleted successfully!");
       }
     });
   }

@@ -15,6 +15,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { CustomDetailService } from '../_services/custom-detail.service';
 import { CharacterAddDialog } from '../_dialogs/character-add-dialog.component';
 import { OKDialogComponent } from '../_common/ok-dialog/ok-dialog.component';
+import { handleToastr } from '../_common/commonUtils';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-place-viewer',
@@ -41,6 +43,8 @@ export class PlaceViewerComponent {
 
   authService: AuthService = inject(AuthService);
   user: any;
+
+  toastr: ToastrService = inject(ToastrService);
 
   readonly dialog = inject(MatDialog);
 
@@ -120,15 +124,9 @@ export class PlaceViewerComponent {
         };
 
         if (customDetail) {
-          // update detail
-          this.detailsService.updateCustomDetail(newDetail);
+          handleToastr(this.toastr, result, () => this.detailsService.updateCustomDetail(newDetail), "Custom detail updated successfully!");
         } else {
-          // create new detail
-          this.detailsService.createNewCustomDetail(
-            newDetail,
-            this.place!.id,
-            'places'
-          );
+          handleToastr(this.toastr, result, () => this.detailsService.createNewCustomDetail(newDetail, this.place!.id, 'places'), "Custom detail created successfully!");
         }
       }
     });
@@ -141,7 +139,7 @@ export class PlaceViewerComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.detailsService.deleteCustomDetail(customDetail.id);
+        handleToastr(this.toastr, result, () => this.detailsService.deleteCustomDetail(customDetail.id), "Custom detail deleted successfully!");
       }
     });
   }
@@ -164,7 +162,7 @@ export class PlaceViewerComponent {
             ...this.place,
             characterIds: [...this.place!.characterIds, result.characterId()],
           } as Place;
-          this.placeService.updatePlace(updatedPlace);
+          handleToastr(this.toastr, result, () => this.placeService.updatePlace(updatedPlace), "Character added successfully!");
         } else {
           this.dialog.open(OKDialogComponent, {
             width: '70%',
@@ -183,6 +181,6 @@ export class PlaceViewerComponent {
       ...this.place,
       characterIds: this.place!.characterIds.filter((id) => id !== characterId),
     } as Place;
-    this.placeService.updatePlace(updatedPlace);
+    handleToastr(this.toastr, true, () => this.placeService.updatePlace(updatedPlace), "Character removed successfully!");
   }
 }

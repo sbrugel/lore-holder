@@ -9,6 +9,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmComponent } from '../_common/delete-confirm/delete-confirm.component';
 import { CharacterLinkService } from '../_services/character-link.service';
 import { MatButtonModule } from '@angular/material/button';
+import { ToastrService } from 'ngx-toastr';
+import { handleToastr } from '../_common/commonUtils';
 
 @Component({
   selector: 'app-character-link-card',
@@ -29,6 +31,8 @@ export class CharacterLinkCardComponent {
   
   characterLinkService: CharacterLinkService = inject(CharacterLinkService);
 
+  toastr: ToastrService = inject(ToastrService);
+
   ngOnInit() {
     this.characterInput.subscribe(character => this.character = character);
   }
@@ -43,7 +47,7 @@ export class CharacterLinkCardComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.characterLinkService.deleteLink(this.characterLink.id);
+        handleToastr(this.toastr, result, () => this.characterLinkService.deleteLink(this.characterLink.id), "Character association deleted successfully!");
       }
     });
   }

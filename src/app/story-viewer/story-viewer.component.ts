@@ -16,6 +16,8 @@ import { DeleteConfirmComponent } from '../_common/delete-confirm/delete-confirm
 import { CharacterAddDialog } from '../_dialogs/character-add-dialog.component';
 import { ModuleEditorDialog } from '../_dialogs/module-editor-dialog.component';
 import { OKDialogComponent } from '../_common/ok-dialog/ok-dialog.component';
+import { handleToastr } from '../_common/commonUtils';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-story-viewer',
@@ -50,6 +52,8 @@ export class StoryViewerComponent {
 
   authService: AuthService = inject(AuthService);
   user: any;
+
+  toastr: ToastrService = inject(ToastrService);
 
   readonly dialog = inject(MatDialog);
 
@@ -143,12 +147,9 @@ export class StoryViewerComponent {
         };
 
         if (storyModule) {
-          this.storyModuleService.updateStoryModule(newModule);
+          handleToastr(this.toastr, result, () => this.storyModuleService.updateStoryModule(newModule), "Module updated successfully!");
         } else {
-          this.storyModuleService.createNewStoryModule(
-            newModule,
-            this.story!.id
-          );
+          handleToastr(this.toastr, result, () => this.storyModuleService.createNewStoryModule(newModule, this.story!.id), "Module created successfully!");
         }
       }
     });
@@ -161,7 +162,7 @@ export class StoryViewerComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.storyModuleService.deleteStoryModule(storyModule.id);
+        handleToastr(this.toastr, result, () => this.storyModuleService.deleteStoryModule(storyModule.id), "Module deleted successfully!");
       }
     });
   }
@@ -184,7 +185,7 @@ export class StoryViewerComponent {
             ...this.story,
             characterIds: [...this.story!.characterIds, result.characterId()],
           } as Story;
-          this.storyService.updateStory(updatedStory);
+          handleToastr(this.toastr, result, () => this.storyService.updateStory(updatedStory), "Tag added successfully!");
         } else {
           this.dialog.open(OKDialogComponent, {
             width: '70%',
@@ -203,6 +204,6 @@ export class StoryViewerComponent {
       ...this.story,
       characterIds: this.story!.characterIds.filter((id) => id !== characterId),
     } as Story;
-    this.storyService.updateStory(updatedStory);
+    handleToastr(this.toastr, true, () => this.storyService.updateStory(updatedStory), "Tag removed successfully!");
   }
 }

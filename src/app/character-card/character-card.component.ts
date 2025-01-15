@@ -7,6 +7,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { CharacterService } from '../_services/character.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmComponent } from '../_common/delete-confirm/delete-confirm.component';
+import { ToastrService } from 'ngx-toastr';
+import { handleToastr } from '../_common/commonUtils';
 
 @Component({
   selector: 'app-character-card',
@@ -21,6 +23,8 @@ export class CharacterCardComponent {
   dialog = inject(MatDialog);
   characterService: CharacterService = inject(CharacterService);
 
+  toastr: ToastrService = inject(ToastrService);
+
   /**
    * Show a dialog for delete confirmation, then delete if confirmed.
    */
@@ -31,7 +35,7 @@ export class CharacterCardComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.characterService.deleteCharacter(this.character.id);
+        handleToastr(this.toastr, result, () => this.characterService.deleteCharacter(this.character.id), "Character deleted successfully!");
       }
     });
   }

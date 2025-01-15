@@ -6,6 +6,8 @@ import { PlaceService } from '../_services/place.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
+import { handleToastr } from '../_common/commonUtils';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-place-card',
@@ -20,6 +22,8 @@ export class PlaceCardComponent {
   dialog = inject(MatDialog);
   placeService: PlaceService = inject(PlaceService);
 
+  toastr: ToastrService = inject(ToastrService);
+
   /**
    * Show a dialog for delete confirmation, then delete if confirmed.
    */
@@ -30,7 +34,7 @@ export class PlaceCardComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.placeService.deletePlace(this.place.id);
+        handleToastr(this.toastr, result, () => this.placeService.deletePlace(this.place.id), "Place deleted successfully!");
       }
     });
   }
