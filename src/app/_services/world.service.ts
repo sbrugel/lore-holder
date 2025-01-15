@@ -1,13 +1,20 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { World } from '../_interfaces/world';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { map, Observable } from 'rxjs';
+import { CharacterService } from './character.service';
+import { PlaceService } from './place.service';
+import { StoryService } from './story.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WorldService {
   private collectionName = 'worlds'; // collection name in Firebase
+
+  characterService: CharacterService = inject(CharacterService);
+  placeService: PlaceService = inject(PlaceService);
+  storyService: StoryService = inject(StoryService);
 
   constructor(private firestore: AngularFirestore) {}
 
@@ -101,7 +108,19 @@ export class WorldService {
    *
    * @param id The id of the world to delete
    */
-  deleteWorld(id: string) {
-    this.firestore.collection(this.collectionName).doc(id).delete();
+  async deleteWorld(id: string) {
+    this.firestore.collection(this.collectionName).doc(id).ref.get().then(async (doc) => {
+      const data = doc.data() as any;
+      for (const characterId of data.characterIds) {
+        await this.characterService.deleteCharacter(characterId);
+      }
+      for (const placeId of data.placeIds) {
+        await this.placeService.deletePlace(placeId);
+      }
+      for (const storyId of data.storyIds) {
+        await this.storyService.deleteStory(storyId);
+      }
+      this.firestore.collection(this.collectionName).doc(id).delete();
+    })
   }
 }

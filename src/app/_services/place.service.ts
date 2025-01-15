@@ -94,7 +94,18 @@ export class PlaceService {
    *
    * @param placeId The ID of the place to delete
    */
-  deletePlace(placeId: string) {
+  async deletePlace(placeId: string) {
+    // delete custom details of this place
+    const doc = await this.firestore.collection(this.collectionName).doc(placeId).get().toPromise();
+    
+    if (!doc?.data()) return; // place doesn't exist
+
+    const detailIds = (doc!.data() as any).detailIds;
+    // delete all details of this place
+    for (const detailId of detailIds) {
+      await this.firestore.collection('customDetails').doc(detailId).delete();
+    }
+
     this.firestore.collection(this.collectionName).doc(placeId).delete();
   }
 }

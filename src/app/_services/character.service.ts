@@ -107,6 +107,17 @@ export class CharacterService {
    * @param characterId The id of the character to delete
    */
   async deleteCharacter(characterId: string) {
+    // delete custom details of this character
+    const doc = await this.firestore.collection(this.collectionName).doc(characterId).get().toPromise();
+    
+    if (!doc?.data()) return; // character doesn't exist
+
+    const detailIds = (doc!.data() as any).detailIds;
+    // delete all details of this character
+    for (const detailId of detailIds) {
+      await this.firestore.collection('customDetails').doc(detailId).delete();
+    }
+
     // iterate through all characterLinks and delete any that have fromId this ID, or toId this ID
     await this.firestore
       .collection('characterLinks')
@@ -119,12 +130,41 @@ export class CharacterService {
             this.firestore.collection('characterLinks').doc(doc.id).delete();
           }
         });
-      })
-      .then(() => {
-        this.firestore
-          .collection(this.collectionName)
-          .doc(characterId)
-          .delete();
-      });
+    });
+
+    // find any places that have this character as a resident and update them to remove this character's id
+    let querySnapshotPrev = await this.firestore
+      .collection('places')
+      .get()
+      .toPromise();
+    querySnapshotPrev!.forEach(async (doc) => {
+      const data: any = doc.data();
+      if (data.characterIds.includes(characterId)) {
+        await this.firestore
+          .collection('places')
+          .doc(doc.id)
+          .update({ characterIds: data.characterIds.filter((char: string) => char != characterId ) });
+      }
+    });
+
+    // find any stories that have this character as a tag and update them to remove this character's id
+    querySnapshotPrev = await this.firestore
+      .collection('stories')
+      .get()
+      .toPromise();
+    querySnapshotPrev!.forEach(async (doc) => {
+      const data: any = doc.data();
+      if (data.characterIds.includes(characterId)) {
+        await this.firestore
+          .collection('stories')
+          .doc(doc.id)
+          .update({ characterIds: data.characterIds.filter((char: string) => char != characterId ) });
+      }
+    });
+
+    this.firestore
+      .collection(this.collectionName)
+      .doc(characterId)
+      .delete();
   }
 }
