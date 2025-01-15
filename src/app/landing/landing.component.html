@@ -2,6 +2,12 @@
 <h3><em>An online solution to maintaining your world-building information, including universes, characters, locations, and lore.</em></h3>
 <p>Getting started is simple - just sign in above with your Google account!</p>
 
+<ng-container *ngIf="this.user">
+  <button mat-flat-button class="primary" type="button" [routerLink]="['/worlds']">To the worlds!</button>
+</ng-container>
+
+<app-carousel [images]="carouselImages" />
+
 <div class="updates">
     <mat-accordion>
         <mat-expansion-panel hideToggle>
@@ -9,6 +15,14 @@
             <mat-panel-title>Version 1.0.0 (January 2025)</mat-panel-title>
           </mat-expansion-panel-header>
           <p>Welcome to the first version of the site! All of the core functionality works now - you can create/edit/delete worlds, characters, places, and stories, and set numerous properties for each of these. Certain things are implemented visually, but don't function fully yet (i.e. gallery links for characters), but these will be added in soon.</p>
+          <p><strong><u>Current features as of this release:</u></strong></p>
+          <ul>
+            <li>Sign up and login using Google SSO, and stay logged in between sessions</li>
+            <li>Create new worlds, providing a name, brief description, extended description, and optional image</li>
+            <li>Within worlds, create characters and places with extensive details, and even create your own details to display on their pages</li>
+            <li>Within worlds, create stories that have customizable text and image modules. You can even set an "order" for your stories by giving each story a previous and next story. You can also give character tags to a story to better organize them, i.e. if you have divergent/parallel storylines.</li>
+            <li>Freely edit and delete all of these objects that you own</li>
+          </ul>
           <p>In the next major release, I aim to do the following:</p>
           <ul>
             <li>Some final code cleanup - everything works but I'd like to keep things tidy</li>
